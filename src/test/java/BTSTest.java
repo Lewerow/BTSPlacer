@@ -24,7 +24,7 @@ public class BTSTest {
     @Test
     public void afterAddingSingleBBResourceBTSContainsOneBBResource()
     {
-        bts.addBBResource(new BasebandResource());
+        bts.addBBResource(new BasebandResource(0));
         Assert.assertEquals(bts.getBBResourceCount(), 1);
     }
 
@@ -32,7 +32,7 @@ public class BTSTest {
     public void afterAddingTenBBResourcesBTSContainsTenBBResources()
     {
         for(int i = 0; i < 10; ++i)
-            bts.addBBResource(new BasebandResource());
+            bts.addBBResource(new BasebandResource(0));
 
         Assert.assertEquals(bts.getBBResourceCount(), 10);
     }
@@ -66,9 +66,20 @@ public class BTSTest {
             bts.addRadioResource(new RadioResource());
 
         for(int i = 0; i < 10; ++i)
-            bts.addBBResource(new BasebandResource());
+            bts.addBBResource(new BasebandResource(0));
 
         Assert.assertEquals(bts.getRadioResourceCount(), 10);
         Assert.assertEquals(bts.getBBResourceCount(), 10);
+    }
+
+
+    @Test
+    public void BTSBasebandCapacityIsEqualToSumOfBBResourceCapacities()
+    {
+        bts.addBBResource(new BasebandResource(10));
+        bts.addBBResource(new BasebandResource(30));
+        bts.addBBResource(new BasebandResource(50));
+        Assert.assertEquals(bts.getBBCapacity(), 90, 0.01);
+
     }
 }

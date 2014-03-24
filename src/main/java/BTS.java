@@ -30,4 +30,12 @@ public class BTS {
     public void addRadioResource(RadioResource radioResource) {
         radioResources.add(radioResource);
     }
+
+    public double getBBCapacity() {
+        double capacity = 0;
+        for(BasebandResource b : basebandResources)
+            capacity += b.getCapacity();
+
+        return capacity;
+    }
 }
