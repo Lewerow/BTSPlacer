@@ -7,13 +7,10 @@ import org.junit.Test;
  */
 public class BTSTest {
 
-    BTS bts;
-
-    @Before
-    public void setup()
-    {
-        bts = new BTS();
-    }
+    Location btsLocation = new Location(0,0);
+    Location l = new Location(0, 10);
+    Terrain t = new Terrain();
+    BTS bts = new BTS(btsLocation);
 
     @Test
     public void atStartupBTSShallNotContainBBResources()
@@ -81,5 +78,39 @@ public class BTSTest {
         Assert.assertEquals(bts.getBBCapacity(), 90, 0.01);
     }
 
-    
+    @Test
+    public void BTSWithoutRadiosEmitsNoSignal()
+    {
+        bts.addBBResource(new BasebandResource(50));
+        Assert.assertEquals(bts.signalLevelAtLocation(l, t), 0, 0.0001);
+    }
+
+    @Test
+    public void BTSWithoutBBResourcesEmitsNoSignal()
+    {
+        bts.addRadioResource(new RadioResource());
+
+        Assert.assertEquals(bts.signalLevelAtLocation(l, t), 0, 0.0001);
+    }
+
+    @Test
+    public void signalLevelAtBTSLocationIsEqualToItsBBCapacityTimenumberOfRadioModules()
+    {
+        bts.addBBResource(new BasebandResource(10));
+        bts.addRadioResource(new RadioResource());
+        bts.addRadioResource(new RadioResource());
+
+        Assert.assertEquals(bts.signalLevelAtLocation(btsLocation, t), 20, 0.0001);
+    }
+
+    @Test
+    public void signalLevelDependsOnInvertSquareOfDistanceAndReductionRatio()
+    {
+        bts.addBBResource(new BasebandResource(10));
+        bts.addRadioResource(new RadioResource());
+        bts.addRadioResource(new RadioResource());
+
+        double signalLevel = 10 * 2 * (1.0/100) * 1;
+        Assert.assertEquals(bts.signalLevelAtLocation(l, t), signalLevel, 0.0001);
+    }
 }
