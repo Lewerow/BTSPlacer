@@ -80,6 +80,5 @@ public class BTSTest {
         bts.addBBResource(new BasebandResource(30));
         bts.addBBResource(new BasebandResource(50));
         Assert.assertEquals(bts.getBBCapacity(), 90, 0.01);
-
     }
 }
