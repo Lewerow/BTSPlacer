@@ -39,4 +39,23 @@ public class TerrainTest {
         double signalLevel = bts.maxSignalLevel() * (1.0/100) * 1;
         Assert.assertEquals(t.signalLevel(bts, l2), signalLevel, 0.0001);
     }
+
+    @Test
+    public void totalSignalLevelIsSumOfSignalLevelsOfEachBTS()
+    {
+        BTS bts1 = new BTS(new Location(10, 10));
+        bts1.addBBResource(new BasebandResource(100));
+        bts1.addRadioResource(new RadioResource());
+
+        BTS bts2 = new BTS(new Location(20, 10));
+        bts2.addBBResource(new BasebandResource(599));
+        bts2.addRadioResource(new RadioResource());
+        bts2.addRadioResource(new RadioResource());
+
+        t.addBTS(bts1);
+        t.addBTS(bts2);
+
+        double expectedSignalLevel = bts1.maxSignalLevel() * 1.0/100 + bts2.maxSignalLevel() * 1.0/400;
+        Assert.assertEquals(expectedSignalLevel, t.signalLevel(new Location(0,10)), 0.001);
+    }
 }
