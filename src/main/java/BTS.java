@@ -6,12 +6,13 @@ import java.util.List;
  */
 public class BTS {
 
-    Location location;
-    List<BasebandResource> basebandResources = new LinkedList<BasebandResource>();
-    List<RadioResource> radioResources = new LinkedList<RadioResource>();
+    private Location location;
+    private List<BasebandResource> basebandResources = new LinkedList<BasebandResource>();
+    private List<RadioResource> radioResources = new LinkedList<RadioResource>();
 
     public BTS(Location location)
     {
+        assert location != null : "BTS must have some location!";
         this.location = location;
     }
 
@@ -39,12 +40,11 @@ public class BTS {
         return capacity;
     }
 
-    public double signalLevelAtLocation(Location l, Terrain t) {
-        double maxSignalLevel = getBBCapacity() * getRadioResourceCount();
-        double distance = t.distance(location, l);
-        if(java.lang.Double.compare(distance, 0) == 0)
-            return maxSignalLevel;
+    public double maxSignalLevel() {
+        return getBBCapacity() * getRadioResourceCount();
+    }
 
-        return maxSignalLevel * (1 - t.signalReduction(location, l)) / Math.pow(distance, 2);
+    public Location getLocation() {
+        return location;
     }
 }
