@@ -72,7 +72,6 @@ public class BTSTest {
         Assert.assertEquals(bts.getBBResourceCount(), 10);
     }
 
-
     @Test
     public void BTSBasebandCapacityIsEqualToSumOfBBResourceCapacities()
     {
@@ -81,4 +80,6 @@ public class BTSTest {
         bts.addBBResource(new BasebandResource(50));
         Assert.assertEquals(bts.getBBCapacity(), 90, 0.01);
     }
+
+    
 }
