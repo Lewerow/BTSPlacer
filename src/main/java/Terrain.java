@@ -6,8 +6,16 @@ import java.util.List;
  */
 public class Terrain {
     private List<BTS> btss = new LinkedList<BTS>();
+    private double maxX;
+    private double maxY;
+
+    public Terrain(double maxX, double maxY) {
+        this.maxX = maxX;
+        this.maxY = maxY;
+    }
 
     public void addBTS(BTS bts) {
+        assert bts.getLocation().x() <= maxX && bts.getLocation().y() <= maxY : "BTS must be inside terrain boundaries!";
         btss.add(bts);
     }
 
@@ -41,5 +49,13 @@ public class Terrain {
             signal += signalLevel(bts, l);
         }
         return signal;
+    }
+
+    public double getMaxX() {
+        return maxX;
+    }
+
+    public double getMaxY() {
+        return maxY;
     }
 }

@@ -7,7 +7,7 @@ import org.junit.Test;
  */
 public class TerrainTest {
 
-    private Terrain t = new Terrain();
+    private Terrain t = new Terrain(40, 40);
     private Location l1 = new Location(1, 20);
     private Location l2 = new Location(11, 20);
     private BTS bts = new BTS(l1);

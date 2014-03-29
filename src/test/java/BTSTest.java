@@ -1,5 +1,4 @@
 import junit.framework.Assert;
-import org.junit.Before;
 import org.junit.Test;
 
 /**
@@ -9,7 +8,7 @@ public class BTSTest {
 
     Location btsLocation = new Location(0,0);
     Location l = new Location(0, 10);
-    Terrain t = new Terrain();
+    Terrain t = new Terrain(40, 30);
     BTS bts = new BTS(btsLocation);
 
     @Test
