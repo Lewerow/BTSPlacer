@@ -10,9 +10,7 @@ public class BTS {
     private List<BasebandResource> basebandResources = new LinkedList<BasebandResource>();
     private List<RadioResource> radioResources = new LinkedList<RadioResource>();
 
-    public BTS(Location location)
-    {
-        assert location != null : "BTS must have some location!";
+    public BTS(Location location) {
         this.location = location;
     }
 
@@ -34,7 +32,7 @@ public class BTS {
 
     public double getBBCapacity() {
         double capacity = 0;
-        for(BasebandResource b : basebandResources)
+        for (BasebandResource b : basebandResources)
             capacity += b.getCapacity();
 
         return capacity;
@@ -46,5 +44,9 @@ public class BTS {
 
     public Location getLocation() {
         return location;
+    }
+
+    public void setLocation(Location l) {
+        location = l;
     }
 }

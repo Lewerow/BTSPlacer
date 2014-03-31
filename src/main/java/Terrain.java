@@ -9,12 +9,13 @@ public class Terrain {
     private double maxX;
     private double maxY;
 
-    public Terrain(double maxX, double maxY) {
+    public Terrain(int maxX, int maxY) {
         this.maxX = maxX;
         this.maxY = maxY;
     }
 
     public void addBTS(BTS bts) {
+        assert bts.getLocation() != null : "BTS must have a location before placing on terrain!";
         assert bts.getLocation().x() <= maxX && bts.getLocation().y() <= maxY : "BTS must be inside terrain boundaries!";
         btss.add(bts);
     }

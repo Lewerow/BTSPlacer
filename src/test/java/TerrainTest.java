@@ -1,6 +1,11 @@
 import junit.framework.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mockito;
+
+import java.util.Iterator;
+
+import static org.mockito.Mockito.*;
 
 /**
  * Created by Ja on 29.03.14.
@@ -32,12 +37,19 @@ public class TerrainTest {
     @Test
     public void signalLevelDependsOnInvertSquareOfDistanceAndReductionRatio()
     {
-        bts.addBBResource(new BasebandResource(10));
-        bts.addRadioResource(new RadioResource());
-        bts.addRadioResource(new RadioResource());
+        BasebandResource bb = mock(BasebandResource.class);
+        Mockito.when(bb.getCapacity()).thenReturn(10.0);
+        bts.addBBResource(bb);
+
+        RadioResource rr1 = Mockito.mock(RadioResource.class);
+        RadioResource rr2 = Mockito.mock(RadioResource.class);
+
+        bts.addRadioResource(rr1);
+        bts.addRadioResource(rr2);
 
         double signalLevel = bts.maxSignalLevel() * (1.0/100) * 1;
         Assert.assertEquals(t.signalLevel(bts, l2), signalLevel, 0.0001);
+        Mockito.verify(bb, times(2)).getCapacity();
     }
 
     @Test
