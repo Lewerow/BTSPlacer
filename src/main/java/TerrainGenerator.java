@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -28,5 +30,24 @@ public class TerrainGenerator {
         }
 
         return t;
+    }
+
+    public BTS getDefaultBTS()
+    {
+        BTS bts = new BTS(null);
+        bts.addBBResource(new BasebandResource(10000));
+        bts.addRadioResource(new RadioResource());
+        bts.addRadioResource(new RadioResource());
+
+        return bts;
+    }
+
+    public Terrain generateTerrainWithDefaultBTSs(int maxX, int maxY, int btsCount)
+    {
+        LinkedList<BTS> btss = new LinkedList<BTS>();
+        for(int i = 0; i < btsCount; ++i)
+            btss.add(getDefaultBTS());
+
+        return generateTerrain(maxX, maxY, btss);
     }
 }
