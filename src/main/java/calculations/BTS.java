@@ -1,3 +1,4 @@
+package calculations;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -38,7 +39,7 @@ public class BTS {
         return capacity;
     }
 
-    public double maxSignalLevel() {
+    public double getMaxSignalLevel() {
         return getBBCapacity() * getRadioResourceCount();
     }
 

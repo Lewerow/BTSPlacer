@@ -1,3 +1,4 @@
+package calculations;
 import java.util.Random;
 
 /**

@@ -1,4 +1,4 @@
-import junit.framework.TestCase;
+package calculations;
 
 /**
  * Created by Ja on 24.03.14.
