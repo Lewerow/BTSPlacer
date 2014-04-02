@@ -1,13 +1,14 @@
 package calculations;
 
-import java.util.LinkedList;
 import java.util.List;
+
+import com.google.common.collect.Lists;
 
 /**
  * Created by Ja on 29.03.14.
  */
 public class Terrain {
-	private final List<BTS> btss = new LinkedList<BTS>();
+	private final List<BTS> btss = Lists.newLinkedList();
 	private final double maxX;
 	private final double maxY;
 
@@ -22,11 +23,14 @@ public class Terrain {
 		btss.add(bts);
 	}
 
+	public List<BTS> getBtss() {
+		return btss;
+	}
+
 	public double distance(Location l1, Location l2) {
 		return l1.cartesianDistance(l2);
 	}
 
-	@SuppressWarnings("unused")
 	public double signalReduction(Location l1, Location l2) {
 		// TODO implementation
 		return 0;

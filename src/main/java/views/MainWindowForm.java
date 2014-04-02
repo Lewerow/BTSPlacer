@@ -2,15 +2,12 @@ package views;
 
 import java.awt.Dimension;
 import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
+import java.io.File;
 import java.util.ResourceBundle;
 
-import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComponent;
@@ -28,22 +25,21 @@ import javax.swing.UIManager;
 import javax.swing.border.TitledBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import views.listeners.MenuOpenListener;
 import calculations.Terrain;
-import calculations.TerrainGenerator;
-import calculations.UniformRandomGenerator;
 
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 
 public class MainWindowForm extends JFrame {
 	private static final long serialVersionUID = -372666681152456536L;
+	private final JFileChooser fc = new JFileChooser();
 	private JPanel mainPanel;
 	private JButton button1;
 	private JButton button2;
 	private JSpinner btsNumberSpinner;
-	private JPanel drawingPanel;
+	private final JPanel drawingPanel = new DrawingPanel();
 	private JScrollPane mainScrollPane;
-	private BufferedImage image;
 
 	public MainWindowForm() {
 		$$$setupUI$$$();
@@ -56,7 +52,16 @@ public class MainWindowForm extends JFrame {
 		setVisible(true);
 	}
 
+	public void setDrawingPanel(BufferedImage image, Terrain terrain) {
+		DrawingPanel cast = (DrawingPanel) drawingPanel;
+		cast.setImage(image);
+		cast.setTerrain(terrain);
+	}
+
 	private void initComponents() {
+		fc.setFileFilter(new FileNameExtensionFilter("JPG File", "jpg"));
+		fc.setCurrentDirectory(new File(System.getProperty("user.home") + "\\Desktop"));
+
 		setJMenuBar(createJMenuBar());
 	}
 
@@ -74,42 +79,10 @@ public class MainWindowForm extends JFrame {
 
 	private JMenuItem createOpenMenuItem() {
 		JMenuItem openFile = new JMenuItem(ResourceBundle.getBundle("language").getString("MenuBar_file_openFile"));
-		final JFileChooser fc = new JFileChooser();
-		fc.setFileFilter(new FileNameExtensionFilter("JPG File", "jpg"));
-		openFile.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if (fc.showOpenDialog(MainWindowForm.this) == JFileChooser.APPROVE_OPTION) {
-					try {
-						image = ImageIO.read(fc.getSelectedFile());
-						// TODO [DaKa]: extract this Listener to separate class
-						DrawingPanel panel = new DrawingPanel();
-						panel.setImage(image);
-						panel.setTerrain(generateDefaultTerrain());
-						drawingPanel = panel;
 
-						revalidate();
-						repaint();
-						mainScrollPane.revalidate();
-						mainScrollPane.repaint();
-					} catch (IOException ignore) {
-					}
-				}
-			}
-
-		});
+		openFile.addActionListener(new MenuOpenListener(fc, this));
 		openFile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, InputEvent.CTRL_MASK));
 		return openFile;
-	}
-
-	private Terrain generateDefaultTerrain() {
-		TerrainGenerator tg = new TerrainGenerator(new UniformRandomGenerator());
-		return tg.generateTerrainWithDefaultBTSs(400, 400, 30);
-	}
-
-	private void createUIComponents() {
-		// TODO: place custom component creation code here
-		drawingPanel = new DrawingPanel();
 	}
 
 	public static void main(String[] args) {
@@ -139,7 +112,6 @@ public class MainWindowForm extends JFrame {
 	 * @noinspection ALL
 	 */
 	private void $$$setupUI$$$() {
-		createUIComponents();
 		mainPanel = new JPanel();
 		mainPanel.setLayout(new GridLayoutManager(1, 2, new Insets(0, 0, 0, 0), -1, -1));
 		final JPanel panel1 = new JPanel();

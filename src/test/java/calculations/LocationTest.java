@@ -1,8 +1,15 @@
 package calculations;
 
+import static org.fest.assertions.api.Assertions.assertThat;
+
+import java.util.List;
+
 import junit.framework.Assert;
 
+import org.fest.assertions.api.Assertions;
 import org.junit.Test;
+
+import com.google.common.collect.Lists;
 
 /**
  * Created by Ja on 29.03.14.
@@ -36,5 +43,61 @@ public class LocationTest {
 		Location l2 = Location.getInstance(10, 30);
 
 		Assert.assertEquals(l1.cartesianDistance(l2), l2.cartesianDistance(l1), 0.0001);
+	}
+
+	@Test
+	public void checkEqualityOfTwoInstances() {
+		// given
+		Location l1 = Location.getInstance(12d, 13d);
+		Location l2 = Location.getInstance(12d, 13d);
+
+		// when
+		boolean isEqual = l1.equals(l2);
+
+		// then
+		Assert.assertEquals(true, isEqual);
+	}
+
+	@Test
+	public void shouldContainAllNeighbours() {
+		// given
+		Location main = Location.getInstance(5, 5);
+
+		Location n1 = Location.getInstance(4, 4);
+		Location n2 = Location.getInstance(5, 4);
+		Location n3 = Location.getInstance(6, 4);
+
+		Location n4 = Location.getInstance(4, 5);
+		Location n5 = Location.getInstance(6, 5);
+
+		Location n6 = Location.getInstance(4, 6);
+		Location n7 = Location.getInstance(5, 6);
+		Location n8 = Location.getInstance(6, 6);
+
+		// when
+		List<Location> aroundPoint = main.createLocationsAroundPoint(10, 10);
+
+		// then
+		assertThat(aroundPoint).hasSize(8);
+		assertThat(aroundPoint).containsAll(Lists.newArrayList(n1, n2, n3, n4, n5, n6, n7, n8));
+
+	}
+
+	@Test
+	public void shouldFindMatchInList() {
+		// given
+		List<Location> locations = Lists.newArrayList();
+
+		Location n1 = Location.getInstance(4.121212121212121212, 4.121212121212);
+		Location n2 = Location.getInstance(4.12121212121212123, 4.121212121212);
+
+		locations.add(n1);
+
+		// when
+		boolean contains = locations.contains(n2);
+
+		// then
+		Assertions.assertThat(contains).isTrue();
+
 	}
 }
