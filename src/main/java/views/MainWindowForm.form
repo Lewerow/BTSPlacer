@@ -16,23 +16,17 @@
         <properties/>
         <border type="etched" title-resource-bundle="language" title-key="BTS_configuration_panel" title-justification="2"/>
         <children>
-          <component id="1c0af" class="javax.swing.JButton" binding="loadFileButton">
-            <constraints>
-              <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-            </constraints>
-            <properties>
-              <text value="Load map"/>
-            </properties>
-          </component>
-          <component id="385de" class="javax.swing.JButton" binding="generateDistributionButon">
+          <component id="385de" class="javax.swing.JButton" binding="generateDistributionButton">
             <constraints>
               <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
+              <actionCommand resource-bundle="language" key="Generate_random_BTS_distribution"/>
+              <label resource-bundle="language" key="Generate_random_BTS_distribution"/>
               <text value="Generate random BTS distribution"/>
             </properties>
           </component>
-          <component id="2a50f" class="javax.swing.JSpinner" binding="btsNumberSpinner">
+          <component id="2a50f" class="javax.swing.JSpinner" binding="btsNumberSpinner" custom-create="true">
             <constraints>
               <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
@@ -45,6 +39,15 @@
             <properties>
               <labelFor value="2a50f"/>
               <text resource-bundle="language" key="BTS_number"/>
+            </properties>
+          </component>
+          <component id="1c0af" class="javax.swing.JButton" binding="loadFileButton">
+            <constraints>
+              <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <actionCommand resource-bundle="language" key="Load_map"/>
+              <text resource-bundle="language" key="MenuBar_file_openFile"/>
             </properties>
           </component>
         </children>

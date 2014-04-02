@@ -8,7 +8,10 @@ import java.util.List;
  */
 public class TerrainGenerator {
 
-	RandomGenerator randomGenerator;
+    RandomGenerator randomGenerator;
+    int currentWidth;
+    int currentHeight;
+    int btsCount;
 
 	public TerrainGenerator(RandomGenerator generator) {
 		randomGenerator = generator;
@@ -33,7 +36,7 @@ public class TerrainGenerator {
 
 	public BTS getDefaultBTS() {
 		BTS bts = new BTS(null);
-		bts.addBBResource(new BasebandResource(10000));
+		bts.addBBResource(new BasebandResource(10e6));
 		bts.addRadioResource(new RadioResource());
 		bts.addRadioResource(new RadioResource());
 
@@ -41,10 +44,32 @@ public class TerrainGenerator {
 	}
 
 	public Terrain generateTerrainWithDefaultBTSs(int maxX, int maxY, int btsCount) {
-		LinkedList<BTS> btss = new LinkedList<BTS>();
+        currentHeight = maxY;
+        currentWidth = maxX;
+        this.btsCount = btsCount;
+
+        assert btsCount >= 0 : "Cannot set negative number of BTSes!";
+
+        LinkedList<BTS> btss = new LinkedList<BTS>();
 		for (int i = 0; i < btsCount; ++i)
 			btss.add(getDefaultBTS());
 
 		return generateTerrain(maxX, maxY, btss);
 	}
+
+    public Terrain regenerateTerrain()
+    {
+        LinkedList<BTS> btss = new LinkedList<BTS>();
+        for (int i = 0; i < btsCount; ++i)
+            btss.add(getDefaultBTS());
+
+        return generateTerrainWithDefaultBTSs(currentWidth, currentHeight, btsCount);
+    }
+
+    public void setBtsCount(Integer i)
+    {
+        btsCount = i;
+    }
+
+
 }

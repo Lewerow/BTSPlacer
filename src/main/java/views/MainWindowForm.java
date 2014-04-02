@@ -8,38 +8,32 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.ResourceBundle;
 
-import javax.swing.BorderFactory;
-import javax.swing.JButton;
-import javax.swing.JComponent;
-import javax.swing.JFileChooser;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JSpinner;
-import javax.swing.KeyStroke;
-import javax.swing.UIManager;
+import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import calculations.TerrainGenerator;
+import calculations.UniformRandomGenerator;
+import views.listeners.BtsSpinnerListener;
+import views.listeners.GenerateDistributionListener;
 import views.listeners.MenuOpenListener;
 import calculations.Terrain;
 
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 
-public class MainWindowForm extends JFrame {
+public class MainWindowForm extends JFrame implements TerrainDisplayer {
+
+    // TODO Remove these initializers, I put them here so it won't crash, but it's definitely wrong
 	private static final long serialVersionUID = -372666681152456536L;
 	private final JFileChooser fc = new JFileChooser();
-	private JPanel mainPanel;
-	private JButton loadFileButton;
-	private JButton generateDistributionButon;
-	private JSpinner btsNumberSpinner;
+	private JPanel mainPanel = new JPanel();
+	private JButton loadFileButton = new JButton();
+	private JButton generateDistributionButton = new JButton();
+	private JSpinner btsNumberSpinner = new JSpinner();
 	private final JPanel drawingPanel = new DrawingPanel();
-	private JScrollPane mainScrollPane;
+	private JScrollPane mainScrollPane = new JScrollPane();
+    private TerrainGenerator tg = new TerrainGenerator(new UniformRandomGenerator());
 
 	public MainWindowForm() {
 		$$$setupUI$$$();
@@ -58,10 +52,21 @@ public class MainWindowForm extends JFrame {
 		cast.setTerrain(terrain);
 	}
 
+    public void resetTerrain(Terrain newTerrain)
+    {
+        ((DrawingPanel) drawingPanel).setTerrain(newTerrain);
+    }
+
 	private void initComponents() {
 		fc.setFileFilter(new FileNameExtensionFilter("JPG File", "jpg"));
 		fc.setCurrentDirectory(/*new File(System.getProperty("user.home") + "\\Desktop")*/new File(""));
-
+        loadFileButton.addActionListener(new MenuOpenListener(fc, tg, this));
+        btsNumberSpinner.addChangeListener(new BtsSpinnerListener(tg, btsNumberSpinner));
+        SpinnerNumberModel spinnerModel = new SpinnerNumberModel();
+        spinnerModel.setMinimum(0);
+        spinnerModel.setValue(30);
+        btsNumberSpinner.setModel(spinnerModel);
+        generateDistributionButton.addActionListener(new GenerateDistributionListener(tg, this));
 		setJMenuBar(createJMenuBar());
 	}
 
@@ -80,7 +85,7 @@ public class MainWindowForm extends JFrame {
 	private JMenuItem createOpenMenuItem() {
 		JMenuItem openFile = new JMenuItem(ResourceBundle.getBundle("language").getString("MenuBar_file_openFile"));
 
-		openFile.addActionListener(new MenuOpenListener(fc, this));
+		openFile.addActionListener(new MenuOpenListener(fc, tg, this));
 		openFile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, InputEvent.CTRL_MASK));
 		return openFile;
 	}
@@ -131,9 +136,9 @@ public class MainWindowForm extends JFrame {
 		panel1.add(loadFileButton, new GridConstraints(1, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL,
 				GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null,
 				null, 0, false));
-		generateDistributionButon = new JButton();
-		generateDistributionButon.setText("Button");
-		panel1.add(generateDistributionButon, new GridConstraints(2, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL,
+		generateDistributionButton = new JButton();
+		generateDistributionButton.setText("Button");
+		panel1.add(generateDistributionButton, new GridConstraints(2, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL,
 				GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null,
 				null, 0, false));
 		btsNumberSpinner = new JSpinner();

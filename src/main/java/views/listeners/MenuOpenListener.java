@@ -18,12 +18,14 @@ public class MenuOpenListener implements ActionListener {
 
 	private final JFileChooser fc;
 	private final MainWindowForm mainWindow;
+    private final TerrainGenerator tg;
 
 	// FIXME temporary solution - waiting for not random BTS Locations
-	private final Terrain terrain = generateDefaultTerrain();
+	private Terrain terrain;
 
-	public MenuOpenListener(JFileChooser fc, MainWindowForm mainWindowForm) {
+	public MenuOpenListener(JFileChooser fc, TerrainGenerator tg, MainWindowForm mainWindowForm) {
 		this.fc = fc;
+        this.tg = tg;
 		this.mainWindow = mainWindowForm;
 	}
 
@@ -34,15 +36,15 @@ public class MenuOpenListener implements ActionListener {
 
 			try {
 				BufferedImage image = ImageIO.read(choosenFile);
+                terrain = generateDefaultTerrain(image.getWidth(), image.getHeight(), 30);
 				mainWindow.setDrawingPanel(image, terrain);
 			} catch (IOException ignore) {
 			}
 		}
 	}
 
-	private Terrain generateDefaultTerrain() {
-		TerrainGenerator tg = new TerrainGenerator(new UniformRandomGenerator());
-		return tg.generateTerrainWithDefaultBTSs(400, 400, 30);
+	private Terrain generateDefaultTerrain(int width, int height, int btsCount) {
+		return tg.generateTerrainWithDefaultBTSs(width, height, btsCount);
 	}
 
 }
