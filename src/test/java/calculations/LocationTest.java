@@ -1,7 +1,5 @@
 package calculations;
 
-import static org.fest.assertions.api.Assertions.assertThat;
-
 import java.util.List;
 
 import junit.framework.Assert;
@@ -56,31 +54,6 @@ public class LocationTest {
 
 		// then
 		Assert.assertEquals(true, isEqual);
-	}
-
-	@Test
-	public void shouldContainAllNeighbours() {
-		// given
-		Location main = Location.getInstance(5, 5);
-
-		Location n1 = Location.getInstance(4, 4);
-		Location n2 = Location.getInstance(5, 4);
-		Location n3 = Location.getInstance(6, 4);
-
-		Location n4 = Location.getInstance(4, 5);
-		Location n5 = Location.getInstance(6, 5);
-
-		Location n6 = Location.getInstance(4, 6);
-		Location n7 = Location.getInstance(5, 6);
-		Location n8 = Location.getInstance(6, 6);
-
-		// when
-		List<Location> aroundPoint = main.createLocationsAroundPoint(10, 10);
-
-		// then
-		assertThat(aroundPoint).hasSize(8);
-		assertThat(aroundPoint).containsAll(Lists.newArrayList(n1, n2, n3, n4, n5, n6, n7, n8));
-
 	}
 
 	@Test

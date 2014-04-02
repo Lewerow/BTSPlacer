@@ -71,10 +71,9 @@ public class DrawingPanel extends JPanel {
 
 		double hue = signalLevel / maxAvailableSignalLevel;
 
-		int redColorDensity = Math.min(255, (int) (255 * hue));
+		int transparency = Math.min(255, (int) (255 * hue));
 
-		// FIXME Implement: without transparency it will look awful
-		Color color = new Color(redColorDensity, 0, 0);
+		Color color = new Color(255, 0, 0, transparency);
 		g.setColor(color);
 		g.fillRect(x, y, 1, 1);
 	}
