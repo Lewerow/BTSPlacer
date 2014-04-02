@@ -35,8 +35,8 @@ public class MainWindowForm extends JFrame {
 	private static final long serialVersionUID = -372666681152456536L;
 	private final JFileChooser fc = new JFileChooser();
 	private JPanel mainPanel;
-	private JButton button1;
-	private JButton button2;
+	private JButton loadFileButton;
+	private JButton generateDistributionButon;
 	private JSpinner btsNumberSpinner;
 	private final JPanel drawingPanel = new DrawingPanel();
 	private JScrollPane mainScrollPane;
@@ -60,7 +60,7 @@ public class MainWindowForm extends JFrame {
 
 	private void initComponents() {
 		fc.setFileFilter(new FileNameExtensionFilter("JPG File", "jpg"));
-		fc.setCurrentDirectory(new File(System.getProperty("user.home") + "\\Desktop"));
+		fc.setCurrentDirectory(/*new File(System.getProperty("user.home") + "\\Desktop")*/new File(""));
 
 		setJMenuBar(createJMenuBar());
 	}
@@ -84,6 +84,12 @@ public class MainWindowForm extends JFrame {
 		openFile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, InputEvent.CTRL_MASK));
 		return openFile;
 	}
+
+    private void createUIComponents(){
+        // IntelliJ requires this method, do not delete it
+        // TODO: place custom component creation code here
+    }
+
 
 	public static void main(String[] args) {
 		setLookAndFeel("Nimbus");
@@ -120,14 +126,14 @@ public class MainWindowForm extends JFrame {
 				GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
 		panel1.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), ResourceBundle.getBundle("language")
 				.getString("BTS_configuration_panel"), TitledBorder.CENTER, TitledBorder.DEFAULT_POSITION));
-		button1 = new JButton();
-		button1.setText("Button");
-		panel1.add(button1, new GridConstraints(1, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL,
+		loadFileButton = new JButton();
+		loadFileButton.setText("Button");
+		panel1.add(loadFileButton, new GridConstraints(1, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL,
 				GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null,
 				null, 0, false));
-		button2 = new JButton();
-		button2.setText("Button");
-		panel1.add(button2, new GridConstraints(2, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL,
+		generateDistributionButon = new JButton();
+		generateDistributionButon.setText("Button");
+		panel1.add(generateDistributionButon, new GridConstraints(2, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL,
 				GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null,
 				null, 0, false));
 		btsNumberSpinner = new JSpinner();
