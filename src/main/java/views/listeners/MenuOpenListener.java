@@ -19,14 +19,13 @@ public class MenuOpenListener implements ActionListener {
 
 	private final JFileChooser fc;
 	private final MainWindowForm mainWindow;
-	private final TerrainGenerator tg;
+	private final TerrainGenerator tg = TerrainGenerator.getInstance();
 
 	// FIXME temporary solution - waiting for not random BTS Locations
 	private Terrain terrain;
 
-	public MenuOpenListener(JFileChooser fc, TerrainGenerator tg, MainWindowForm mainWindowForm) {
+	public MenuOpenListener(JFileChooser fc, MainWindowForm mainWindowForm) {
 		this.fc = fc;
-		this.tg = tg;
 		this.mainWindow = mainWindowForm;
 	}
 

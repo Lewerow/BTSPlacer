@@ -23,7 +23,8 @@ public class MenuOpenListenerTest {
 		// given
 		UniformRandomGenerator randomGenerator = mock(UniformRandomGenerator.class);
 
-		TerrainGenerator tg = new TerrainGenerator(randomGenerator);
+		TerrainGenerator tg = TerrainGenerator.getInstance();
+		tg.setRandomGenerator(randomGenerator);
 		MainWindowForm mainWindow = mock(MainWindowForm.class);
 
 		JFileChooser fc = mock(JFileChooser.class);
@@ -31,7 +32,7 @@ public class MenuOpenListenerTest {
 		File sampleImageFile = new File("src/main/resources/sampleMap.jpg");
 		when(fc.getSelectedFile()).thenReturn(sampleImageFile);
 
-		MenuOpenListener listener = new MenuOpenListener(fc, tg, mainWindow);
+		MenuOpenListener listener = new MenuOpenListener(fc, mainWindow);
 
 		// when
 		listener.actionPerformed(mock(ActionEvent.class));

@@ -10,13 +10,28 @@ import com.google.common.collect.Lists;
  */
 public class TerrainGenerator {
 
-	RandomGenerator randomGenerator;
-	int currentWidth;
-	int currentHeight;
-	int btsCount;
+	private static TerrainGenerator REFERENCE;
+	private RandomGenerator randomGenerator;
+	private int currentWidth;
+	private int currentHeight;
+	private int btsCount;
 
-	public TerrainGenerator(RandomGenerator generator) {
-		randomGenerator = generator;
+	public static TerrainGenerator getInstance() {
+		if (REFERENCE == null) {
+			REFERENCE = new TerrainGenerator();
+		}
+
+		return REFERENCE;
+
+	}
+
+	private TerrainGenerator() {
+		// default generator
+		randomGenerator = new UniformRandomGenerator();
+	}
+
+	public void setRandomGenerator(RandomGenerator randomGenerator) {
+		this.randomGenerator = randomGenerator;
 	}
 
 	public Terrain generateTerrain(double maxX, double maxY, List<BTS> availableBTSs) {

@@ -1,26 +1,24 @@
 package views.listeners;
 
-import calculations.TerrainGenerator;
-
-import javax.swing.*;
+import javax.swing.JSpinner;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-public class BtsSpinnerListener implements ChangeListener{
+import calculations.TerrainGenerator;
 
-    private TerrainGenerator tg;
-    private JSpinner btsCounter;
+public class BtsSpinnerListener implements ChangeListener {
 
-    public BtsSpinnerListener(TerrainGenerator tg, JSpinner btsCounter)
-    {
-        this.tg = tg;
-        this.btsCounter = btsCounter;
-    }
+	private final TerrainGenerator tg = TerrainGenerator.getInstance();
+	private final JSpinner btsCounter;
 
-    @Override
-    public void stateChanged(ChangeEvent e) {
-        tg.setBtsCount((Integer)btsCounter.getValue());
-    }
+	public BtsSpinnerListener(JSpinner btsCounter) {
+		this.btsCounter = btsCounter;
+	}
 
-    // TODO implementation
+	@Override
+	public void stateChanged(ChangeEvent e) {
+		tg.setBtsCount((Integer) btsCounter.getValue());
+	}
+
+	// TODO implementation
 }

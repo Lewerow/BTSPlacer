@@ -15,7 +15,8 @@ public class TerrainGeneratorTest {
 	@Test
 	public void terrainWithNoBTSsHasNoSignal() {
 		RandomGenerator gen = Mockito.mock(RandomGenerator.class);
-		TerrainGenerator tGen = new TerrainGenerator(gen);
+		TerrainGenerator tGen = TerrainGenerator.getInstance();
+		tGen.setRandomGenerator(gen);
 
 		Terrain t = tGen.generateTerrain(10, 10, null);
 		Assert.assertEquals(t.getSignalLevel(Location.getInstance(5, 5)), 0, 0.0001);
@@ -24,7 +25,8 @@ public class TerrainGeneratorTest {
 	@Test
 	public void terrainWithOneBTSsHasItsMaxSignalInOnePlace() {
 		RandomGenerator gen = Mockito.mock(RandomGenerator.class);
-		TerrainGenerator tGen = new TerrainGenerator(gen);
+		TerrainGenerator tGen = TerrainGenerator.getInstance();
+		tGen.setRandomGenerator(gen);
 
 		BTS bts = new BTS(null);
 		BTS spyBTS = Mockito.spy(bts);

@@ -1,27 +1,25 @@
 package views.listeners;
 
-import calculations.TerrainGenerator;
-import views.TerrainDisplayer;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import views.TerrainDisplayer;
+import calculations.TerrainGenerator;
 
 /**
  * Created by Ja on 02.04.14.
  */
-public class GenerateDistributionListener implements ActionListener{
+public class GenerateDistributionListener implements ActionListener {
 
-    private TerrainGenerator tg;
-    private TerrainDisplayer displayer;
+	private final TerrainGenerator tg = TerrainGenerator.getInstance();
+	private final TerrainDisplayer displayer;
 
-    public GenerateDistributionListener(TerrainGenerator tg, TerrainDisplayer displayer)
-    {
-        this.tg = tg;
-        this.displayer = displayer;
-    }
+	public GenerateDistributionListener(TerrainDisplayer displayer) {
+		this.displayer = displayer;
+	}
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        displayer.resetTerrain(tg.regenerateTerrain());
-    }
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		displayer.resetTerrain(tg.regenerateTerrain());
+	}
 }

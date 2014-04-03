@@ -30,8 +30,6 @@ import views.listeners.BtsSpinnerListener;
 import views.listeners.GenerateDistributionListener;
 import views.listeners.MenuOpenListener;
 import calculations.Terrain;
-import calculations.TerrainGenerator;
-import calculations.UniformRandomGenerator;
 
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
@@ -48,7 +46,6 @@ public class MainWindowForm extends JFrame implements TerrainDisplayer {
 	private JSpinner btsNumberSpinner = new JSpinner();
 	private final JPanel drawingPanel = new DrawingPanel();
 	private JScrollPane mainScrollPane = new JScrollPane();
-	private final TerrainGenerator tg = new TerrainGenerator(new UniformRandomGenerator());
 
 	public MainWindowForm() {
 		$$$setupUI$$$();
@@ -77,13 +74,13 @@ public class MainWindowForm extends JFrame implements TerrainDisplayer {
 		File runPath = new File(MainWindowForm.class.getProtectionDomain().getCodeSource()
 				.getLocation().getPath());
 		fc.setCurrentDirectory(runPath);
-		loadFileButton.addActionListener(new MenuOpenListener(fc, tg, this));
-		btsNumberSpinner.addChangeListener(new BtsSpinnerListener(tg, btsNumberSpinner));
+		loadFileButton.addActionListener(new MenuOpenListener(fc, this));
+		btsNumberSpinner.addChangeListener(new BtsSpinnerListener(btsNumberSpinner));
 		SpinnerNumberModel spinnerModel = new SpinnerNumberModel();
 		spinnerModel.setMinimum(0);
 		spinnerModel.setValue(30);
 		btsNumberSpinner.setModel(spinnerModel);
-		generateDistributionButton.addActionListener(new GenerateDistributionListener(tg, this));
+		generateDistributionButton.addActionListener(new GenerateDistributionListener(this));
 		setJMenuBar(createJMenuBar());
 	}
 
@@ -103,7 +100,7 @@ public class MainWindowForm extends JFrame implements TerrainDisplayer {
 		JMenuItem openFile = new JMenuItem(ResourceBundle.getBundle("language").getString(
 				"MenuBar_file_openFile"));
 
-		openFile.addActionListener(new MenuOpenListener(fc, tg, this));
+		openFile.addActionListener(new MenuOpenListener(fc, this));
 		openFile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, InputEvent.CTRL_MASK));
 		return openFile;
 	}
