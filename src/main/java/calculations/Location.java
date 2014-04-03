@@ -35,7 +35,7 @@ public class Location {
 		return Math.sqrt(Math.pow(this.x - l2.x, 2) + Math.pow(this.y - l2.y, 2));
 	}
 
-	public List<Location> createLocationsAroundPoint(double maxAvailableX, double maxAvailableY) {
+	public List<Location> getLocationsAroundPoint(double maxAvailableX, double maxAvailableY) {
 		List<Location> result = Lists.newArrayList();
 
 		// left & same height

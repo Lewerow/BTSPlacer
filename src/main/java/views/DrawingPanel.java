@@ -89,7 +89,7 @@ public class DrawingPanel extends JPanel {
 
 		alreadyPainted.add(location);
 
-		List<Location> around = location.createLocationsAroundPoint(terrain.getMaxX(), terrain.getMaxY());
+		List<Location> around = location.getLocationsAroundPoint(terrain.getMaxX(), terrain.getMaxY());
 		for (Location loc : around) {
 			drawPixel(g, loc);
 		}

@@ -20,4 +20,18 @@ public class BasebandResource {
 	public double getCapacity() {
 		return capacity;
 	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof BasebandResource) {
+			BasebandResource other = (BasebandResource) obj;
+			return capacity == other.getCapacity();
+		}
+		return false;
+	}
+
+	@Override
+	public String toString() {
+		return String.format("BasebandResource(Capacity: %f)", capacity);
+	}
 }

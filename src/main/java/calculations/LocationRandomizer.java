@@ -5,22 +5,19 @@ package calculations;
  */
 public class LocationRandomizer {
 
-	private final RandomGenerator rand;
-	private final Terrain terrain;
+	private final RandomGenerator randomGenerator;
 
-	public LocationRandomizer(Terrain t) {
-		terrain = t;
-		rand = new UniformRandomGenerator();
+	public LocationRandomizer() {
+		randomGenerator = new UniformRandomGenerator();
 	}
 
-	public LocationRandomizer(Terrain t, RandomGenerator r) {
-		terrain = t;
-		rand = r;
+	public LocationRandomizer(RandomGenerator randomGenerator) {
+		this.randomGenerator = randomGenerator;
 	}
 
-	public Location randomLocation() {
-		double x = rand.getDouble(terrain.getMaxX());
-		double y = rand.getDouble(terrain.getMaxY());
+	public Location randomLocation(double maxX, double maxY) {
+		double x = randomGenerator.getDouble(maxX);
+		double y = randomGenerator.getDouble(maxY);
 
 		return Location.getInstance(x, y);
 	}

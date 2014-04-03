@@ -12,7 +12,7 @@ public class Terrain {
 	private final double maxX;
 	private final double maxY;
 
-	public Terrain(int maxX, int maxY) {
+	public Terrain(double maxX, double maxY) {
 		this.maxX = maxX;
 		this.maxY = maxY;
 	}
@@ -43,7 +43,7 @@ public class Terrain {
 	public double signalLevel(BTS bts, Location l) {
 		double maxSignalLevel = bts.getMaxSignalLevel();
 		double distance = distance(bts, l);
-		if (java.lang.Double.compare(distance, 0) == 0)
+		if (distance == 0d)
 			return maxSignalLevel;
 
 		return maxSignalLevel * (1 - signalReduction(bts.getLocation(), l)) / Math.pow(distance, 2);

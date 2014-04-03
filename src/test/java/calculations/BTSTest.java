@@ -2,6 +2,7 @@ package calculations;
 
 import junit.framework.Assert;
 
+import org.fest.assertions.api.Assertions;
 import org.junit.Test;
 
 /**
@@ -92,5 +93,27 @@ public class BTSTest {
 		bts.addRadioResource(new RadioResource());
 
 		Assert.assertEquals(bts.getMaxSignalLevel(), 20, 0.0001);
+	}
+
+	@Test
+	public void shouldBeEqual() {
+		// given
+		BTS b1 = new BTS(Location.getInstance(5, 5));
+		b1.addBBResource(new BasebandResource(10d));
+		b1.addBBResource(new BasebandResource(20d));
+		b1.addRadioResource(new RadioResource());
+		b1.addRadioResource(new RadioResource());
+
+		BTS b2 = new BTS(Location.getInstance(5, 5));
+		b2.addBBResource(new BasebandResource(20d));
+		b2.addBBResource(new BasebandResource(10d));
+		b2.addRadioResource(new RadioResource());
+		b2.addRadioResource(new RadioResource());
+
+		// when
+		boolean isEqual = b1.equals(b2);
+
+		// then
+		Assertions.assertThat(isEqual).isTrue();
 	}
 }

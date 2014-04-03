@@ -71,6 +71,28 @@ public class LocationTest {
 
 		// then
 		Assertions.assertThat(contains).isTrue();
+	}
+
+	@Test
+	public void shouldCreateLocationsAroundPoint() {
+		// given
+		Location base = Location.getInstance(5, 5);
+
+		// when
+		List<Location> locationsAroundPoint = base.getLocationsAroundPoint(10, 10);
+
+		// then
+		Location n1 = Location.getInstance(4, 4);
+		Location n2 = Location.getInstance(4, 5);
+		Location n3 = Location.getInstance(4, 6);
+
+		Location n4 = Location.getInstance(5, 4);
+		Location n5 = Location.getInstance(5, 6);
+
+		Location n6 = Location.getInstance(6, 4);
+		Location n7 = Location.getInstance(6, 5);
+		Location n8 = Location.getInstance(6, 6);
+		Assertions.assertThat(locationsAroundPoint).containsOnly(new Location[] { n1, n2, n3, n4, n5, n6, n7, n8 });
 
 	}
 }

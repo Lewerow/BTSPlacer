@@ -8,23 +8,38 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.ResourceBundle;
 
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
+import javax.swing.JComponent;
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JSpinner;
+import javax.swing.KeyStroke;
+import javax.swing.SpinnerNumberModel;
+import javax.swing.UIManager;
 import javax.swing.border.TitledBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-import calculations.TerrainGenerator;
-import calculations.UniformRandomGenerator;
 import views.listeners.BtsSpinnerListener;
 import views.listeners.GenerateDistributionListener;
 import views.listeners.MenuOpenListener;
 import calculations.Terrain;
+import calculations.TerrainGenerator;
+import calculations.UniformRandomGenerator;
 
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 
 public class MainWindowForm extends JFrame implements TerrainDisplayer {
 
-    // TODO Remove these initializers, I put them here so it won't crash, but it's definitely wrong
+	// TODO Remove these initializers, I put them here so it won't crash, but
+	// it's definitely wrong
 	private static final long serialVersionUID = -372666681152456536L;
 	private final JFileChooser fc = new JFileChooser();
 	private JPanel mainPanel = new JPanel();
@@ -33,7 +48,7 @@ public class MainWindowForm extends JFrame implements TerrainDisplayer {
 	private JSpinner btsNumberSpinner = new JSpinner();
 	private final JPanel drawingPanel = new DrawingPanel();
 	private JScrollPane mainScrollPane = new JScrollPane();
-    private TerrainGenerator tg = new TerrainGenerator(new UniformRandomGenerator());
+	private final TerrainGenerator tg = new TerrainGenerator(new UniformRandomGenerator());
 
 	public MainWindowForm() {
 		$$$setupUI$$$();
@@ -52,21 +67,24 @@ public class MainWindowForm extends JFrame implements TerrainDisplayer {
 		cast.setTerrain(terrain);
 	}
 
-    public void resetTerrain(Terrain newTerrain)
-    {
-        ((DrawingPanel) drawingPanel).setTerrain(newTerrain);
-    }
+	@Override
+	public void resetTerrain(Terrain newTerrain) {
+		((DrawingPanel) drawingPanel).setTerrain(newTerrain);
+	}
 
 	private void initComponents() {
 		fc.setFileFilter(new FileNameExtensionFilter("JPG File", "jpg"));
-		fc.setCurrentDirectory(/*new File(System.getProperty("user.home") + "\\Desktop")*/new File(""));
-        loadFileButton.addActionListener(new MenuOpenListener(fc, tg, this));
-        btsNumberSpinner.addChangeListener(new BtsSpinnerListener(tg, btsNumberSpinner));
-        SpinnerNumberModel spinnerModel = new SpinnerNumberModel();
-        spinnerModel.setMinimum(0);
-        spinnerModel.setValue(30);
-        btsNumberSpinner.setModel(spinnerModel);
-        generateDistributionButton.addActionListener(new GenerateDistributionListener(tg, this));
+		fc.setCurrentDirectory(/*
+								 * new File(System.getProperty("user.home") +
+								 * "\\Desktop")
+								 */new File(""));
+		loadFileButton.addActionListener(new MenuOpenListener(fc, tg, this));
+		btsNumberSpinner.addChangeListener(new BtsSpinnerListener(tg, btsNumberSpinner));
+		SpinnerNumberModel spinnerModel = new SpinnerNumberModel();
+		spinnerModel.setMinimum(0);
+		spinnerModel.setValue(30);
+		btsNumberSpinner.setModel(spinnerModel);
+		generateDistributionButton.addActionListener(new GenerateDistributionListener(tg, this));
 		setJMenuBar(createJMenuBar());
 	}
 
@@ -83,18 +101,19 @@ public class MainWindowForm extends JFrame implements TerrainDisplayer {
 	}
 
 	private JMenuItem createOpenMenuItem() {
-		JMenuItem openFile = new JMenuItem(ResourceBundle.getBundle("language").getString("MenuBar_file_openFile"));
+		JMenuItem openFile = new JMenuItem(ResourceBundle.getBundle("language").getString(
+				"MenuBar_file_openFile"));
 
 		openFile.addActionListener(new MenuOpenListener(fc, tg, this));
 		openFile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, InputEvent.CTRL_MASK));
 		return openFile;
 	}
 
-    private void createUIComponents(){
-        // IntelliJ requires this method, do not delete it
-        // TODO: place custom component creation code here
-    }
-
+	@SuppressWarnings("unused")
+	private void createUIComponents() {
+		// IntelliJ requires this method, do not delete it
+		// TODO: place custom component creation code here
+	}
 
 	public static void main(String[] args) {
 		setLookAndFeel("Nimbus");
@@ -127,34 +146,45 @@ public class MainWindowForm extends JFrame implements TerrainDisplayer {
 		mainPanel.setLayout(new GridLayoutManager(1, 2, new Insets(0, 0, 0, 0), -1, -1));
 		final JPanel panel1 = new JPanel();
 		panel1.setLayout(new GridLayoutManager(3, 2, new Insets(0, 0, 0, 0), -1, -1));
-		mainPanel.add(panel1, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH,
-				GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
-		panel1.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), ResourceBundle.getBundle("language")
-				.getString("BTS_configuration_panel"), TitledBorder.CENTER, TitledBorder.DEFAULT_POSITION));
+		mainPanel.add(panel1, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER,
+				GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_FIXED,
+				GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
+		panel1.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(),
+				ResourceBundle.getBundle("language").getString("BTS_configuration_panel"),
+				TitledBorder.CENTER, TitledBorder.DEFAULT_POSITION));
 		loadFileButton = new JButton();
 		loadFileButton.setText("Button");
-		panel1.add(loadFileButton, new GridConstraints(1, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL,
-				GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null,
-				null, 0, false));
+		panel1.add(loadFileButton, new GridConstraints(1, 1, 1, 1, GridConstraints.ANCHOR_CENTER,
+				GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK
+						| GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED,
+				null, null, null, 0, false));
 		generateDistributionButton = new JButton();
 		generateDistributionButton.setText("Button");
-		panel1.add(generateDistributionButton, new GridConstraints(2, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL,
-				GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null,
-				null, 0, false));
+		panel1.add(generateDistributionButton, new GridConstraints(2, 1, 1, 1,
+				GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL,
+				GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW,
+				GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
 		btsNumberSpinner = new JSpinner();
-		panel1.add(btsNumberSpinner, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL,
-				GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+		panel1.add(btsNumberSpinner, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_WEST,
+				GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW,
+				GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
 		final JLabel label1 = new JLabel();
-		this.$$$loadLabelText$$$(label1, ResourceBundle.getBundle("language").getString("BTS_number"));
-		panel1.add(label1, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE,
-				GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+		this.$$$loadLabelText$$$(label1,
+				ResourceBundle.getBundle("language").getString("BTS_number"));
+		panel1.add(label1, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST,
+				GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED,
+				GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
 		mainScrollPane = new JScrollPane();
 		mainScrollPane.setVerticalScrollBarPolicy(20);
-		mainPanel.add(mainScrollPane, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH,
-				GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK
-						| GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
-		mainScrollPane.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), ResourceBundle.getBundle("language")
-				.getString("BTS_drawing_panel"), TitledBorder.CENTER, TitledBorder.DEFAULT_POSITION));
+		mainPanel.add(mainScrollPane, new GridConstraints(0, 0, 1, 1,
+				GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH,
+				GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW,
+				GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null,
+				null, null, 0, false));
+		mainScrollPane.setBorder(BorderFactory.createTitledBorder(
+				BorderFactory.createEtchedBorder(),
+				ResourceBundle.getBundle("language").getString("BTS_drawing_panel"),
+				TitledBorder.CENTER, TitledBorder.DEFAULT_POSITION));
 		drawingPanel.setPreferredSize(new Dimension(500, 500));
 		mainScrollPane.setViewportView(drawingPanel);
 		label1.setLabelFor(btsNumberSpinner);
