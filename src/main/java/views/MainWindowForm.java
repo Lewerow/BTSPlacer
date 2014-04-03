@@ -36,7 +36,7 @@ import com.intellij.uiDesigner.core.GridLayoutManager;
 
 public class MainWindowForm extends JFrame {
 
-	// TODO Remove these initializers, I put them here so it won't crash, but
+	// FIXME Remove these initializers, I put them here so it won't crash, but
 	// it's definitely wrong
 	private static final long serialVersionUID = -372666681152456536L;
 	private final JFileChooser fc = new JFileChooser();
@@ -105,7 +105,6 @@ public class MainWindowForm extends JFrame {
 	@SuppressWarnings("unused")
 	private void createUIComponents() {
 		// IntelliJ requires this method, do not delete it
-		// TODO: place custom component creation code here
 	}
 
 	public static void main(String[] args) {
