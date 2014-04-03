@@ -26,13 +26,8 @@ public class DrawingPanel extends JPanel {
 	private Terrain terrain;
 	private double maxAvailableSignalLevel;
 
-	public DrawingPanel() {
-		super();
-	}
-
 	public void setImage(BufferedImage image) {
 		this.image = image;
-		validate();
 		repaint();
 	}
 
@@ -40,7 +35,6 @@ public class DrawingPanel extends JPanel {
 		this.terrain = terrain;
 		alreadyPainted = Lists.newArrayList();
 		maxAvailableSignalLevel = terrain.getMaxAvailableSignalLevel();
-		validate();
 		repaint();
 	}
 
@@ -67,12 +61,14 @@ public class DrawingPanel extends JPanel {
 	private void drawBts(Graphics g, BTS bts) {
 		Location location = bts.getLocation();
 		drawPixel(g, location);
-
 	}
 
 	private void drawPixel(Graphics g, Location location) {
 		double signalLevel = terrain.getSignalLevel(location);
-		if (alreadyPainted.contains(location) || signalLevel < maxAvailableSignalLevel / 32) {
+
+		boolean isStopCondition = alreadyPainted.contains(location)
+				|| signalLevel < maxAvailableSignalLevel / 16;
+		if (isStopCondition) {
 			return;
 		}
 
@@ -89,7 +85,8 @@ public class DrawingPanel extends JPanel {
 
 		alreadyPainted.add(location);
 
-		List<Location> around = location.getLocationsAroundPoint(terrain.getMaxX(), terrain.getMaxY());
+		List<Location> around = location.getLocationsAroundPoint(terrain.getMaxX(),
+				terrain.getMaxY());
 		for (Location loc : around) {
 			drawPixel(g, loc);
 		}

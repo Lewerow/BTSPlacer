@@ -74,10 +74,9 @@ public class MainWindowForm extends JFrame implements TerrainDisplayer {
 
 	private void initComponents() {
 		fc.setFileFilter(new FileNameExtensionFilter("JPG File", "jpg"));
-		fc.setCurrentDirectory(/*
-								 * new File(System.getProperty("user.home") +
-								 * "\\Desktop")
-								 */new File(""));
+		File runPath = new File(MainWindowForm.class.getProtectionDomain().getCodeSource()
+				.getLocation().getPath());
+		fc.setCurrentDirectory(runPath);
 		loadFileButton.addActionListener(new MenuOpenListener(fc, tg, this));
 		btsNumberSpinner.addChangeListener(new BtsSpinnerListener(tg, btsNumberSpinner));
 		SpinnerNumberModel spinnerModel = new SpinnerNumberModel();
