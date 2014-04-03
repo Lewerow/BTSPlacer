@@ -3,11 +3,15 @@ package views;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
+import java.util.List;
 
 import javax.swing.JPanel;
 
+import calculations.BTS;
 import calculations.Location;
 import calculations.Terrain;
+
+import com.google.common.collect.Lists;
 
 /**
  * Created by user on 01.04.14.
@@ -16,8 +20,11 @@ public class DrawingPanel extends JPanel {
 
 	private static final long serialVersionUID = -6523291909292131059L;
 
+	private List<Location> alreadyPainted = Lists.newArrayList();
+
 	private BufferedImage image;
 	private Terrain terrain;
+	private double maxAvailableSignalLevel;
 
 	public DrawingPanel() {
 		super();
@@ -31,12 +38,14 @@ public class DrawingPanel extends JPanel {
 
 	public void setTerrain(Terrain terrain) {
 		this.terrain = terrain;
+		alreadyPainted = Lists.newArrayList();
+		maxAvailableSignalLevel = terrain.getMaxAvailableSignalLevel();
 		validate();
 		repaint();
 	}
 
 	@Override
-	public void paint(Graphics g) {
+	public void paint(final Graphics g) {
 		super.paint(g);
 		if (image != null) {
 			g.drawImage(image, 0, 0, null);
@@ -48,24 +57,25 @@ public class DrawingPanel extends JPanel {
 	}
 
 	private void drawTerrain(Graphics g) {
-		double maxAvailableSignalLevel = terrain.getMaxAvailableSignalLevel();
-		for (int x = 0; x < terrain.getMaxX(); x++) {
-			for (int y = 0; y < terrain.getMaxY(); y++) {
-
-				Location location = Location.getInstance(x, y);
-				double signalLevel = terrain.getSignalLevel(location);
-
-				// FIXME when we should stop drawing ?
-				if (signalLevel > maxAvailableSignalLevel / 64) {
-					drawPixel(g, maxAvailableSignalLevel, location, signalLevel);
-				}
-
-			}
+		List<BTS> btss = terrain.getBtss();
+		for (BTS bts : btss) {
+			drawBts(g, bts);
 		}
 
 	}
 
-	private void drawPixel(Graphics g, double maxAvailableSignalLevel, Location location, double signalLevel) {
+	private void drawBts(Graphics g, BTS bts) {
+		Location location = bts.getLocation();
+		drawPixel(g, location);
+
+	}
+
+	private void drawPixel(Graphics g, Location location) {
+		double signalLevel = terrain.getSignalLevel(location);
+		if (alreadyPainted.contains(location) || signalLevel < maxAvailableSignalLevel / 32) {
+			return;
+		}
+
 		int x = (int) location.getX();
 		int y = (int) location.getY();
 
@@ -76,5 +86,13 @@ public class DrawingPanel extends JPanel {
 		Color color = new Color(255, 0, 0, transparency);
 		g.setColor(color);
 		g.fillRect(x, y, 1, 1);
+
+		alreadyPainted.add(location);
+
+		List<Location> around = location.createLocationsAroundPoint(terrain.getMaxX(), terrain.getMaxY());
+		for (Location loc : around) {
+			drawPixel(g, loc);
+		}
+
 	}
 }
