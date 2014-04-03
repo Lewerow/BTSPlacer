@@ -92,7 +92,21 @@ public class LocationTest {
 		Location n6 = Location.getInstance(6, 4);
 		Location n7 = Location.getInstance(6, 5);
 		Location n8 = Location.getInstance(6, 6);
-		Assertions.assertThat(locationsAroundPoint).containsOnly(new Location[] { n1, n2, n3, n4, n5, n6, n7, n8 });
+		Assertions.assertThat(locationsAroundPoint).containsOnly(
+				new Location[] { n1, n2, n3, n4, n5, n6, n7, n8 });
+	}
 
+	@Test
+	public void shouldCheckFlyweightPattern() {
+		// given
+		Location l1 = Location.getInstance(5d, 5d);
+		Location l2 = Location.getInstance(5d, 5d);
+
+		// when
+		int systemHashCodeL1 = System.identityHashCode(l1);
+		int systemHashCodeL2 = System.identityHashCode(l2);
+
+		// then
+		Assertions.assertThat(systemHashCodeL1).isEqualTo(systemHashCodeL2);
 	}
 }

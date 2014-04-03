@@ -3,19 +3,28 @@ package calculations;
 import static java.lang.Math.*;
 
 import java.util.List;
+import java.util.Map;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 
 /**
  * Created by Ja on 29.03.14.
  */
 public class Location {
 
+	private static final Map<String, Location> objects = Maps.newHashMap();
 	private final double x;
 	private final double y;
 
 	public static Location getInstance(double x, double y) {
-		return new Location(x, y);
+		String key = String.format("%f,%f", x, y);
+		if (objects.containsKey(key))
+			return objects.get(key);
+
+		Location l = new Location(x, y);
+		objects.put(key, l);
+		return l;
 	}
 
 	private Location(double x, double y) {
