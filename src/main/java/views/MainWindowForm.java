@@ -34,7 +34,7 @@ import calculations.Terrain;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 
-public class MainWindowForm extends JFrame implements TerrainDisplayer {
+public class MainWindowForm extends JFrame {
 
 	// TODO Remove these initializers, I put them here so it won't crash, but
 	// it's definitely wrong
@@ -61,12 +61,7 @@ public class MainWindowForm extends JFrame implements TerrainDisplayer {
 	public void setDrawingPanel(BufferedImage image, Terrain terrain) {
 		DrawingPanel cast = (DrawingPanel) drawingPanel;
 		cast.setImage(image);
-		cast.setTerrain(terrain);
-	}
-
-	@Override
-	public void resetTerrain(Terrain newTerrain) {
-		((DrawingPanel) drawingPanel).setTerrain(newTerrain);
+		cast.resetTerrain(terrain);
 	}
 
 	private void initComponents() {
@@ -74,13 +69,15 @@ public class MainWindowForm extends JFrame implements TerrainDisplayer {
 		File runPath = new File(MainWindowForm.class.getProtectionDomain().getCodeSource()
 				.getLocation().getPath());
 		fc.setCurrentDirectory(runPath);
-		loadFileButton.addActionListener(new MenuOpenListener(fc, this));
-		btsNumberSpinner.addChangeListener(new BtsSpinnerListener(btsNumberSpinner));
+		loadFileButton.addActionListener(new MenuOpenListener(fc, (DrawingPanel) drawingPanel));
+		btsNumberSpinner.addChangeListener(new BtsSpinnerListener(btsNumberSpinner,
+				(DrawingPanel) drawingPanel));
 		SpinnerNumberModel spinnerModel = new SpinnerNumberModel();
 		spinnerModel.setMinimum(0);
 		spinnerModel.setValue(30);
 		btsNumberSpinner.setModel(spinnerModel);
-		generateDistributionButton.addActionListener(new GenerateDistributionListener(this));
+		generateDistributionButton.addActionListener(new GenerateDistributionListener(
+				(DrawingPanel) drawingPanel));
 		setJMenuBar(createJMenuBar());
 	}
 
@@ -100,7 +97,7 @@ public class MainWindowForm extends JFrame implements TerrainDisplayer {
 		JMenuItem openFile = new JMenuItem(ResourceBundle.getBundle("language").getString(
 				"MenuBar_file_openFile"));
 
-		openFile.addActionListener(new MenuOpenListener(fc, this));
+		openFile.addActionListener(new MenuOpenListener(fc, (DrawingPanel) drawingPanel));
 		openFile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, InputEvent.CTRL_MASK));
 		return openFile;
 	}

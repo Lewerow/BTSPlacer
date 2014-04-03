@@ -11,7 +11,7 @@ import javax.swing.JFileChooser;
 import org.fest.assertions.api.Assertions;
 import org.junit.Test;
 
-import views.MainWindowForm;
+import views.DrawingPanel;
 import calculations.BTS;
 import calculations.TerrainGenerator;
 import calculations.UniformRandomGenerator;
@@ -25,14 +25,14 @@ public class MenuOpenListenerTest {
 
 		TerrainGenerator tg = TerrainGenerator.getInstance();
 		tg.setRandomGenerator(randomGenerator);
-		MainWindowForm mainWindow = mock(MainWindowForm.class);
+		DrawingPanel drawingPanel = new DrawingPanel();
 
 		JFileChooser fc = mock(JFileChooser.class);
-		when(fc.showOpenDialog(mainWindow)).thenReturn(JFileChooser.APPROVE_OPTION);
+		when(fc.showOpenDialog(drawingPanel)).thenReturn(JFileChooser.APPROVE_OPTION);
 		File sampleImageFile = new File("src/main/resources/sampleMap.jpg");
 		when(fc.getSelectedFile()).thenReturn(sampleImageFile);
 
-		MenuOpenListener listener = new MenuOpenListener(fc, mainWindow);
+		MenuOpenListener listener = new MenuOpenListener(fc, drawingPanel);
 
 		// when
 		listener.actionPerformed(mock(ActionEvent.class));

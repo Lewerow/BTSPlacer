@@ -16,7 +16,7 @@ import com.google.common.collect.Lists;
 /**
  * Created by user on 01.04.14.
  */
-public class DrawingPanel extends JPanel {
+public class DrawingPanel extends JPanel implements TerrainDisplayer {
 
 	private static final long serialVersionUID = -6523291909292131059L;
 
@@ -31,8 +31,9 @@ public class DrawingPanel extends JPanel {
 		repaint();
 	}
 
-	public void setTerrain(Terrain terrain) {
-		this.terrain = terrain;
+	@Override
+	public void resetTerrain(Terrain newTerrain) {
+		this.terrain = newTerrain;
 		alreadyPainted = Lists.newArrayList();
 		maxAvailableSignalLevel = terrain.getMaxAvailableSignalLevel();
 		repaint();

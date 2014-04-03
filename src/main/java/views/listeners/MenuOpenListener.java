@@ -11,33 +11,34 @@ import javax.swing.JFileChooser;
 
 import org.fest.util.VisibleForTesting;
 
-import views.MainWindowForm;
+import views.DrawingPanel;
 import calculations.Terrain;
 import calculations.TerrainGenerator;
 
 public class MenuOpenListener implements ActionListener {
 
 	private final JFileChooser fc;
-	private final MainWindowForm mainWindow;
+	private final DrawingPanel drawingPanel;
 	private final TerrainGenerator tg = TerrainGenerator.getInstance();
 
 	// FIXME temporary solution - waiting for not random BTS Locations
 	private Terrain terrain;
 
-	public MenuOpenListener(JFileChooser fc, MainWindowForm mainWindowForm) {
+	public MenuOpenListener(JFileChooser fc, DrawingPanel drawingPanel) {
 		this.fc = fc;
-		this.mainWindow = mainWindowForm;
+		this.drawingPanel = drawingPanel;
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if (fc.showOpenDialog(mainWindow) == JFileChooser.APPROVE_OPTION) {
+		if (fc.showOpenDialog(drawingPanel) == JFileChooser.APPROVE_OPTION) {
 			File choosenFile = fc.getSelectedFile();
 
 			try {
 				BufferedImage image = ImageIO.read(choosenFile);
 				terrain = generateDefaultTerrain(image.getWidth(), image.getHeight(), 30);
-				mainWindow.setDrawingPanel(image, terrain);
+				drawingPanel.setImage(image);
+				drawingPanel.resetTerrain(terrain);
 			} catch (IOException ignore) {
 			}
 		}
