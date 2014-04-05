@@ -2,10 +2,13 @@ package views;
 
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.List;
 
 import javax.swing.JPanel;
 
+import views.btsrender.BtsImageRenderer;
+import views.btsrender.BtsRecursiveRenderer;
 import views.btsrender.IBtsRenderer;
 import calculations.BTS;
 import calculations.Terrain;
@@ -19,10 +22,17 @@ public class DrawingPanel extends JPanel implements TerrainDisplayer {
 
 	private BufferedImage map;
 	private Terrain terrain;
-	private final IBtsRenderer btsRenderer;
+	private IBtsRenderer btsRenderer;
 
-	public DrawingPanel(IBtsRenderer btsRenderer) {
-		this.btsRenderer = btsRenderer;
+	public DrawingPanel() {
+		try {
+			// default bts renderer
+			this.btsRenderer = new BtsImageRenderer();
+		} catch (IOException e) {
+			System.err
+					.println("Could not render btss using image, recursive rendering will be used");
+			btsRenderer = new BtsRecursiveRenderer();
+		}
 	}
 
 	public void setMap(BufferedImage map) {

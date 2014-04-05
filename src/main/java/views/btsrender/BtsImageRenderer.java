@@ -2,7 +2,6 @@ package views.btsrender;
 
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
@@ -13,16 +12,12 @@ import calculations.Terrain;
 
 public class BtsImageRenderer implements IBtsRenderer {
 
-	private BufferedImage btsImage;
+	private final BufferedImage btsImage;
 
-	public BtsImageRenderer() {
-		try {
-			// default BTS image
-			btsImage = ImageIO.read(new File("src/main/resources/bts.png"));
-		} catch (IOException e) {
-			System.err.println("Could not load default bts image!");
-			e.printStackTrace();
-		}
+	public BtsImageRenderer() throws IOException {
+		// default BTS image
+		btsImage = ImageIO.read(Thread.currentThread().getContextClassLoader()
+				.getResourceAsStream("bts.png"));
 	}
 
 	@Override
@@ -42,6 +37,7 @@ public class BtsImageRenderer implements IBtsRenderer {
 
 		int width = 10;
 		int height = 10;
+
 		g.drawImage(btsImage, (int) x - width / 2, (int) y - height / 2, width, height, null);
 	}
 }

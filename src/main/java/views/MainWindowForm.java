@@ -26,7 +26,6 @@ import javax.swing.UIManager;
 import javax.swing.border.TitledBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-import views.btsrender.BtsImageRenderer;
 import views.listeners.BtsSpinnerListener;
 import views.listeners.GenerateDistributionListener;
 import views.listeners.MenuOpenListener;
@@ -45,7 +44,7 @@ public class MainWindowForm extends JFrame {
 	private JButton loadFileButton = new JButton();
 	private JButton generateDistributionButton = new JButton();
 	private JSpinner btsNumberSpinner = new JSpinner();
-	private final JPanel drawingPanel = new DrawingPanel(new BtsImageRenderer());
+	private final JPanel drawingPanel = new DrawingPanel();
 	private JScrollPane mainScrollPane = new JScrollPane();
 
 	public MainWindowForm() {
