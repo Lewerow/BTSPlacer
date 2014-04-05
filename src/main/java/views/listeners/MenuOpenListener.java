@@ -37,7 +37,7 @@ public class MenuOpenListener implements ActionListener {
 			try {
 				BufferedImage image = ImageIO.read(choosenFile);
 				terrain = generateDefaultTerrain(image.getWidth(), image.getHeight(), 30);
-				drawingPanel.setImage(image);
+				drawingPanel.setMap(image);
 				drawingPanel.resetTerrain(terrain);
 			} catch (IOException ignore) {
 			}

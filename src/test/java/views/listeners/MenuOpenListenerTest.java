@@ -12,6 +12,7 @@ import org.fest.assertions.api.Assertions;
 import org.junit.Test;
 
 import views.DrawingPanel;
+import views.btsrender.BtsImageRenderer;
 import calculations.BTS;
 import calculations.TerrainGenerator;
 import calculations.UniformRandomGenerator;
@@ -25,7 +26,7 @@ public class MenuOpenListenerTest {
 
 		TerrainGenerator tg = TerrainGenerator.getInstance();
 		tg.setRandomGenerator(randomGenerator);
-		DrawingPanel drawingPanel = new DrawingPanel();
+		DrawingPanel drawingPanel = new DrawingPanel(new BtsImageRenderer());
 
 		JFileChooser fc = mock(JFileChooser.class);
 		when(fc.showOpenDialog(drawingPanel)).thenReturn(JFileChooser.APPROVE_OPTION);
