@@ -41,12 +41,13 @@ public class Terrain {
 	}
 
 	public double signalLevel(BTS bts, Location l) {
-		double maxSignalLevel = bts.getMaxSignalLevel();
 		double distance = distance(bts, l);
-		if (distance == 0d)
-			return maxSignalLevel;
-
-		return maxSignalLevel * (1 - signalReduction(bts.getLocation(), l)) / Math.pow(distance, 2);
+        if(distance > bts.getRange())
+            return 0;
+        else if (distance == 0d)
+            return bts.getMaxSignalLevel();
+        else
+    		return bts.getMaxSignalLevel() * (1 - signalReduction(bts.getLocation(), l)) / Math.pow(distance, 2);
 	}
 
 	public double getSignalLevel(Location l) {
