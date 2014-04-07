@@ -76,4 +76,11 @@ public class BTS {
 		return String.format("BTS(%s, %s ,%s)", location, basebandResources, radioResources);
 	}
 
+    public int getRange() {
+        int maxRange = 0;
+        for(RadioResource r: radioResources)
+            if(maxRange < r.getRange()) maxRange = r.getRange();
+
+        return maxRange;
+    }
 }

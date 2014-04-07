@@ -53,9 +53,9 @@ public class TerrainGenerator {
 
 	public BTS getDefaultBTS() {
 		BTS bts = new BTS(Location.getInstance(0, 0));
-		bts.addBBResource(new BasebandResource(10e6));
-		bts.addRadioResource(new RadioResource());
-		bts.addRadioResource(new RadioResource());
+		bts.addBBResource(new BasebandResource(100000));
+		bts.addRadioResource(new RadioResource(50));
+		bts.addRadioResource(new RadioResource(50));
 
 		return bts;
 	}

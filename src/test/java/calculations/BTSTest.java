@@ -34,21 +34,32 @@ public class BTSTest {
 		Assert.assertEquals(bts.getBBResourceCount(), 10);
 	}
 
-	@Test
-	public void atStartupBTSShallNotContainRadioResources() {
-		Assert.assertEquals(bts.getRadioResourceCount(), 0);
-	}
+    @Test
+    public void atStartupBTSShallNotContainRadioResources() {
+        Assert.assertEquals(bts.getRadioResourceCount(), 0);
+    }
+
+    @Test
+    public void btsRangeIsMaxRadioRange() {
+        Assert.assertEquals(bts.getRange(), 0);
+
+        bts.addRadioResource(new RadioResource(10));
+        Assert.assertEquals(bts.getRange(), 10);
+
+        bts.addRadioResource(new RadioResource(100));
+        Assert.assertEquals(bts.getRange(), 100);
+    }
 
 	@Test
 	public void afterAddingSingleRadioResourceBTSContainsOneRadioResource() {
-		bts.addRadioResource(new RadioResource());
+		bts.addRadioResource(new RadioResource(10));
 		Assert.assertEquals(bts.getRadioResourceCount(), 1);
 	}
 
 	@Test
 	public void afterAddingTenRadioResourceBTSContainsTenRadioResource() {
 		for (int i = 0; i < 10; ++i)
-			bts.addRadioResource(new RadioResource());
+			bts.addRadioResource(new RadioResource(10));
 
 		Assert.assertEquals(bts.getRadioResourceCount(), 10);
 	}
@@ -56,7 +67,7 @@ public class BTSTest {
 	@Test
 	public void afterAddingTenRadioResourcesAndTenBBResourcesBTSContainsTenOfEach() {
 		for (int i = 0; i < 10; ++i)
-			bts.addRadioResource(new RadioResource());
+			bts.addRadioResource(new RadioResource(10));
 
 		for (int i = 0; i < 10; ++i)
 			bts.addBBResource(new BasebandResource(0));
@@ -81,7 +92,7 @@ public class BTSTest {
 
 	@Test
 	public void BTSWithoutBBResourcesEmitsNoSignal() {
-		bts.addRadioResource(new RadioResource());
+		bts.addRadioResource(new RadioResource(10));
 
 		Assert.assertEquals(bts.getMaxSignalLevel(), 0, 0.0001);
 	}
@@ -89,8 +100,8 @@ public class BTSTest {
 	@Test
 	public void signalLevelAtBTSLocationIsEqualToItsBBCapacityTimenumberOfRadioModules() {
 		bts.addBBResource(new BasebandResource(10));
-		bts.addRadioResource(new RadioResource());
-		bts.addRadioResource(new RadioResource());
+		bts.addRadioResource(new RadioResource(10));
+		bts.addRadioResource(new RadioResource(10));
 
 		Assert.assertEquals(bts.getMaxSignalLevel(), 20, 0.0001);
 	}
@@ -101,14 +112,14 @@ public class BTSTest {
 		BTS b1 = new BTS(Location.getInstance(5, 5));
 		b1.addBBResource(new BasebandResource(10d));
 		b1.addBBResource(new BasebandResource(20d));
-		b1.addRadioResource(new RadioResource());
-		b1.addRadioResource(new RadioResource());
+		b1.addRadioResource(new RadioResource(10));
+		b1.addRadioResource(new RadioResource(10));
 
 		BTS b2 = new BTS(Location.getInstance(5, 5));
 		b2.addBBResource(new BasebandResource(20d));
 		b2.addBBResource(new BasebandResource(10d));
-		b2.addRadioResource(new RadioResource());
-		b2.addRadioResource(new RadioResource());
+		b2.addRadioResource(new RadioResource(10));
+		b2.addRadioResource(new RadioResource(10));
 
 		// when
 		boolean isEqual = b1.equals(b2);

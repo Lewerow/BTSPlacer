@@ -35,9 +35,8 @@ public class BtsImageRenderer implements IBtsRenderer {
 		// int width, int height,
 		// ImageObserver observer
 
-		int width = 10;
-		int height = 10;
+		int range = bts.getRange();
 
-		g.drawImage(btsImage, (int) x - width / 2, (int) y - height / 2, width, height, null);
+		g.drawImage(btsImage, (int) x - range / 2, (int) y - range / 2, range, range, null);
 	}
 }

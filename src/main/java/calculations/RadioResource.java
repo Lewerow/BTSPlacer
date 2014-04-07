@@ -5,9 +5,25 @@ package calculations;
  */
 public class RadioResource {
 
+    private int range;
+
+    int getRange()
+    {
+        return range;
+    }
+
+    RadioResource(int newRange)
+    {
+        range = newRange;
+    }
+
 	@Override
 	public boolean equals(Object obj) {
-		return true;
+        if (obj instanceof Location) {
+            RadioResource rhs = (RadioResource) obj;
+            return rhs.getRange() == range;
+        }
+        return false;
 	}
 
 	@Override

@@ -52,12 +52,12 @@ public class TerrainTest {
 	public void totalSignalLevelIsSumOfSignalLevelsOfEachBTS() {
 		BTS bts1 = new BTS(Location.getInstance(10, 10));
 		bts1.addBBResource(new BasebandResource(100));
-		bts1.addRadioResource(new RadioResource());
+		bts1.addRadioResource(new RadioResource(10));
 
 		BTS bts2 = new BTS(Location.getInstance(20, 10));
 		bts2.addBBResource(new BasebandResource(599));
-		bts2.addRadioResource(new RadioResource());
-		bts2.addRadioResource(new RadioResource());
+		bts2.addRadioResource(new RadioResource(10));
+		bts2.addRadioResource(new RadioResource(10));
 
 		terrain.addBTS(bts1);
 		terrain.addBTS(bts2);
@@ -71,12 +71,12 @@ public class TerrainTest {
 		// given
 		BTS bts1 = new BTS(Location.getInstance(20, 10));
 		bts1.addBBResource(new BasebandResource(599));
-		bts1.addRadioResource(new RadioResource());
-		bts1.addRadioResource(new RadioResource());
+		bts1.addRadioResource(new RadioResource(10));
+		bts1.addRadioResource(new RadioResource(10));
 
 		BTS bts2 = new BTS(Location.getInstance(40, 20));
 		bts2.addBBResource(new BasebandResource(20));
-		bts2.addRadioResource(new RadioResource());
+		bts2.addRadioResource(new RadioResource(10));
 
 		terrain.addBTS(bts1);
 		terrain.addBTS(bts2);
