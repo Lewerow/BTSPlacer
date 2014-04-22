@@ -40,6 +40,9 @@ public class TerrainTest {
 		RadioResource rr1 = Mockito.mock(RadioResource.class);
 		RadioResource rr2 = Mockito.mock(RadioResource.class);
 
+        Mockito.when(rr1.getRange()).thenReturn(10);
+        Mockito.when(rr2.getRange()).thenReturn(10);
+
 		bts.addRadioResource(rr1);
 		bts.addRadioResource(rr2);
 
@@ -48,23 +51,23 @@ public class TerrainTest {
 		Mockito.verify(bb, times(2)).getCapacity();
 	}
 
-	@Test
-	public void totalSignalLevelIsSumOfSignalLevelsOfEachBTS() {
-		BTS bts1 = new BTS(Location.getInstance(10, 10));
-		bts1.addBBResource(new BasebandResource(100));
-		bts1.addRadioResource(new RadioResource(10));
+    @Test
+    public void totalSignalLevelIsSumOfSignalLevelsOfAllBTSsInRange() {
+        BTS bts1 = new BTS(Location.getInstance(10, 10));
+        bts1.addBBResource(new BasebandResource(100));
+        bts1.addRadioResource(new RadioResource(10));
 
-		BTS bts2 = new BTS(Location.getInstance(20, 10));
-		bts2.addBBResource(new BasebandResource(599));
-		bts2.addRadioResource(new RadioResource(10));
-		bts2.addRadioResource(new RadioResource(10));
+        BTS bts2 = new BTS(Location.getInstance(20, 10));
+        bts2.addBBResource(new BasebandResource(599));
+        bts2.addRadioResource(new RadioResource(20));
+        bts2.addRadioResource(new RadioResource(10));
 
-		terrain.addBTS(bts1);
-		terrain.addBTS(bts2);
+        terrain.addBTS(bts1);
+        terrain.addBTS(bts2);
 
-		double expectedSignalLevel = bts1.getMaxSignalLevel() * 1.0 / 100 + bts2.getMaxSignalLevel() * 1.0 / 400;
-		Assert.assertEquals(expectedSignalLevel, terrain.getSignalLevel(Location.getInstance(0, 10)), 0.001);
-	}
+        double expectedSignalLevel = bts1.getMaxSignalLevel() * 1.0 / 100 + bts2.getMaxSignalLevel() * 1.0 / 400;
+        Assert.assertEquals(expectedSignalLevel, terrain.getSignalLevel(Location.getInstance(0, 10)), 0.001);
+    }
 
 	@Test
 	public void shouldFindMaxAvailableSignalLevel() {

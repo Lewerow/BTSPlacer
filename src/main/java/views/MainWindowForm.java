@@ -66,8 +66,8 @@ public class MainWindowForm extends JFrame {
 
 	private void initComponents() {
 		fc.setFileFilter(new FileNameExtensionFilter("JPG File", "jpg"));
-		File runPath = new File(MainWindowForm.class.getProtectionDomain().getCodeSource()
-				.getLocation().getPath());
+		File runPath = new File(""/*MainWindowForm.class.getProtectionDomain().getCodeSource()
+				.getLocation().getPath()*/);
 		fc.setCurrentDirectory(runPath);
 		loadFileButton.addActionListener(new MenuOpenListener(fc, (DrawingPanel) drawingPanel));
 		btsNumberSpinner.addChangeListener(new BtsSpinnerListener(btsNumberSpinner,

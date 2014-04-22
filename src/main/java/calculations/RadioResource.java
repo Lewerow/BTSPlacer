@@ -19,9 +19,9 @@ public class RadioResource {
 
 	@Override
 	public boolean equals(Object obj) {
-        if (obj instanceof Location) {
+        if (obj instanceof RadioResource) {
             RadioResource rhs = (RadioResource) obj;
-            return rhs.getRange() == range;
+            return range == rhs.getRange();
         }
         return false;
 	}

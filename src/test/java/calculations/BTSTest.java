@@ -116,15 +116,12 @@ public class BTSTest {
 		b1.addRadioResource(new RadioResource(10));
 
 		BTS b2 = new BTS(Location.getInstance(5, 5));
+        b2.addBBResource(new BasebandResource(10d));
 		b2.addBBResource(new BasebandResource(20d));
-		b2.addBBResource(new BasebandResource(10d));
 		b2.addRadioResource(new RadioResource(10));
 		b2.addRadioResource(new RadioResource(10));
-
-		// when
-		boolean isEqual = b1.equals(b2);
 
 		// then
-		Assertions.assertThat(isEqual).isTrue();
+		Assertions.assertThat(b1.equals(b2)).isTrue();
 	}
 }
