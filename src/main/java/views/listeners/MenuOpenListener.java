@@ -32,10 +32,10 @@ public class MenuOpenListener implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (fc.showOpenDialog(drawingPanel) == JFileChooser.APPROVE_OPTION) {
-			File choosenFile = fc.getSelectedFile();
+			File chosenFile = fc.getSelectedFile();
 
 			try {
-				BufferedImage image = ImageIO.read(choosenFile);
+				BufferedImage image = ImageIO.read(chosenFile);
 				terrain = generateDefaultTerrain(image.getWidth(), image.getHeight(), 30);
 				drawingPanel.setMap(image);
 				drawingPanel.resetTerrain(terrain);

@@ -52,7 +52,6 @@ public class DrawingPanel extends JPanel implements TerrainDisplayer {
 		super.paint(g);
 		if (map != null) {
 			g.drawImage(map, 0, 0, null);
-
 			if (terrain != null) {
 				drawTerrain(g);
 			}
