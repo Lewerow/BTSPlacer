@@ -8,7 +8,6 @@ import java.util.List;
 import javax.swing.JPanel;
 
 import views.btsrender.BtsImageRenderer;
-import views.btsrender.BtsRecursiveRenderer;
 import views.btsrender.IBtsRenderer;
 import calculations.BTS;
 import calculations.Terrain;
@@ -16,6 +15,7 @@ import calculations.Terrain;
 /**
  * Created by user on 01.04.14.
  */
+@Deprecated
 public class DrawingPanel extends JPanel implements TerrainDisplayer {
 
 	private static final long serialVersionUID = -6523291909292131059L;
@@ -29,9 +29,7 @@ public class DrawingPanel extends JPanel implements TerrainDisplayer {
 			// default bts renderer
 			this.btsRenderer = new BtsImageRenderer();
 		} catch (IOException e) {
-			System.err
-					.println("Could not render btss using image, recursive rendering will be used");
-			btsRenderer = new BtsRecursiveRenderer();
+			e.printStackTrace();
 		}
 	}
 

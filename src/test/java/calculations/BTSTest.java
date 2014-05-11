@@ -10,10 +10,10 @@ import org.junit.Test;
  */
 public class BTSTest {
 
-	Location btsLocation = Location.getInstance(0, 0);
-	Location l = Location.getInstance(0, 10);
-	Terrain t = new Terrain(40, 30);
-	BTS bts = new BTS(btsLocation);
+	PlacerLocation btsLocation = PlacerLocation.getInstance(0, 0);
+	PlacerLocation l = PlacerLocation.getInstance(0, 10);
+	Terrain t = new Terrain();
+	BTS bts = new BTS(btsLocation, BtsType.CIRCULAR);
 
 	@Test
 	public void atStartupBTSShallNotContainBBResources() {
@@ -34,21 +34,21 @@ public class BTSTest {
 		Assert.assertEquals(bts.getBBResourceCount(), 10);
 	}
 
-    @Test
-    public void atStartupBTSShallNotContainRadioResources() {
-        Assert.assertEquals(bts.getRadioResourceCount(), 0);
-    }
+	@Test
+	public void atStartupBTSShallNotContainRadioResources() {
+		Assert.assertEquals(bts.getRadioResourceCount(), 0);
+	}
 
-    @Test
-    public void btsRangeIsMaxRadioRange() {
-        Assert.assertEquals(bts.getRange(), 0);
+	@Test
+	public void btsRangeIsMaxRadioRange() {
+		Assert.assertEquals(bts.getRange(), 0);
 
-        bts.addRadioResource(new RadioResource(10));
-        Assert.assertEquals(bts.getRange(), 10);
+		bts.addRadioResource(new RadioResource(10));
+		Assert.assertEquals(bts.getRange(), 10);
 
-        bts.addRadioResource(new RadioResource(100));
-        Assert.assertEquals(bts.getRange(), 100);
-    }
+		bts.addRadioResource(new RadioResource(100));
+		Assert.assertEquals(bts.getRange(), 100);
+	}
 
 	@Test
 	public void afterAddingSingleRadioResourceBTSContainsOneRadioResource() {
@@ -109,14 +109,14 @@ public class BTSTest {
 	@Test
 	public void shouldBeEqual() {
 		// given
-		BTS b1 = new BTS(Location.getInstance(5, 5));
+		BTS b1 = new BTS(PlacerLocation.getInstance(5, 5), BtsType.CIRCULAR);
 		b1.addBBResource(new BasebandResource(10d));
 		b1.addBBResource(new BasebandResource(20d));
 		b1.addRadioResource(new RadioResource(10));
 		b1.addRadioResource(new RadioResource(10));
 
-		BTS b2 = new BTS(Location.getInstance(5, 5));
-        b2.addBBResource(new BasebandResource(10d));
+		BTS b2 = new BTS(PlacerLocation.getInstance(5, 5), BtsType.CIRCULAR);
+		b2.addBBResource(new BasebandResource(10d));
 		b2.addBBResource(new BasebandResource(20d));
 		b2.addRadioResource(new RadioResource(10));
 		b2.addRadioResource(new RadioResource(10));

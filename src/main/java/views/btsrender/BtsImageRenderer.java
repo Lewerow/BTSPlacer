@@ -7,7 +7,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 import calculations.BTS;
-import calculations.Location;
+import calculations.PlacerLocation;
 import calculations.Terrain;
 
 public class BtsImageRenderer implements IBtsRenderer {
@@ -26,7 +26,7 @@ public class BtsImageRenderer implements IBtsRenderer {
 
 	@Override
 	public void drawBts(Graphics g, BTS bts) {
-		Location location = bts.getLocation();
+		PlacerLocation location = bts.getLocation();
 		double x = location.getX();
 		double y = location.getY();
 

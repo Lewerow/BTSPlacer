@@ -4,23 +4,23 @@ import javax.swing.JSpinner;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import views.TerrainDisplayer;
+import views.map.MapApplet;
 import calculations.TerrainGenerator;
 
 public class BtsSpinnerListener implements ChangeListener {
 
 	private final TerrainGenerator tg = TerrainGenerator.getInstance();
 	private final JSpinner btsCounter;
-	private final TerrainDisplayer terrainDisplayer;
+	private final MapApplet mapApplet;
 
-	public BtsSpinnerListener(JSpinner btsCounter, TerrainDisplayer terrainDisplayer) {
+	public BtsSpinnerListener(JSpinner btsCounter, MapApplet mapApplet) {
 		this.btsCounter = btsCounter;
-		this.terrainDisplayer = terrainDisplayer;
+		this.mapApplet = mapApplet;
 	}
 
 	@Override
 	public void stateChanged(ChangeEvent e) {
 		tg.setBtsCount((Integer) btsCounter.getValue());
-		terrainDisplayer.resetTerrain(tg.regenerateTerrain());
+		mapApplet.resetTerrain(tg.regenerateTerrain());
 	}
 }

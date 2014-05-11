@@ -9,17 +9,9 @@ import com.google.common.collect.Lists;
  */
 public class Terrain {
 	private final List<BTS> btss = Lists.newLinkedList();
-	private final double maxX;
-	private final double maxY;
-
-	public Terrain(double maxX, double maxY) {
-		this.maxX = maxX;
-		this.maxY = maxY;
-	}
 
 	public void addBTS(BTS bts) {
 		assert bts.getLocation() != null : "BTS must have a location before placing on terrain!";
-		assert bts.getLocation().getX() <= maxX && bts.getLocation().getY() <= maxY : "BTS must be inside terrain boundaries!";
 		btss.add(bts);
 	}
 
@@ -27,43 +19,36 @@ public class Terrain {
 		return btss;
 	}
 
-	public double distance(Location l1, Location l2) {
+	public double distance(PlacerLocation l1, PlacerLocation l2) {
 		return l1.cartesianDistance(l2);
 	}
 
-	public double signalReduction(Location l1, Location l2) {
+	public double signalReduction(PlacerLocation l1, PlacerLocation l2) {
 		// TODO implementation
 		return 0;
 	}
 
-	public double distance(BTS bts, Location l) {
+	public double distance(BTS bts, PlacerLocation l) {
 		return distance(bts.getLocation(), l);
 	}
 
-	public double signalLevel(BTS bts, Location l) {
+	public double signalLevel(BTS bts, PlacerLocation l) {
 		double distance = distance(bts, l);
-        if(distance > bts.getRange())
-            return 0;
-        else if (distance == 0d)
-            return bts.getMaxSignalLevel();
-        else
-    		return bts.getMaxSignalLevel() * (1 - signalReduction(bts.getLocation(), l)) / Math.pow(distance, 2);
+		if (distance > bts.getRange())
+			return 0;
+		else if (distance == 0d)
+			return bts.getMaxSignalLevel();
+		else
+			return bts.getMaxSignalLevel() * (1 - signalReduction(bts.getLocation(), l))
+					/ Math.pow(distance, 2);
 	}
 
-	public double getSignalLevel(Location l) {
+	public double getSignalLevel(PlacerLocation l) {
 		double signal = 0;
 		for (BTS bts : btss) {
 			signal += signalLevel(bts, l);
 		}
 		return signal;
-	}
-
-	public double getMaxX() {
-		return maxX;
-	}
-
-	public double getMaxY() {
-		return maxY;
 	}
 
 	public double getMaxAvailableSignalLevel() {

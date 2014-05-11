@@ -5,6 +5,7 @@ import java.awt.Graphics;
 import calculations.BTS;
 import calculations.Terrain;
 
+@Deprecated
 public interface IBtsRenderer {
 
 	public void setTerrain(Terrain terrain);

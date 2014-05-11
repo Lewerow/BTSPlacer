@@ -10,10 +10,10 @@ import com.google.common.collect.Lists;
  */
 public class TerrainGenerator {
 
+	private static final double maxXfromWroclaw = 0.05;
+	private static final double maxYfromWroclaw = 0.05;
 	private static TerrainGenerator REFERENCE;
 	private RandomGenerator randomGenerator;
-	private int currentWidth;
-	private int currentHeight;
 	private int btsCount;
 
 	public static TerrainGenerator getInstance() {
@@ -34,14 +34,14 @@ public class TerrainGenerator {
 		this.randomGenerator = randomGenerator;
 	}
 
-	public Terrain generateTerrain(double maxX, double maxY, List<BTS> availableBTSs) {
-		Terrain result = new Terrain(maxX, maxY);
+	public Terrain generateTerrain(List<BTS> availableBTSs) {
+		Terrain result = new Terrain();
 		if (availableBTSs == null)
 			return result;
 
 		LocationRandomizer randomizer = new LocationRandomizer(randomGenerator);
 		for (BTS bts : availableBTSs) {
-			Location l = randomizer.randomLocation(maxX, maxY);
+			PlacerLocation l = randomizer.randomLocation(maxXfromWroclaw, maxYfromWroclaw);
 			assert l != null : "WTF? Randomizer must return SOME location!";
 
 			bts.setLocation(l);
@@ -52,7 +52,7 @@ public class TerrainGenerator {
 	}
 
 	public BTS getDefaultBTS() {
-		BTS bts = new BTS(Location.getInstance(0, 0));
+		BTS bts = new BTS(PlacerLocation.getInstance(0, 0), BtsType.CIRCULAR);
 		bts.addBBResource(new BasebandResource(100000));
 		bts.addRadioResource(new RadioResource(50));
 		bts.addRadioResource(new RadioResource(50));
@@ -60,9 +60,7 @@ public class TerrainGenerator {
 		return bts;
 	}
 
-	public Terrain generateTerrainWithDefaultBTSs(int maxX, int maxY, int btsCount) {
-		currentHeight = maxY;
-		currentWidth = maxX;
+	public Terrain generateTerrainWithDefaultBTSs(int btsCount) {
 		this.btsCount = btsCount;
 
 		assert btsCount >= 0 : "Cannot set negative number of BTSes!";
@@ -71,15 +69,15 @@ public class TerrainGenerator {
 		for (int i = 0; i < btsCount; ++i)
 			btss.add(getDefaultBTS());
 
-		return generateTerrain(maxX, maxY, btss);
+		return generateTerrain(btss);
 	}
 
 	public Terrain regenerateTerrain() {
-		LinkedList<BTS> btss = new LinkedList<BTS>();
+		List<BTS> btss = Lists.newArrayList();
 		for (int i = 0; i < btsCount; ++i)
 			btss.add(getDefaultBTS());
 
-		return generateTerrainWithDefaultBTSs(currentWidth, currentHeight, btsCount);
+		return generateTerrainWithDefaultBTSs(btsCount);
 	}
 
 	public void setBtsCount(Integer i) {

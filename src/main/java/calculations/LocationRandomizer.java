@@ -15,11 +15,11 @@ public class LocationRandomizer {
 		this.randomGenerator = randomGenerator;
 	}
 
-	public Location randomLocation(double maxX, double maxY) {
+	public PlacerLocation randomLocation(double maxX, double maxY) {
 		double x = randomGenerator.getDouble(maxX);
 		double y = randomGenerator.getDouble(maxY);
-		double baseX = Location.getWroclawLocation().getX();
-		double baseY = Location.getWroclawLocation().getY();
-		return Location.getInstance(baseX + x, baseY + y);
+		double baseX = PlacerLocation.getWroclawLocation().getX();
+		double baseY = PlacerLocation.getWroclawLocation().getY();
+		return PlacerLocation.getInstance(baseX + x, baseY + y);
 	}
 }
