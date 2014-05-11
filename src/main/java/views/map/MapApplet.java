@@ -100,7 +100,7 @@ public class MapApplet extends PApplet {
 			System.out.println("Fast changing spinner value made this exception.");
 			System.out.println("Give some rest !");
 			try {
-				Thread.sleep(2000);
+				Thread.sleep(1000);
 			} catch (InterruptedException e1) {
 				// do nothing
 			}
