@@ -12,6 +12,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.SwingUtilities;
 
+import calculations.SubscriberCenter;
 import processing.core.PApplet;
 import calculations.BTS;
 import calculations.BtsType;
@@ -31,7 +32,8 @@ import de.fhpotsdam.unfolding.utils.MapUtils;
 
 public class MapApplet extends PApplet {
 	private final Dimension size;
-	private final MarkerManager<Marker> btsMarkerManager;
+    private final MarkerManager<Marker> btsMarkerManager;
+    private final MarkerManager<Marker> subscriberCenterMarkerManager;
 	private UnfoldingMap map;
 	private ArrayList<AbstractMapTileUrlProvider> providers;
 	private JPopupMenu popupMenu;
@@ -40,6 +42,7 @@ public class MapApplet extends PApplet {
 		super();
 		this.size = dimension;
 		btsMarkerManager = new MarkerManager<Marker>();
+        subscriberCenterMarkerManager = new MarkerManager<Marker>();
 		init();
 	}
 
@@ -83,7 +86,8 @@ public class MapApplet extends PApplet {
 			}
 		});
 
-		map.addMarkerManager(btsMarkerManager);
+        map.addMarkerManager(btsMarkerManager);
+        map.addMarkerManager(subscriberCenterMarkerManager);
 	}
 
 	@Override
@@ -108,9 +112,13 @@ public class MapApplet extends PApplet {
 		}
 	}
 
-	public void addBtsMarker(Location location) {
-		btsMarkerManager.addMarker(new BTS(location, BtsType.CIRCULAR));
-	}
+    public void addBtsMarker(Location location) {
+        btsMarkerManager.addMarker(new BTS(location, BtsType.CIRCULAR));
+    }
+
+    public void addSubscriberCenterMarker(Location location) {
+        subscriberCenterMarkerManager.addMarker(new SubscriberCenter(1000.0, location, 0.5, 0.5));
+    }
 
 	public void addBtsMarker(Location location, BtsType type) {
 		btsMarkerManager.addMarker(new BTS(location, type));

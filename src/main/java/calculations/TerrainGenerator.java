@@ -15,8 +15,9 @@ public class TerrainGenerator {
 	private static TerrainGenerator REFERENCE;
 	private RandomGenerator randomGenerator;
 	private int btsCount;
+    private int subscriberCenterCount;
 
-	public static TerrainGenerator getInstance() {
+    public static TerrainGenerator getInstance() {
 		if (REFERENCE == null) {
 			REFERENCE = new TerrainGenerator();
 		}
@@ -34,33 +35,46 @@ public class TerrainGenerator {
 		this.randomGenerator = randomGenerator;
 	}
 
-	public Terrain generateTerrain(List<BTS> availableBTSs) {
+	public Terrain generateTerrain(List<BTS> availableBTSs, List<SubscriberCenter> availableSCs) {
 		Terrain result = new Terrain();
 		if (availableBTSs == null)
 			return result;
 
 		LocationRandomizer randomizer = new LocationRandomizer(randomGenerator);
-		for (BTS bts : availableBTSs) {
-			PlacerLocation l = randomizer.randomLocation(maxXfromWroclaw, maxYfromWroclaw);
-			assert l != null : "WTF? Randomizer must return SOME location!";
+        for (BTS bts : availableBTSs) {
+            PlacerLocation l = randomizer.randomLocation(maxXfromWroclaw, maxYfromWroclaw);
+            assert l != null : "WTF? Randomizer must return SOME location!";
 
-			bts.setLocation(l);
-			result.addBTS(bts);
-		}
+            bts.setLocation(l);
+            result.addBTS(bts);
+        }
 
-		return result;
+        for (SubscriberCenter sc : availableSCs) {
+            PlacerLocation l = randomizer.randomLocation(maxXfromWroclaw, maxYfromWroclaw);
+            assert l != null : "WTF? Randomizer must return SOME location!";
+
+            sc.setLocation(l);
+            result.addSubscriberCenter(sc);
+        }
+
+        return result;
 	}
 
-	public BTS getDefaultBTS() {
-		BTS bts = new BTS(PlacerLocation.getInstance(0, 0), BtsType.CIRCULAR);
-		bts.addBBResource(new BasebandResource(100000));
-		bts.addRadioResource(new RadioResource(50));
-		bts.addRadioResource(new RadioResource(50));
+    public BTS getDefaultBTS() {
+        BTS bts = new BTS(PlacerLocation.getInstance(0, 0), BtsType.CIRCULAR);
+        bts.addBBResource(new BasebandResource(100000));
+        bts.addRadioResource(new RadioResource(50));
+        bts.addRadioResource(new RadioResource(50));
 
-		return bts;
-	}
+        return bts;
+    }
 
-	public Terrain generateTerrainWithDefaultBTSs(int btsCount) {
+    public SubscriberCenter getDefaultSC() {
+        SubscriberCenter sc = new SubscriberCenter(1000.0, PlacerLocation.getInstance(0, 0), 0.5, 0.5);
+        return sc;
+    }
+
+    public Terrain generateTerrainWithDefaultBTSs(int btsCount) {
 		this.btsCount = btsCount;
 
 		assert btsCount >= 0 : "Cannot set negative number of BTSes!";
@@ -69,7 +83,11 @@ public class TerrainGenerator {
 		for (int i = 0; i < btsCount; ++i)
 			btss.add(getDefaultBTS());
 
-		return generateTerrain(btss);
+        LinkedList<SubscriberCenter> scs = Lists.newLinkedList();
+        for(int i = 0; i < subscriberCenterCount; ++i)
+            scs.add(getDefaultSC());
+        
+		return generateTerrain(btss, scs);
 	}
 
 	public Terrain regenerateTerrain() {
@@ -80,8 +98,10 @@ public class TerrainGenerator {
 		return generateTerrainWithDefaultBTSs(btsCount);
 	}
 
-	public void setBtsCount(Integer i) {
-		btsCount = i;
-	}
+    public void setBtsCount(Integer i) {
+        btsCount = i;
+    }
+    public void setSubscriberCenterCount(Integer i)
+    { subscriberCenterCount = i; }
 
 }

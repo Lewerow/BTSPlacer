@@ -9,15 +9,24 @@ import com.google.common.collect.Lists;
  */
 public class Terrain {
 	private final List<BTS> btss = Lists.newLinkedList();
+    private final List<SubscriberCenter> subscriberCenters = Lists.newLinkedList();
 
-	public void addBTS(BTS bts) {
-		assert bts.getLocation() != null : "BTS must have a location before placing on terrain!";
-		btss.add(bts);
-	}
+    public void addBTS(BTS bts) {
+        assert bts.getLocation() != null : "BTS must have a location before placing on terrain!";
+        btss.add(bts);
+    }
+    public void addSubscriberCenter(SubscriberCenter sc) {
+        assert sc.getLocation() != null : "SubscriberCenter must have a location before placing on terrain!";
+        subscriberCenters.add(sc);
+    }
 
-	public List<BTS> getBtss() {
-		return btss;
-	}
+    public List<BTS> getBtss() {
+        return btss;
+    }
+
+    public List<SubscriberCenter> getSubscriberCenters() {
+        return subscriberCenters;
+    }
 
 	public double distance(PlacerLocation l1, PlacerLocation l2) {
 		return l1.cartesianDistance(l2);
@@ -42,6 +51,17 @@ public class Terrain {
 			return bts.getMaxSignalLevel() * (1 - signalReduction(bts.getLocation(), l))
 					/ Math.pow(distance, 2);
 	}
+
+    public double getRequiredSignalLevel(PlacerLocation l)
+    {
+        double requested = 0;
+        for(SubscriberCenter sc : subscriberCenters)
+        {
+            requested += sc.getRequiredSignalAt(l);
+        }
+
+        return requested;
+    }
 
 	public double getSignalLevel(PlacerLocation l) {
 		double signal = 0;

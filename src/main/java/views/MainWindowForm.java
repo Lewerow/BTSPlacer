@@ -32,6 +32,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import views.listeners.BtsSpinnerListener;
 import views.listeners.GenerateDistributionListener;
 import views.listeners.MenuOpenListener;
+import views.listeners.SubscriberCenterSpinnerListener;
 import views.map.MapApplet;
 import calculations.Terrain;
 
@@ -52,7 +53,8 @@ public class MainWindowForm extends JFrame {
 	private JScrollPane mainScrollPane = new JScrollPane();
 	private JTabbedPane mainTabPanel;
 	private JCheckBox showUsersCheckBox;
-	private MapApplet mapApplet;
+    private JSpinner numberOfSubscriberCenters = new JSpinner();
+    private MapApplet mapApplet;
 
 	public MainWindowForm() {
 		$$$setupUI$$$();
@@ -86,6 +88,8 @@ public class MainWindowForm extends JFrame {
 		spinnerModel.setMinimum(0);
 		spinnerModel.setValue(30);
 		btsNumberSpinner.setModel(spinnerModel);
+        numberOfSubscriberCenters.addChangeListener(new SubscriberCenterSpinnerListener(numberOfSubscriberCenters, mapApplet));
+        numberOfSubscriberCenters.setModel(spinnerModel);
 		generateDistributionButton.addActionListener(new GenerateDistributionListener(mapApplet));
 		setJMenuBar(createJMenuBar());
 
