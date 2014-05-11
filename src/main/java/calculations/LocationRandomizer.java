@@ -18,7 +18,8 @@ public class LocationRandomizer {
 	public Location randomLocation(double maxX, double maxY) {
 		double x = randomGenerator.getDouble(maxX);
 		double y = randomGenerator.getDouble(maxY);
-
-		return Location.getInstance(x, y);
+		double baseX = Location.getWroclawLocation().getX();
+		double baseY = Location.getWroclawLocation().getY();
+		return Location.getInstance(baseX + x, baseY + y);
 	}
 }

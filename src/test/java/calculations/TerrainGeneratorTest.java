@@ -37,6 +37,9 @@ public class TerrainGeneratorTest {
 		Mockito.when(gen.getDouble(Mockito.any(Double.class))).thenReturn(5.0);
 
 		Terrain t = tGen.generateTerrain(10, 10, btsList);
-		Assert.assertEquals(t.getSignalLevel(Location.getInstance(5, 5)), 100.0, 0.0001);
+		double baseX = Location.getWroclawLocation().getX();
+		double baseY = Location.getWroclawLocation().getY();
+		Assert.assertEquals(t.getSignalLevel(Location.getInstance(baseX + 5d, baseY + 5d)), 100.0,
+				0.0001);
 	}
 }

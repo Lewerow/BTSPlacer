@@ -13,6 +13,7 @@ import com.google.common.collect.Maps;
  */
 public class Location {
 
+	private static final Location wroclawLocation = new Location(51.110141, 17.033153);
 	private static final Map<String, Location> objects = Maps.newHashMap();
 	private final double x;
 	private final double y;
@@ -25,6 +26,10 @@ public class Location {
 		Location l = new Location(x, y);
 		objects.put(key, l);
 		return l;
+	}
+
+	public static Location getWroclawLocation() {
+		return wroclawLocation;
 	}
 
 	private Location(double x, double y) {
