@@ -7,7 +7,6 @@ import de.fhpotsdam.unfolding.marker.Marker;
 import de.fhpotsdam.unfolding.marker.MarkerManager;
 import de.fhpotsdam.unfolding.providers.*;
 import de.fhpotsdam.unfolding.utils.MapUtils;
-import de.fhpotsdam.unfolding.utils.ScreenPosition;
 import processing.core.PApplet;
 
 import javax.swing.*;
@@ -24,7 +23,7 @@ public class MapApplet extends PApplet {
     private final MarkerManager<Marker> btsMarkerManager;
     private UnfoldingMap map;
     private ArrayList<AbstractMapTileUrlProvider> providers;
-    private JPopupMenu popumMenu;
+    private JPopupMenu popupMenu;
 
     public MapApplet(Dimension dimension) {
         super();
@@ -33,7 +32,7 @@ public class MapApplet extends PApplet {
         init();
     }
 
-    private JMenuItem createMicrosoftMapProviderItem(String name, final int i) {
+    private JMenuItem createMapProviderItem(String name, final int i) {
         JMenuItem menuItem = new JMenuItem(name);
         menuItem.addActionListener(new ActionListener() {
             @Override
@@ -49,9 +48,9 @@ public class MapApplet extends PApplet {
         size(size.width, size.height);
 
         providers = Lists.newArrayList(new Google.GoogleMapProvider(), new Microsoft.AerialProvider(), new OpenStreetMap.OSMGrayProvider(), new OpenStreetMap.OpenStreetMapProvider());
-        popumMenu = new JPopupMenu();
-        popumMenu.add(createMicrosoftMapProviderItem("Google", 0));
-        popumMenu.add(createMicrosoftMapProviderItem("OpenStreetMaps", 2));
+        popupMenu = new JPopupMenu();
+        popupMenu.add(createMapProviderItem("Google", 0));
+        popupMenu.add(createMapProviderItem("OpenStreetMaps", 2));
 
 
         map = new UnfoldingMap(this, providers.get(0));
@@ -66,7 +65,7 @@ public class MapApplet extends PApplet {
             @Override
             public void mouseClicked(MouseEvent e) {
                 if (SwingUtilities.isRightMouseButton(e)) {
-                    popumMenu.show(e.getComponent(), e.getX(), e.getY());
+                    popupMenu.show(e.getComponent(), e.getX(), e.getY());
                 }
             }
         });
@@ -77,7 +76,6 @@ public class MapApplet extends PApplet {
     @Override
     public void mouseClicked(MouseEvent e) {
         super.mouseClicked(e);
-        System.out.println(map.getLocation(new ScreenPosition(e.getX(),e.getY())));
     }
 
     @Override

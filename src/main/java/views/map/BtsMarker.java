@@ -15,7 +15,6 @@ import java.util.Random;
 public class BtsMarker extends AbstractMarker {
 
     private static final Color outOfOrder = Color.red;
-    private static final Color degraded = Color.yellow;
     private static final Color activeColor = Color.blue;
     private static final int alpha = 20;
 

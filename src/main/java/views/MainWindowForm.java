@@ -11,14 +11,14 @@ import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import com.intellij.uiDesigner.core.GridConstraints;
+import com.intellij.uiDesigner.core.GridLayoutManager;
 import de.fhpotsdam.unfolding.geo.Location;
 import views.listeners.BtsSpinnerListener;
 import views.listeners.GenerateDistributionListener;
 import views.listeners.MenuOpenListener;
 import calculations.Terrain;
 
-import com.intellij.uiDesigner.core.GridConstraints;
-import com.intellij.uiDesigner.core.GridLayoutManager;
 import views.map.BtsMarker;
 import views.map.MapApplet;
 
@@ -35,6 +35,7 @@ public class MainWindowForm extends JFrame {
     private final JPanel drawingPanel = new DrawingPanel();
     private JScrollPane mainScrollPane = new JScrollPane();
     private JTabbedPane mainTabPanel;
+    private JCheckBox showUsersCheckBox;
     private MapApplet mapApplet;
 
     public MainWindowForm() {
@@ -72,10 +73,14 @@ public class MainWindowForm extends JFrame {
 
         mapApplet = new MapApplet(mainTabPanel.getSize());
         mainTabPanel.addTab("Map", mapApplet);
+        drawExampleBTSes();
+        showUsersCheckBox.setText(ResourceBundle.getBundle("language").getString("Show_users"));
+    }
+
+    private void drawExampleBTSes() {
         mapApplet.addBtsMarker(new Location(51.111, 17.031), BtsMarker.Type.DIRECTIONAL);
         mapApplet.addBtsMarker(new Location(51.108, 17.034), BtsMarker.Type.CIRCULAR);
         mapApplet.addBtsMarker(new Location(51.111, 17.041), BtsMarker.Type.CIRCULAR);
-
     }
 
     private JMenuBar createJMenuBar() {
@@ -140,14 +145,14 @@ public class MainWindowForm extends JFrame {
         mainPanel.setPreferredSize(new Dimension(1000, 800));
         mainPanel.setRequestFocusEnabled(true);
         final JPanel panel1 = new JPanel();
-        panel1.setLayout(new GridLayoutManager(3, 2, new Insets(0, 0, 0, 0), -1, -1));
+        panel1.setLayout(new GridLayoutManager(4, 2, new Insets(0, 0, 0, 0), -1, -1));
         mainPanel.add(panel1, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         panel1.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), ResourceBundle.getBundle("language").getString("BTS_configuration_panel"), TitledBorder.CENTER, TitledBorder.DEFAULT_POSITION));
         generateDistributionButton = new JButton();
         generateDistributionButton.setActionCommand(ResourceBundle.getBundle("language").getString("Generate_random_BTS_distribution"));
         generateDistributionButton.setLabel(ResourceBundle.getBundle("language").getString("Generate_random_BTS_distribution"));
         generateDistributionButton.setText("Generate random BTS distribution");
-        panel1.add(generateDistributionButton, new GridConstraints(2, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        panel1.add(generateDistributionButton, new GridConstraints(3, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         panel1.add(btsNumberSpinner, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JLabel label1 = new JLabel();
         this.$$$loadLabelText$$$(label1, ResourceBundle.getBundle("language").getString("BTS_number"));
@@ -155,7 +160,10 @@ public class MainWindowForm extends JFrame {
         loadFileButton = new JButton();
         loadFileButton.setActionCommand(ResourceBundle.getBundle("language").getString("Load_map"));
         this.$$$loadButtonText$$$(loadFileButton, ResourceBundle.getBundle("language").getString("MenuBar_file_openFile"));
-        panel1.add(loadFileButton, new GridConstraints(1, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        panel1.add(loadFileButton, new GridConstraints(2, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        showUsersCheckBox = new JCheckBox();
+        showUsersCheckBox.setText("Show users");
+        panel1.add(showUsersCheckBox, new GridConstraints(1, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         mainTabPanel = new JTabbedPane();
         mainPanel.add(mainTabPanel, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, new Dimension(200, 200), null, 0, false));
         mainScrollPane = new JScrollPane();
