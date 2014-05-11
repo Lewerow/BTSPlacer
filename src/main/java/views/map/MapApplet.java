@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.ConcurrentModificationException;
 
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
@@ -92,7 +93,19 @@ public class MapApplet extends PApplet {
 
 	@Override
 	public void draw() {
-		map.draw();
+		try {
+			map.draw();
+		} catch (ConcurrentModificationException e) {
+			// FIXME bad idea for solution, but works
+			System.out.println("Fast changing spinner value made this exception.");
+			System.out.println("Give some rest !");
+			try {
+				Thread.sleep(2000);
+			} catch (InterruptedException e1) {
+				// do nothing
+			}
+			map.draw();
+		}
 	}
 
 	public void addBtsMarker(Location location) {
