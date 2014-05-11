@@ -74,7 +74,7 @@ public class TerrainGenerator {
         return sc;
     }
 
-    public Terrain generateTerrainWithDefaultBTSs(int btsCount) {
+    public Terrain generateDefaultTerrainWithBTSsAndSubscribers(int btsCount, int subscriberCount) {
 		this.btsCount = btsCount;
 
 		assert btsCount >= 0 : "Cannot set negative number of BTSes!";
@@ -84,18 +84,19 @@ public class TerrainGenerator {
 			btss.add(getDefaultBTS());
 
         LinkedList<SubscriberCenter> scs = Lists.newLinkedList();
-        for(int i = 0; i < subscriberCenterCount; ++i)
+        for(int i = 0; i < subscriberCount; ++i)
             scs.add(getDefaultSC());
         
 		return generateTerrain(btss, scs);
 	}
 
 	public Terrain regenerateTerrain() {
+/*    TODO implement it as a different function - removing for now
 		List<BTS> btss = Lists.newArrayList();
 		for (int i = 0; i < btsCount; ++i)
 			btss.add(getDefaultBTS());
-
-		return generateTerrainWithDefaultBTSs(btsCount);
+*/
+		return generateDefaultTerrainWithBTSsAndSubscribers(btsCount, subscriberCenterCount);
 	}
 
     public void setBtsCount(Integer i) {

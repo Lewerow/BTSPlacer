@@ -18,7 +18,7 @@ public class TerrainGeneratorTest {
 		TerrainGenerator tGen = TerrainGenerator.getInstance();
 		tGen.setRandomGenerator(gen);
 
-		Terrain t = tGen.generateTerrain(null);
+		Terrain t = tGen.generateTerrain(null, null);
 		Assert.assertEquals(t.getSignalLevel(PlacerLocation.getInstance(5, 5)), 0, 0.0001);
 	}
 
@@ -36,7 +36,7 @@ public class TerrainGeneratorTest {
 		Mockito.when(spyBTS.getMaxSignalLevel()).thenReturn(100.0);
 		Mockito.when(gen.getDouble(Mockito.any(Double.class))).thenReturn(5.0);
 
-		Terrain t = tGen.generateTerrain(btsList);
+		Terrain t = tGen.generateTerrain(btsList, null);
 		double baseX = PlacerLocation.getWroclawLocation().getX();
 		double baseY = PlacerLocation.getWroclawLocation().getY();
 		Assert.assertEquals(t.getSignalLevel(PlacerLocation.getInstance(baseX + 5d, baseY + 5d)),

@@ -32,8 +32,7 @@ import de.fhpotsdam.unfolding.utils.MapUtils;
 
 public class MapApplet extends PApplet {
 	private final Dimension size;
-    private final MarkerManager<Marker> btsMarkerManager;
-    private final MarkerManager<Marker> subscriberCenterMarkerManager;
+    private final MarkerManager<Marker> markerManager;
 	private UnfoldingMap map;
 	private ArrayList<AbstractMapTileUrlProvider> providers;
 	private JPopupMenu popupMenu;
@@ -41,8 +40,7 @@ public class MapApplet extends PApplet {
 	public MapApplet(Dimension dimension) {
 		super();
 		this.size = dimension;
-		btsMarkerManager = new MarkerManager<Marker>();
-        subscriberCenterMarkerManager = new MarkerManager<Marker>();
+        markerManager = new MarkerManager<Marker>();
 		init();
 	}
 
@@ -86,8 +84,7 @@ public class MapApplet extends PApplet {
 			}
 		});
 
-        map.addMarkerManager(btsMarkerManager);
-        map.addMarkerManager(subscriberCenterMarkerManager);
+        map.addMarkerManager(markerManager);
 	}
 
 	@Override
@@ -113,22 +110,25 @@ public class MapApplet extends PApplet {
 	}
 
     public void addBtsMarker(Location location) {
-        btsMarkerManager.addMarker(new BTS(location, BtsType.CIRCULAR));
+        markerManager.addMarker(new BTS(location, BtsType.CIRCULAR));
     }
 
     public void addSubscriberCenterMarker(Location location) {
-        subscriberCenterMarkerManager.addMarker(new SubscriberCenter(1000.0, location, 0.5, 0.5));
+        markerManager.addMarker(new SubscriberCenter(1000.0, location, 0.5, 0.5));
     }
 
 	public void addBtsMarker(Location location, BtsType type) {
-		btsMarkerManager.addMarker(new BTS(location, type));
+        markerManager.addMarker(new BTS(location, type));
 	}
 
 	public void resetTerrain(Terrain terrain) {
-		btsMarkerManager.clearMarkers();
-		for (BTS bts : terrain.getBtss()) {
-			btsMarkerManager.addMarker(bts);
-		}
+        markerManager.clearMarkers();
+        for (BTS bts : terrain.getBtss()) {
+            markerManager.addMarker(bts);
+        }
+        for (SubscriberCenter sc : terrain.getSubscriberCenters()) {
+            markerManager.addMarker(sc);
+        }
 	}
 
 }

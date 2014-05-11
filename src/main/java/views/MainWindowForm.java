@@ -88,8 +88,11 @@ public class MainWindowForm extends JFrame {
 		spinnerModel.setMinimum(0);
 		spinnerModel.setValue(30);
 		btsNumberSpinner.setModel(spinnerModel);
+        SpinnerNumberModel subscriberSpinnerModel = new SpinnerNumberModel();
+        subscriberSpinnerModel.setMinimum(0);
+        subscriberSpinnerModel.setValue(5);
         numberOfSubscriberCenters.addChangeListener(new SubscriberCenterSpinnerListener(numberOfSubscriberCenters, mapApplet));
-        numberOfSubscriberCenters.setModel(spinnerModel);
+        numberOfSubscriberCenters.setModel(subscriberSpinnerModel);
 		generateDistributionButton.addActionListener(new GenerateDistributionListener(mapApplet));
 		setJMenuBar(createJMenuBar());
 
