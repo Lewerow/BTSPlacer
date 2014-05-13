@@ -69,8 +69,32 @@ public class TerrainGenerator {
         return bts;
     }
 
+    public BTS getRandomizedBTS() {
+        UniformRandomGenerator generator = new UniformRandomGenerator();
+        BTS bts = new BTS(PlacerLocation.getInstance(0, 0), BtsType.CIRCULAR);
+        bts.addBBResource(new BasebandResource(generator.getDouble(500, 2000)));
+
+        int radioCount = generator.getInt(1, 3);
+        for(int i = 0; i < radioCount; ++i)
+        {
+            bts.addRadioResource(new RadioResource(generator.getInt(30, 120)));
+        }
+
+        return bts;
+    }
+
     public SubscriberCenter getDefaultSC() {
         SubscriberCenter sc = new SubscriberCenter(1000.0, PlacerLocation.getInstance(0, 0), 0.5, 0.5);
+        return sc;
+    }
+
+    public SubscriberCenter getRandomizedSC() {
+        UniformRandomGenerator generator = new UniformRandomGenerator();
+        SubscriberCenter sc = new SubscriberCenter(generator.getDouble(200, 4000),
+                PlacerLocation.getInstance(0, 0),
+                generator.getDouble(0.2, 0.9),
+                generator.getDouble(0.2, 0.9));
+
         return sc;
     }
 
@@ -81,11 +105,11 @@ public class TerrainGenerator {
 
 		LinkedList<BTS> btss = Lists.newLinkedList();
 		for (int i = 0; i < btsCount; ++i)
-			btss.add(getDefaultBTS());
+			btss.add(getRandomizedBTS());
 
         LinkedList<SubscriberCenter> scs = Lists.newLinkedList();
         for(int i = 0; i < subscriberCount; ++i)
-            scs.add(getDefaultSC());
+            scs.add(getRandomizedSC());
         
 		return generateTerrain(btss, scs);
 	}

@@ -24,7 +24,7 @@ public class BTS extends AbstractMarker {
 	private static final Color activeColor = Color.blue;
 	private static final int alpha = 20;
     private static final double availableMaxSignalLevel = 15000;
-    private static final double maxAvailableRange = 30f;
+    private static final double rangeUnit = 30f;
 	private final BtsType cellType;
 
 	public BTS(Location location, BtsType cellType) {
@@ -106,7 +106,7 @@ public class BTS extends AbstractMarker {
 	@Override
 	public void draw(PGraphics p, float v, float v2, UnfoldingMap map) {
 		p.noStroke();
-		float distance = getDistance(getLocation(), (float)(getRange() / maxAvailableRange), map);
+		float distance = getDistance(getLocation(), (float)(getRange() / rangeUnit), map);
 		switch (cellType) {
 		case DIRECTIONAL:
 			drawOutOfOrderCells(p, v, v2, distance);

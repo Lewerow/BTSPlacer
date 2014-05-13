@@ -23,7 +23,7 @@ public class SubscriberCenter extends AbstractMarker{
 
     private static final Color activeColor = Color.green;
     private static final int maxSignalRequested = 3000;
-    private final float dist = 0.6f;
+    private final float diameterUnit = 0.5f;
 
     public SubscriberCenter(Double requiredSignal, Location center, Double sigmaX, double sigmaY){
         this.requiredSignal = requiredSignal;
@@ -87,7 +87,7 @@ public class SubscriberCenter extends AbstractMarker{
     @Override
     public void draw(PGraphics p, float v, float v2, UnfoldingMap map) {
         p.noStroke();
-        float distance = getDistance(getLocation(), dist, map);
+        float distance = getDistance(getLocation(), (float)(variance.getValue0() + variance.getValue1()) / diameterUnit, map);
         drawCircularSubscribers(p, v, v2, distance);
     }
     @Override
