@@ -10,8 +10,8 @@ import com.google.common.collect.Lists;
  */
 public class TerrainGenerator {
 
-	private static final double maxXfromWroclaw = 0.05;
-	private static final double maxYfromWroclaw = 0.05;
+	private static final double maxXfromWroclaw = 0.18;
+	private static final double maxYfromWroclaw = 0.22;
 	private static TerrainGenerator REFERENCE;
 	private RandomGenerator randomGenerator;
 	private int btsCount;
@@ -62,7 +62,7 @@ public class TerrainGenerator {
 
     public BTS getDefaultBTS() {
         BTS bts = new BTS(PlacerLocation.getInstance(0, 0), BtsType.CIRCULAR);
-        bts.addBBResource(new BasebandResource(100000));
+        bts.addBBResource(new BasebandResource(1000));
         bts.addRadioResource(new RadioResource(50));
         bts.addRadioResource(new RadioResource(50));
 

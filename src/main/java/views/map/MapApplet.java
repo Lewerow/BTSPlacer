@@ -98,6 +98,8 @@ public class MapApplet extends PApplet {
 			map.draw();
 		} catch (ConcurrentModificationException e) {
 			// FIXME bad idea for solution, but works
+			// No it doesn't, it just suppresses the error
+            // how about some synchronization here?
 			System.out.println("Fast changing spinner value made this exception.");
 			System.out.println("Give some rest !");
 			try {

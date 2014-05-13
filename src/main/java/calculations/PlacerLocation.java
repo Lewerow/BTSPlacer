@@ -11,7 +11,7 @@ import de.fhpotsdam.unfolding.geo.Location;
  */
 public class PlacerLocation extends Location {
 
-	private static final PlacerLocation wroclawLocation = new PlacerLocation(51.110141, 17.033153);
+	private static final PlacerLocation wroclawLocation = new PlacerLocation(51.05, 16.9);
 	private static final Map<String, PlacerLocation> objects = Maps.newHashMap();
 
 	public static PlacerLocation getInstance(double x, double y) {

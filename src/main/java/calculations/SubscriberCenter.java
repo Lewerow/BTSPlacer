@@ -22,8 +22,8 @@ public class SubscriberCenter extends AbstractMarker{
     private Pair<Double, Double> variance;
 
     private static final Color activeColor = Color.green;
-    private static final int alpha = 60;
-    private final float dist = 1.5f;
+    private static final int maxSignalRequested = 3000;
+    private final float dist = 0.6f;
 
     public SubscriberCenter(Double requiredSignal, Location center, Double sigmaX, double sigmaY){
         this.requiredSignal = requiredSignal;
@@ -79,8 +79,9 @@ public class SubscriberCenter extends AbstractMarker{
     }
 
     private void drawCircularSubscribers(PGraphics p, float x, float y, float distance) {
-        p.fill(activeColor.getRGB(), alpha);
-        drawGradient(p, distance, 0, 6.3f, x, y, 20);
+        int transparency = (int)(0xff * (requiredSignal / maxSignalRequested));
+        p.fill(activeColor.getRGB(), transparency);
+        drawGradient(p, distance, 0, 6.3f, x, y, 1);
     }
 
     @Override

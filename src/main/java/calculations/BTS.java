@@ -23,10 +23,9 @@ public class BTS extends AbstractMarker {
 	private static final Color outOfOrder = Color.red;
 	private static final Color activeColor = Color.blue;
 	private static final int alpha = 20;
-
+    private static final double availableMaxSignalLevel = 15000;
+    private static final double maxAvailableRange = 30f;
 	private final BtsType cellType;
-
-	private final float dist = 1.5f;
 
 	public BTS(Location location, BtsType cellType) {
 		super(location);
@@ -107,7 +106,7 @@ public class BTS extends AbstractMarker {
 	@Override
 	public void draw(PGraphics p, float v, float v2, UnfoldingMap map) {
 		p.noStroke();
-		float distance = getDistance(getLocation(), dist, map);
+		float distance = getDistance(getLocation(), (float)(getRange() / maxAvailableRange), map);
 		switch (cellType) {
 		case DIRECTIONAL:
 			drawOutOfOrderCells(p, v, v2, distance);
@@ -132,7 +131,8 @@ public class BTS extends AbstractMarker {
 	}
 
 	private void drawCircleCell(PGraphics p, float x, float y, float distance) {
-		p.fill(activeColor.getRGB(), alpha);
+        int transparency = (int)(255 * getMaxSignalLevel() / availableMaxSignalLevel);
+		p.fill(activeColor.getRGB(), transparency);
 		drawGradient(p, distance, 0, 6.3f, x, y, 20);
 	}
 
