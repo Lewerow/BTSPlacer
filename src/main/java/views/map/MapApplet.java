@@ -33,7 +33,7 @@ import de.fhpotsdam.unfolding.utils.MapUtils;
 public class MapApplet extends PApplet {
 	private final Dimension size;
     private final MarkerManager<Marker> markerManager;
-	private UnfoldingMap map;
+	private volatile UnfoldingMap map;
 	private ArrayList<AbstractMapTileUrlProvider> providers;
 	private JPopupMenu popupMenu;
 
@@ -97,17 +97,7 @@ public class MapApplet extends PApplet {
 		try {
 			map.draw();
 		} catch (ConcurrentModificationException e) {
-			// FIXME bad idea for solution, but works
-			// No it doesn't, it just suppresses the error
-            // how about some synchronization here?
-			System.out.println("Fast changing spinner value made this exception.");
-			System.out.println("Give some rest !");
-			try {
-				Thread.sleep(1000);
-			} catch (InterruptedException e1) {
-				// do nothing
-			}
-			map.draw();
+            e.printStackTrace();
 		}
 	}
 

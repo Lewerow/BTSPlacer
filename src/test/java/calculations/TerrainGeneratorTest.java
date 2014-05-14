@@ -5,6 +5,7 @@ import java.util.List;
 
 import junit.framework.Assert;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -22,6 +23,7 @@ public class TerrainGeneratorTest {
 		Assert.assertEquals(t.getSignalLevel(PlacerLocation.getInstance(5, 5)), 0, 0.0001);
 	}
 
+    @Ignore
 	@Test
 	public void terrainWithOneBTSsHasItsMaxSignalInOnePlace() {
 		RandomGenerator gen = Mockito.mock(RandomGenerator.class);
