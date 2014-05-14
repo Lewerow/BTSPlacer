@@ -14,7 +14,6 @@ import javax.swing.SwingUtilities;
 
 import calculations.SubscriberCenter;
 import processing.core.PApplet;
-import calculations.BTS;
 import calculations.BtsType;
 import calculations.Terrain;
 

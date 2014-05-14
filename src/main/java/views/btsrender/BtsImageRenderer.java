@@ -6,7 +6,7 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-import calculations.BTS;
+import views.map.BTS;
 import calculations.PlacerLocation;
 import calculations.Terrain;
 

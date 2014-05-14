@@ -4,6 +4,7 @@ import junit.framework.Assert;
 
 import org.fest.assertions.api.Assertions;
 import org.junit.Test;
+import views.map.BTS;
 
 /**
  * Created by Ja on 24.03.14.

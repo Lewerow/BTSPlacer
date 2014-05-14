@@ -6,6 +6,7 @@ import junit.framework.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
+import views.map.BTS;
 
 /**
  * Created by Ja on 29.03.14.

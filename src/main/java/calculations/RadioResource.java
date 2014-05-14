@@ -7,7 +7,7 @@ public class RadioResource {
 
     private int range;
 
-    int getRange()
+    public int getRange()
     {
         return range;
     }

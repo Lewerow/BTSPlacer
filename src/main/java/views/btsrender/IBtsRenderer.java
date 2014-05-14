@@ -2,7 +2,7 @@ package views.btsrender;
 
 import java.awt.Graphics;
 
-import calculations.BTS;
+import views.map.BTS;
 import calculations.Terrain;
 
 @Deprecated

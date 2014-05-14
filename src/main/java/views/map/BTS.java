@@ -1,9 +1,13 @@
-package calculations;
+package views.map;
 
 import java.awt.Color;
 import java.util.LinkedList;
 import java.util.List;
 
+import calculations.BasebandResource;
+import calculations.BtsType;
+import calculations.PlacerLocation;
+import calculations.RadioResource;
 import processing.core.PApplet;
 import processing.core.PGraphics;
 import de.fhpotsdam.unfolding.UnfoldingMap;
