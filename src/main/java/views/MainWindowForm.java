@@ -44,7 +44,6 @@ public class MainWindowForm extends JFrame {
     // FIXME Remove these initializers, I put them here so it won't crash, but
     // it's definitely wrong
     private static final long serialVersionUID = -372666681152456536L;
-    private final JFileChooser fc = new JFileChooser();
     private JPanel mainPanel = new JPanel();
     private JButton loadFileButton = new JButton();
     private JButton generateDistributionButton = new JButton();
@@ -67,14 +66,7 @@ public class MainWindowForm extends JFrame {
 
 
     private void initComponents() {
-        fc.setFileFilter(new FileNameExtensionFilter("JPG File", "jpg"));
         mapApplet = new MapApplet(mainTabPanel.getSize());
-
-        File runPath = new File(""/*
-                                 * MainWindowForm.class.getProtectionDomain().
-								 * getCodeSource() .getLocation().getPath()
-								 */);
-        fc.setCurrentDirectory(runPath);
         loadFileButton.addActionListener(new MenuOpenListener());
         btsNumberSpinner.addChangeListener(new BtsSpinnerListener(btsNumberSpinner, mapApplet));
         SpinnerNumberModel spinnerModel = new SpinnerNumberModel();
