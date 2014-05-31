@@ -1,23 +1,9 @@
 package views.map;
 
-import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.util.ArrayList;
-
-import javax.swing.JMenuItem;
-import javax.swing.JPopupMenu;
-import javax.swing.SwingUtilities;
-
-import processing.core.PApplet;
 import calculations.BtsType;
 import calculations.SubscriberCenter;
 import calculations.Terrain;
-
 import com.google.common.collect.Lists;
-
 import de.fhpotsdam.unfolding.UnfoldingMap;
 import de.fhpotsdam.unfolding.geo.Location;
 import de.fhpotsdam.unfolding.marker.Marker;
@@ -27,18 +13,30 @@ import de.fhpotsdam.unfolding.providers.Google;
 import de.fhpotsdam.unfolding.providers.Microsoft;
 import de.fhpotsdam.unfolding.providers.OpenStreetMap;
 import de.fhpotsdam.unfolding.utils.MapUtils;
+import processing.core.PApplet;
+import views.TerrainDisplayer;
 
-public class MapApplet extends PApplet {
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+
+public class MapApplet extends PApplet implements TerrainDisplayer {
     private final Dimension size;
     private final MarkerManager<Marker> markerManager;
     private volatile UnfoldingMap map;
     private ArrayList<AbstractMapTileUrlProvider> providers;
     private JPopupMenu popupMenu;
+    private Terrain currentTerrain;
 
     public MapApplet(Dimension dimension) {
         super();
         this.size = dimension;
         markerManager = new MarkerManager<Marker>();
+        currentTerrain = new Terrain();
         init();
     }
 
@@ -114,16 +112,25 @@ public class MapApplet extends PApplet {
         }
     }
 
+    @Override
     public void resetTerrain(Terrain terrain) {
+        currentTerrain = terrain;
+        reDrawCurrentTerrain();
+    }
+
+    private void reDrawCurrentTerrain() {
         synchronized (markerManager) {
             markerManager.clearMarkers();
-            for (BTS bts : terrain.getBtss()) {
+            for (BTS bts : currentTerrain.getBtss()) {
                 markerManager.addMarker(bts);
             }
-            for (SubscriberCenter sc : terrain.getSubscriberCenters()) {
+            for (SubscriberCenter sc : currentTerrain.getSubscriberCenters()) {
                 markerManager.addMarker(sc);
             }
         }
     }
 
+    public Terrain getCurrentTerrain() {
+        return currentTerrain;
+    }
 }

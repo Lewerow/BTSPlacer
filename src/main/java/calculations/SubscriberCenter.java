@@ -1,39 +1,38 @@
 package calculations;
 
+import java.awt.Color;
+
+import org.javatuples.Pair;
+
+import processing.core.PApplet;
+import processing.core.PGraphics;
 import de.fhpotsdam.unfolding.UnfoldingMap;
 import de.fhpotsdam.unfolding.geo.Location;
 import de.fhpotsdam.unfolding.marker.AbstractMarker;
 import de.fhpotsdam.unfolding.utils.GeoUtils;
 import de.fhpotsdam.unfolding.utils.ScreenPosition;
-import org.javatuples.Pair;
-import processing.core.PApplet;
-import processing.core.PGraphics;
-
-import java.awt.*;
 
 /**
- * Created by Ja on 11.05.14.
- * Assumption: SubscriberCenter represents center of constant, circular distribution
- * to be changed asap
+ * Created by Ja on 11.05.14. Assumption: SubscriberCenter represents center of
+ * constant, circular distribution to be changed asap
  */
-public class SubscriberCenter extends AbstractMarker{
+public class SubscriberCenter extends AbstractMarker {
     private Double requiredSignal;
-    Location center;
     private Pair<Double, Double> variance;
 
     private static final Color activeColor = Color.green;
     private static final int maxSignalRequested = 3000;
     private final float diameterUnit = 0.5f;
 
-    public SubscriberCenter(Double requiredSignal, Location center, Double sigmaX, double sigmaY){
+    public SubscriberCenter(Double requiredSignal, Location center, Double sigmaX, Double sigmaY) {
         this.requiredSignal = requiredSignal;
-        this.center = center;
-        this.variance = new Pair(sigmaX, sigmaY);
+        this.location = center;
+        this.variance = new Pair<Double, Double>(sigmaX, sigmaY);
     }
 
-    public SubscriberCenter(Double requiredSignal, Location center, Pair<Double, Double> variance){
+    public SubscriberCenter(Double requiredSignal, Location center, Pair<Double, Double> variance) {
         this.requiredSignal = requiredSignal;
-        this.center = center;
+        this.location = center;
         this.variance = variance;
     }
 
@@ -44,10 +43,8 @@ public class SubscriberCenter extends AbstractMarker{
         return PApplet.dist(pos1.x, pos1.y, pos2.x, pos2.y);
     }
 
-    public double getRequiredSignalAt(PlacerLocation l)
-    {
-        if(getDistanceTo(l) < variance.getValue0() + variance.getValue1())
-        {
+    public double getRequiredSignalAt(PlacerLocation l) {
+        if (getDistanceTo(l) < variance.getValue0() + variance.getValue1()) {
             return requiredSignal;
         }
 
@@ -69,7 +66,7 @@ public class SubscriberCenter extends AbstractMarker{
     }
 
     private void drawGradient(PGraphics p, float distance, float startAngle, float scopeAngle,
-                              float x, float y, int layerCount) {
+            float x, float y, int layerCount) {
         float distanceStep = distance / layerCount;
         float currentDistance = distanceStep;
         for (int i = layerCount; i > 0; i--) {
@@ -79,7 +76,7 @@ public class SubscriberCenter extends AbstractMarker{
     }
 
     private void drawCircularSubscribers(PGraphics p, float x, float y, float distance) {
-        int transparency = (int)(0xff * (requiredSignal / maxSignalRequested));
+        int transparency = (int) (0xff * (requiredSignal / maxSignalRequested));
         p.fill(activeColor.getRGB(), transparency);
         drawGradient(p, distance, 0, 6.3f, x, y, 1);
     }
@@ -87,11 +84,29 @@ public class SubscriberCenter extends AbstractMarker{
     @Override
     public void draw(PGraphics p, float v, float v2, UnfoldingMap map) {
         p.noStroke();
-        float distance = getDistance(getLocation(), (float)(variance.getValue0() + variance.getValue1()) / diameterUnit, map);
+        float distance = getDistance(getLocation(),
+                (float) (variance.getValue0() + variance.getValue1()) / diameterUnit, map);
         drawCircularSubscribers(p, v, v2, distance);
     }
+
     @Override
     protected boolean isInside(float v, float v2, float v3, float v4) {
         return false;
+    }
+
+    public Double getRequiredSignal() {
+        return requiredSignal;
+    }
+
+    public void setRequiredSignal(Double requiredSignal) {
+        this.requiredSignal = requiredSignal;
+    }
+
+    public Pair<Double, Double> getVariance() {
+        return variance;
+    }
+
+    public void setVariance(Double sigmaX, Double sigmaY) {
+        this.variance = new Pair<Double, Double>(sigmaX, sigmaY);
     }
 }

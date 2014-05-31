@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+    <xs:complexType name="subscriberList">
+        <xs:sequence>
+            <xs:element name="subscriber" type="subscriberCenter" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="subscriberCenter">
+        <xs:sequence>
+            <xs:element name="requiredSignal" type="xs:double" minOccurs="1" maxOccurs="1"/>
+            <xs:element name="sigmaX" type="xs:double" minOccurs="1" maxOccurs="1"/>
+            <xs:element name="sigmaY" type="xs:double" minOccurs="1" maxOccurs="1"/>
+            <xs:element name="locationX" type="xs:double" minOccurs="1" maxOccurs="1"/>
+            <xs:element name="locationY" type="xs:double" minOccurs="1" maxOccurs="1"/>
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema>

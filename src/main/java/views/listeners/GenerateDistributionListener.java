@@ -3,7 +3,7 @@ package views.listeners;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import views.map.MapApplet;
+import views.TerrainDisplayer;
 import calculations.TerrainGenerator;
 
 /**
@@ -11,15 +11,15 @@ import calculations.TerrainGenerator;
  */
 public class GenerateDistributionListener implements ActionListener {
 
-	private final TerrainGenerator tg = TerrainGenerator.getInstance();
-	private final MapApplet mapApplet;
+    private final TerrainGenerator tg = TerrainGenerator.getInstance();
+    private final TerrainDisplayer terrainDisplayer;
 
-	public GenerateDistributionListener(MapApplet mapApplet) {
-		this.mapApplet = mapApplet;
-	}
+    public GenerateDistributionListener(TerrainDisplayer terrainDisplayer) {
+        this.terrainDisplayer = terrainDisplayer;
+    }
 
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		mapApplet.resetTerrain(tg.regenerateTerrain());
-	}
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        terrainDisplayer.resetTerrain(tg.regenerateTerrain());
+    }
 }

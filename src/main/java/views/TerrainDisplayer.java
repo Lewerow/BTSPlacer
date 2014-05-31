@@ -7,5 +7,8 @@ import calculations.Terrain;
  */
 public interface TerrainDisplayer {
 
-	public void resetTerrain(Terrain newTerrain);
+    public void resetTerrain(Terrain newTerrain);
+
+    public Terrain getCurrentTerrain();
+
 }
