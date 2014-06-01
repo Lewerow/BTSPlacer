@@ -8,6 +8,7 @@ import javax.swing.*;
 import javax.xml.bind.JAXBException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.util.List;
 
 //TODO gui needs to be updated to handle saving
@@ -30,7 +31,8 @@ public class MenuSaveListener implements ActionListener {
         if (dialogResponse == JFileChooser.APPROVE_OPTION) {
             List<SubscriberCenter> subscriberCenters = terrainDisplayer.getCurrentTerrain().getSubscriberCenters();
             try {
-                LoaderSaver.save(subscriberCenters, fc.getSelectedFile());
+                File selectedFile = fc.getSelectedFile();
+                LoaderSaver.save(subscriberCenters, selectedFile);
             } catch (JAXBException e1) {
                 e1.printStackTrace();
             }

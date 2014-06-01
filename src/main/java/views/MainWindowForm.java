@@ -14,6 +14,7 @@ import views.map.MapApplet;
 
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
+import views.utils.AlgorithmSelectionHelper;
 
 public class MainWindowForm extends JFrame {
 
@@ -43,9 +44,10 @@ public class MainWindowForm extends JFrame {
     }
 
     private void initComponents() {
-        setJMenuBar(createJMenuBar());
         mapApplet = new MapApplet(mainTabPanel.getSize());
-        btsNumberSpinner.addChangeListener(new BtsSpinnerListener(btsNumberSpinner, mapApplet));
+        setJMenuBar(createJMenuBar());
+        GuiElemListener guiElemListener = new GuiElemListener(btsNumberSpinner, numberOfSubscriberCenters, mapApplet);
+        btsNumberSpinner.addChangeListener(guiElemListener);
         SpinnerNumberModel spinnerModel = new SpinnerNumberModel();
         spinnerModel.setMinimum(0);
         spinnerModel.setValue(30);
@@ -53,15 +55,15 @@ public class MainWindowForm extends JFrame {
         SpinnerNumberModel subscriberSpinnerModel = new SpinnerNumberModel();
         subscriberSpinnerModel.setMinimum(0);
         subscriberSpinnerModel.setValue(5);
-        numberOfSubscriberCenters.addChangeListener(new SubscriberCenterSpinnerListener(
-                numberOfSubscriberCenters, mapApplet));
+        numberOfSubscriberCenters.addChangeListener(guiElemListener);
         numberOfSubscriberCenters.setModel(subscriberSpinnerModel);
-        generateDistributionButton.addActionListener(new GenerateDistributionListener(mapApplet));
+        generateDistributionButton.addActionListener(guiElemListener);
         ButtonGroup buttonGroup = new ButtonGroup();
         alg1.setSelected(true);
         buttonGroup.add(alg1);
         buttonGroup.add(alg2);
         buttonGroup.add(alg3);
+        AlgorithmSelectionHelper.getInstance().initialize(alg1, alg2, alg3);
         mainTabPanel.addTab("Map", mapApplet);
         showUsersCheckBox.setText(ResourceBundle.getBundle("language").getString("Show_users"));
     }
@@ -91,7 +93,7 @@ public class MainWindowForm extends JFrame {
         JMenuItem openFile = new JMenuItem(ResourceBundle.getBundle("language").getString(
                 "MenuBar_file_openFile"));
 
-        openFile.addActionListener(new MenuOpenListener(mainPanel, mapApplet));
+        openFile.addActionListener(new MenuOpenListener(numberOfSubscriberCenters, mapApplet));
         openFile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, InputEvent.CTRL_MASK));
         return openFile;
     }

@@ -74,8 +74,8 @@
               <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <label value="Alhorithm 1"/>
-              <text value="Alhorithm 1"/>
+              <label value="Random"/>
+              <text value="Random"/>
             </properties>
           </component>
           <component id="73e54" class="javax.swing.JRadioButton" binding="alg2">
@@ -83,8 +83,8 @@
               <grid row="4" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <label value="Algorithm 2"/>
-              <text value="Algorithm 2"/>
+              <label value="Algorithm2"/>
+              <text value="Algorithm2"/>
             </properties>
           </component>
           <component id="9bb59" class="javax.swing.JRadioButton" binding="alg3">
@@ -92,8 +92,8 @@
               <grid row="5" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <label value="Algorithm 3"/>
-              <text value="Algorithm 3"/>
+              <label value="Algorithm3"/>
+              <text value="Algorithm3"/>
             </properties>
           </component>
         </children>

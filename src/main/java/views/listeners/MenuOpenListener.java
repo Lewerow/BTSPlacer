@@ -4,8 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 
-import javax.swing.JFileChooser;
-import javax.swing.JPanel;
+import javax.swing.*;
 import javax.xml.bind.JAXBException;
 
 import serialization.LoaderSaver;
@@ -15,11 +14,11 @@ import calculations.Terrain;
 
 public class MenuOpenListener implements ActionListener {
 
-    private JPanel parentPanel;
+    private JSpinner subscriberSpinner;
     private TerrainDisplayer terrainDisplayer;
 
-    public MenuOpenListener(JPanel parentPanel, TerrainDisplayer terrainDisplayer) {
-        this.parentPanel = parentPanel;
+    public MenuOpenListener(JSpinner subscriberSpinner, TerrainDisplayer terrainDisplayer) {
+        this.subscriberSpinner = subscriberSpinner;
         this.terrainDisplayer = terrainDisplayer;
     }
 
@@ -28,17 +27,18 @@ public class MenuOpenListener implements ActionListener {
         String location = "";
         JFileChooser fc = new JFileChooser(location);
         fc.setFileFilter(new PlacerFileFilter());
-        int dialogResponse = fc.showOpenDialog(parentPanel);
+        int dialogResponse = fc.showOpenDialog(subscriberSpinner);
         if (dialogResponse == JFileChooser.APPROVE_OPTION) {
             try {
-            List<SubscriberCenter> subscribers = LoaderSaver.load(fc.getSelectedFile());
+                List<SubscriberCenter> subscribers = LoaderSaver.load(fc.getSelectedFile());
 
-            Terrain terrain = new Terrain();
-            for (SubscriberCenter subscriberCenter : subscribers) {
-                terrain.addSubscriberCenter(subscriberCenter);
+                Terrain terrain = new Terrain();
+                for (SubscriberCenter subscriberCenter : subscribers) {
+                    terrain.addSubscriberCenter(subscriberCenter);
 
-            }
-            terrainDisplayer.resetTerrain(terrain);
+                }
+                subscriberSpinner.setValue(subscribers.size());
+                terrainDisplayer.resetTerrain(terrain);
             } catch (JAXBException e1) {
                 e1.printStackTrace();
             }
