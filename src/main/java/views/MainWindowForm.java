@@ -6,22 +6,7 @@ import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.util.ResourceBundle;
 
-import javax.swing.AbstractButton;
-import javax.swing.BorderFactory;
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JComponent;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JPanel;
-import javax.swing.JSpinner;
-import javax.swing.JTabbedPane;
-import javax.swing.KeyStroke;
-import javax.swing.SpinnerNumberModel;
-import javax.swing.UIManager;
+import javax.swing.*;
 import javax.swing.border.TitledBorder;
 
 import views.listeners.*;
@@ -42,6 +27,9 @@ public class MainWindowForm extends JFrame {
     private JTabbedPane mainTabPanel;
     private JCheckBox showUsersCheckBox;
     private JSpinner numberOfSubscriberCenters = new JSpinner();
+    private JRadioButton alg1;
+    private JRadioButton alg2;
+    private JRadioButton alg3;
     private MapApplet mapApplet;
 
     public MainWindowForm() {
@@ -71,7 +59,14 @@ public class MainWindowForm extends JFrame {
                 numberOfSubscriberCenters, mapApplet));
         numberOfSubscriberCenters.setModel(subscriberSpinnerModel);
         generateDistributionButton.addActionListener(new GenerateDistributionListener(mapApplet));
-
+        ButtonGroup buttonGroup = new ButtonGroup();
+        alg1.setSelected(true);
+        buttonGroup.add(alg1);
+        buttonGroup.add(alg2);
+        buttonGroup.add(alg3);
+        alg1.addActionListener(new AlgorithmChangeListener());
+        alg2.addActionListener(new AlgorithmChangeListener());
+        alg3.addActionListener(new AlgorithmChangeListener());
         mainTabPanel.addTab("Map", mapApplet);
         showUsersCheckBox.setText(ResourceBundle.getBundle("language").getString("Show_users"));
     }
