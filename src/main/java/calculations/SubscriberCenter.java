@@ -17,7 +17,7 @@ import de.fhpotsdam.unfolding.utils.ScreenPosition;
  * constant, circular distribution to be changed asap
  */
 public class SubscriberCenter extends AbstractMarker {
-    private Double requiredSignal;
+    private double requiredSignal;
     private Pair<Double, Double> variance;
 
     private static final Color activeColor = Color.green;
@@ -108,5 +108,9 @@ public class SubscriberCenter extends AbstractMarker {
 
     public void setVariance(Double sigmaX, Double sigmaY) {
         this.variance = new Pair<Double, Double>(sigmaX, sigmaY);
+    }
+
+    public double getMaxRequiredSignal() {
+        return requiredSignal;
     }
 }

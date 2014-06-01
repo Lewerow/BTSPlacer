@@ -13,8 +13,8 @@ import java.util.List;
  */
 public class TerrainGenerator implements Algorithm {
 
-    private static final double maxXfromWroclaw = 0.18;
-    private static final double maxYfromWroclaw = 0.22;
+    public static final double maxXfromWroclaw = 0.18;
+    public static final double maxYfromWroclaw = 0.22;
     private RandomGenerator randomGenerator;
     private int btsCount;
     private int subscriberCenterCount;

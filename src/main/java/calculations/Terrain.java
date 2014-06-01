@@ -3,6 +3,7 @@ package calculations;
 import java.util.List;
 
 import com.google.common.collect.Lists;
+import de.fhpotsdam.unfolding.geo.Location;
 import views.map.BTS;
 
 /**
@@ -88,5 +89,77 @@ public class Terrain {
             }
         }
         return maxAvailableSignalLevel;
+    }
+
+    private interface ILevelGetter
+    {
+        public double getLevel(Location l);
+    }
+
+    private class SignalLevelGetter implements ILevelGetter
+    {
+        private Terrain terrain;
+        public SignalLevelGetter(Terrain t)
+        {
+            terrain  = t;
+        }
+        public double getLevel(Location l)
+        {
+            return terrain.getSignalLevel((PlacerLocation)l);
+        }
+    }
+    private class RequiredLevelGetter implements ILevelGetter
+    {
+        private Terrain terrain;
+        public RequiredLevelGetter(Terrain t)
+        {
+            terrain  = t;
+        }
+        public double getLevel(Location l)
+        {
+            return terrain.getRequiredSignalLevel((PlacerLocation) l);
+        }
+    }
+    public double[][] getSignalLevelArray(Location topLeft, Location bottomRight)
+    {
+        return getSignalLevelArray(topLeft, bottomRight, 0.0001);
+    }
+
+    public double[][] getSignalLevelArray(Location topLeft, Location bottomRight, double step)
+    {
+        return getLevelArray(topLeft, bottomRight, new SignalLevelGetter(this), 0.0001);
+    }
+
+    public double[][] getRequiredSignalLevelArray(Location topLeft, Location bottomRight)
+    {
+        return getRequiredSignalLevelArray(topLeft, bottomRight, 0.0001);
+    }
+
+    public double[][] getRequiredSignalLevelArray(Location topLeft, Location bottomRight, double step)
+    {
+        return getLevelArray(topLeft, bottomRight, new RequiredLevelGetter(this), 0.0001);
+    }
+
+    public double[][] getLevelArray(Location topLeft, Location bottomRight, ILevelGetter getter, double step)
+    {
+        assert step > 0;
+
+        double width = topLeft.getLat() - bottomRight.getLat();
+        assert width > 0;
+
+        double height = topLeft.getLon() - bottomRight.getLon();
+        assert height > 0;
+
+        double[][] signalLevelArray = new double[(int)Math.ceil(width/step)][(int)Math.ceil(height/step)];
+
+        for(int i = 0; topLeft.getLat() - i * step > bottomRight.getLat(); ++i)
+        {
+            for(int j = 0; topLeft.getLon() - j * step > bottomRight.getLon(); ++j)
+            {
+                signalLevelArray[i][j] = getter.getLevel(PlacerLocation.getInstance(topLeft.getLon() - j * step, topLeft.getLat() - i * step));
+            }
+        }
+
+        return signalLevelArray;
     }
 }
