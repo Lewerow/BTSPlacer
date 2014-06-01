@@ -21,7 +21,6 @@ public class MainWindowForm extends JFrame {
     // it's definitely wrong
     private static final long serialVersionUID = -372666681152456536L;
     private JPanel mainPanel = new JPanel();
-    private JButton loadFileButton = new JButton();
     private JButton generateDistributionButton = new JButton();
     private final JSpinner btsNumberSpinner = new JSpinner();
     private JTabbedPane mainTabPanel;
@@ -46,7 +45,6 @@ public class MainWindowForm extends JFrame {
     private void initComponents() {
         setJMenuBar(createJMenuBar());
         mapApplet = new MapApplet(mainTabPanel.getSize());
-        loadFileButton.addActionListener(new MenuOpenListener(mainPanel, mapApplet));
         btsNumberSpinner.addChangeListener(new BtsSpinnerListener(btsNumberSpinner, mapApplet));
         SpinnerNumberModel spinnerModel = new SpinnerNumberModel();
         spinnerModel.setMinimum(0);
@@ -64,9 +62,6 @@ public class MainWindowForm extends JFrame {
         buttonGroup.add(alg1);
         buttonGroup.add(alg2);
         buttonGroup.add(alg3);
-        alg1.addActionListener(new AlgorithmChangeListener());
-        alg2.addActionListener(new AlgorithmChangeListener());
-        alg3.addActionListener(new AlgorithmChangeListener());
         mainTabPanel.addTab("Map", mapApplet);
         showUsersCheckBox.setText(ResourceBundle.getBundle("language").getString("Show_users"));
     }
@@ -85,11 +80,11 @@ public class MainWindowForm extends JFrame {
     }
 
     private JMenuItem createSaveMenuItem() {
-        JMenuItem openFile = new JMenuItem(ResourceBundle.getBundle("language").getString(
+        JMenuItem saveFile = new JMenuItem(ResourceBundle.getBundle("language").getString(
                 "MenuBar_file_saveFile"));
-        openFile.addActionListener(new MenuSaveListener(mainPanel, mapApplet));
-        openFile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_MASK));
-        return openFile;
+        saveFile.addActionListener(new MenuSaveListener(mainPanel, mapApplet));
+        saveFile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_MASK));
+        return saveFile;
     }
 
     private JMenuItem createOpenMenuItem() {
@@ -167,14 +162,6 @@ public class MainWindowForm extends JFrame {
         panel1.add(label1, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST,
                 GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED,
                 GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        loadFileButton = new JButton();
-        loadFileButton.setActionCommand(ResourceBundle.getBundle("language").getString("Load_map"));
-        this.$$$loadButtonText$$$(loadFileButton,
-                ResourceBundle.getBundle("language").getString("MenuBar_file_openFile"));
-        panel1.add(loadFileButton, new GridConstraints(3, 1, 1, 1, GridConstraints.ANCHOR_CENTER,
-                GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK
-                | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED,
-                null, null, null, 0, false));
         showUsersCheckBox = new JCheckBox();
         showUsersCheckBox.setText("Show users");
         panel1.add(showUsersCheckBox, new GridConstraints(2, 1, 1, 1, GridConstraints.ANCHOR_WEST,

@@ -1,4 +1,6 @@
-package calculations;
+package algorithms.random;
+
+import calculations.PlacerLocation;
 
 /**
  * Created by Ja on 29.03.14.
@@ -6,10 +8,6 @@ package calculations;
 public class LocationRandomizer {
 
 	private final RandomGenerator randomGenerator;
-
-	public LocationRandomizer() {
-		randomGenerator = new UniformRandomGenerator();
-	}
 
 	public LocationRandomizer(RandomGenerator randomGenerator) {
 		this.randomGenerator = randomGenerator;

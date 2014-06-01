@@ -13,7 +13,7 @@
     </properties>
     <border type="none"/>
     <children>
-      <grid id="7383e" layout-manager="GridLayoutManager" row-count="8" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+      <grid id="7383e" layout-manager="GridLayoutManager" row-count="7" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
         <margin top="0" left="0" bottom="0" right="0"/>
         <constraints>
           <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="2" hsize-policy="0" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
@@ -23,7 +23,7 @@
         <children>
           <component id="385de" class="javax.swing.JButton" binding="generateDistributionButton">
             <constraints>
-              <grid row="7" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+              <grid row="6" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
               <actionCommand resource-bundle="language" key="Generate_random_BTS_distribution"/>
@@ -44,15 +44,6 @@
             <properties>
               <labelFor value="2a50f"/>
               <text resource-bundle="language" key="BTS_number"/>
-            </properties>
-          </component>
-          <component id="1c0af" class="javax.swing.JButton" binding="loadFileButton">
-            <constraints>
-              <grid row="6" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-            </constraints>
-            <properties>
-              <actionCommand resource-bundle="language" key="Load_map"/>
-              <text resource-bundle="language" key="MenuBar_file_openFile"/>
             </properties>
           </component>
           <component id="cc623" class="javax.swing.JCheckBox" binding="showUsersCheckBox" default-binding="true">

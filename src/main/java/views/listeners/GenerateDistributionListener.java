@@ -3,15 +3,16 @@ package views.listeners;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import algorithms.Algorithm;
 import views.TerrainDisplayer;
-import calculations.TerrainGenerator;
+import algorithms.random.TerrainGenerator;
 
 /**
  * Created by Ja on 02.04.14.
  */
 public class GenerateDistributionListener implements ActionListener {
 
-    private final TerrainGenerator tg = TerrainGenerator.getInstance();
+    private final Algorithm algorithm = new TerrainGenerator();
     private final TerrainDisplayer terrainDisplayer;
 
     public GenerateDistributionListener(TerrainDisplayer terrainDisplayer) {
@@ -20,6 +21,6 @@ public class GenerateDistributionListener implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        terrainDisplayer.resetTerrain(tg.regenerateTerrain());
+        terrainDisplayer.resetTerrain(algorithm.regenerateTerrain(terrainDisplayer.getCurrentTerrain()));
     }
 }

@@ -12,7 +12,7 @@ public class RadioResource {
         return range;
     }
 
-    RadioResource(int newRange)
+    public RadioResource(int newRange)
     {
         range = newRange;
     }

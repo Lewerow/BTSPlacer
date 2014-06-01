@@ -4,12 +4,14 @@ import javax.swing.JSpinner;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import algorithms.Algorithm;
+import calculations.Terrain;
 import views.TerrainDisplayer;
-import calculations.TerrainGenerator;
+import algorithms.random.TerrainGenerator;
 
 public class BtsSpinnerListener implements ChangeListener {
 
-    private final TerrainGenerator tg = TerrainGenerator.getInstance();
+    private final Algorithm algorithm = new TerrainGenerator();
     private final JSpinner btsCounter;
     private final TerrainDisplayer terrainDisplayer;
 
@@ -20,7 +22,9 @@ public class BtsSpinnerListener implements ChangeListener {
 
     @Override
     public void stateChanged(ChangeEvent e) {
-        tg.setBtsCount((Integer) btsCounter.getValue());
-        terrainDisplayer.resetTerrain(tg.regenerateTerrain());
+        Terrain currentTerrain = terrainDisplayer.getCurrentTerrain();
+        algorithm.setBtsCount((Integer) btsCounter.getValue());
+        algorithm.setSubscriberCenterCount(currentTerrain.getSubscriberCenters().size());
+        terrainDisplayer.resetTerrain(algorithm.regenerateTerrain(currentTerrain));
     }
 }

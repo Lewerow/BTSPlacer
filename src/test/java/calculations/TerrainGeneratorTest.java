@@ -3,6 +3,8 @@ package calculations;
 import java.util.LinkedList;
 import java.util.List;
 
+import algorithms.random.RandomGenerator;
+import algorithms.random.TerrainGenerator;
 import junit.framework.Assert;
 
 import org.junit.Test;
@@ -19,7 +21,7 @@ public class TerrainGeneratorTest {
     @Test
     public void terrainWithNoBTSsHasNoSignal() {
         RandomGenerator gen = Mockito.mock(RandomGenerator.class);
-        TerrainGenerator tGen = TerrainGenerator.getInstance();
+        TerrainGenerator tGen = new TerrainGenerator();
         tGen.setRandomGenerator(gen);
 
         Terrain t = tGen.generateTerrain(null, null);
@@ -29,7 +31,7 @@ public class TerrainGeneratorTest {
     @Test
     public void terrainWithOneBTSsHasItsMaxSignalInOnePlace() {
         RandomGenerator gen = Mockito.mock(RandomGenerator.class);
-        TerrainGenerator tGen = TerrainGenerator.getInstance();
+        TerrainGenerator tGen = new TerrainGenerator();
         tGen.setRandomGenerator(gen);
 
         BTS bts = new BTS(null, BtsType.CIRCULAR);

@@ -12,7 +12,7 @@ package calculations;
 public class BasebandResource {
 	private final double capacity;
 
-	BasebandResource(double capacity) {
+	public BasebandResource(double capacity) {
 		assert capacity >= 0 : "Baseband resource capacity cannot be negative";
 		this.capacity = capacity;
 	}
