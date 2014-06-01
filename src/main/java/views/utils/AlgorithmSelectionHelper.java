@@ -1,7 +1,7 @@
 package views.utils;
 
 import algorithms.Algorithm;
-import algorithms.algorithm2.Algorithm2;
+import algorithms.insubscriber.PlaceBtsInSubscriberCenter;
 import algorithms.algorithm3.Algorithm3;
 import algorithms.random.TerrainGenerator;
 
@@ -34,7 +34,7 @@ public class AlgorithmSelectionHelper {
             return new TerrainGenerator();
         }
         if (radioButtons[1].isSelected()) {
-            return new Algorithm2();
+            return new PlaceBtsInSubscriberCenter();
         }
         return new Algorithm3();
     }

@@ -1,6 +1,6 @@
 package algorithms;
 
-import algorithms.algorithm2.Algorithm2;
+import algorithms.insubscriber.PlaceBtsInSubscriberCenter;
 import algorithms.algorithm3.Algorithm3;
 import algorithms.random.TerrainGenerator;
 
@@ -17,7 +17,7 @@ public class AlgorithmProvider {
     }
 
     public static Algorithm getAlgorithm2Algorithm() {
-        return new Algorithm2();
+        return new PlaceBtsInSubscriberCenter();
     }
 
     public static Algorithm getAlgorithm3Algorithm() {
