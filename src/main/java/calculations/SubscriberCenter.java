@@ -110,6 +110,8 @@ public class SubscriberCenter extends AbstractMarker {
 
     //TODO [DaKa] ToLe: better think if you are really want to return requiredSignal for SubscriberCenter,
     // if yes then this method is useless (you have getRequiredSignal() method above)
+    // ANS: Yep, I'm pretty sure it'll be needed shortly (to sorting or something like that)
+    // but if you disagree you can delete it, no problem for me ;)
     public double getMaxRequiredSignal() {
         return requiredSignal;
     }
