@@ -1,6 +1,5 @@
 package views.map;
 
-import calculations.BtsType;
 import calculations.SubscriberCenter;
 import calculations.Terrain;
 import com.google.common.collect.Lists;
@@ -25,6 +24,8 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 public class MapApplet extends PApplet implements TerrainDisplayer {
+    public static double maxRequestedSignalDrawn = 0d;
+
     private final Dimension size;
     private final MarkerManager<Marker> markerManager;
     private volatile UnfoldingMap map;
@@ -94,24 +95,6 @@ public class MapApplet extends PApplet implements TerrainDisplayer {
         }
     }
 
-    public void addBtsMarker(Location location) {
-        synchronized (markerManager) {
-            markerManager.addMarker(new BTS(location, BtsType.CIRCULAR));
-        }
-    }
-
-    public void addSubscriberCenterMarker(Location location) {
-        synchronized (markerManager) {
-            markerManager.addMarker(new SubscriberCenter(1000.0, location, 0.5, 0.5));
-        }
-    }
-
-    public void addBtsMarker(Location location, BtsType type) {
-        synchronized (markerManager) {
-            markerManager.addMarker(new BTS(location, type));
-        }
-    }
-
     @Override
     public void resetTerrain(Terrain terrain) {
         currentTerrain = terrain;
@@ -121,11 +104,14 @@ public class MapApplet extends PApplet implements TerrainDisplayer {
     private void reDrawCurrentTerrain() {
         synchronized (markerManager) {
             markerManager.clearMarkers();
+
+            for (SubscriberCenter sc : currentTerrain.getSubscriberCenters()) {
+                maxRequestedSignalDrawn = Math.max(maxRequestedSignalDrawn, sc.getRequiredSignal());
+                markerManager.addMarker(sc);
+            }
+
             for (BTS bts : currentTerrain.getBtss()) {
                 markerManager.addMarker(bts);
-            }
-            for (SubscriberCenter sc : currentTerrain.getSubscriberCenters()) {
-                markerManager.addMarker(sc);
             }
         }
     }
