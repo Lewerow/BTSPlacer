@@ -41,8 +41,8 @@ public class TerrainTest {
 		RadioResource rr1 = Mockito.mock(RadioResource.class);
 		RadioResource rr2 = Mockito.mock(RadioResource.class);
 
-		Mockito.when(rr1.getRange()).thenReturn(10);
-		Mockito.when(rr2.getRange()).thenReturn(10);
+		Mockito.when(rr1.getRange()).thenReturn(10.0);
+		Mockito.when(rr2.getRange()).thenReturn(10.0);
 
 		bts.addRadioResource(rr1);
 		bts.addRadioResource(rr2);

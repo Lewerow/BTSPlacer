@@ -28,7 +28,7 @@ public class BTS extends AbstractMarker {
 	private static final Color activeColor = Color.blue;
 	private static final int alpha = 20;
     private static final double availableMaxSignalLevel = 15000;
-    private static final double rangeUnit = 30f;
+    private static final double rangeUnit = 0.1f;
 	private final BtsType cellType;
 
 	public BTS(Location location, BtsType cellType) {
@@ -98,8 +98,8 @@ public class BTS extends AbstractMarker {
 		return String.format("BTS(%s, %s ,%s)", location, basebandResources, radioResources);
 	}
 
-	public int getRange() {
-		int maxRange = 0;
+	public double getRange() {
+		double maxRange = 0;
 		for (RadioResource r : radioResources)
 			if (maxRange < r.getRange())
 				maxRange = r.getRange();

@@ -4,6 +4,8 @@ import algorithms.Algorithm;
 import algorithms.insubscriber.PlaceBtsInSubscriberCenter;
 import algorithms.algorithm3.Algorithm3;
 import algorithms.random.TerrainGenerator;
+import optimizers.GreedyLocationOptimizer;
+import optimizers.SingleBestFitLocationOptimizer;
 
 import javax.swing.*;
 
@@ -33,8 +35,14 @@ public class AlgorithmSelectionHelper {
         if (radioButtons[0].isSelected()) {
             return new TerrainGenerator();
         }
-        if (radioButtons[1].isSelected()) {
+        else if (radioButtons[1].isSelected()) {
             return new PlaceBtsInSubscriberCenter();
+        }
+        else if(radioButtons[2].isSelected()){
+            return new GreedyLocationOptimizer();
+        }
+        else if(radioButtons[3].isSelected()){
+            return new SingleBestFitLocationOptimizer();
         }
         return new Algorithm3();
     }

@@ -1,13 +1,13 @@
 package optimizers;
 
+import algorithms.Algorithm;
 import calculations.SubscriberCenter;
 import calculations.Terrain;
 import com.sun.corba.se.spi.activation._ActivatorImplBase;
 import de.fhpotsdam.unfolding.geo.Location;
 import javafx.util.Pair;
 import org.apache.commons.math3.analysis.UnivariateFunction;
-import org.apache.commons.math3.analysis.integration.RombergIntegrator;
-import org.apache.commons.math3.analysis.integration.UnivariateIntegrator;
+import org.apache.commons.math3.analysis.integration.*;
 import views.map.BTS;
 
 import javax.annotation.processing.SupportedSourceVersion;
@@ -18,9 +18,9 @@ import java.util.Vector;
 /**
  * Created by Ja on 01.06.14.
  */
-public class SingleBestFitLocationOptimizer implements optimizers.IBTSLocationOptimizer {
-    List<BTS> availableBTSs;
-    List<SubscriberCenter> availableSCs;
+public class SingleBestFitLocationOptimizer implements optimizers.IBTSLocationOptimizer, Algorithm {
+    List<BTS> availableBTSs = new LinkedList<BTS>();
+    List<SubscriberCenter> availableSCs = new LinkedList<SubscriberCenter>();
 
     private void loadBTSs(List<BTS> btss)
     {
@@ -50,6 +50,22 @@ public class SingleBestFitLocationOptimizer implements optimizers.IBTSLocationOp
         }
 
     return sc;
+    }
+
+    @Override
+    public Terrain regenerateTerrain(Terrain currentTerrain) {
+        relocate(currentTerrain);
+        return currentTerrain;
+    }
+
+    @Override
+    public void setBtsCount(int btsCount) {
+
+    }
+
+    @Override
+    public void setSubscriberCenterCount(int subscriberCenterCount) {
+
     }
 
     private class SignalVsRequired implements UnivariateFunction
@@ -82,14 +98,14 @@ public class SingleBestFitLocationOptimizer implements optimizers.IBTSLocationOp
         // and by alpha -> 0 to 2 pi
         // second is only multiplication by constant, so it's omitted
         // in fact, negative values (too high signal) count third as much as too low signal.
-        UnivariateIntegrator integrator = new RombergIntegrator();
+        UnivariateIntegrator integrator = new SimpsonIntegrator(1,10,1,50);
 
         double radius = (sc.getVariance().getValue0() > sc.getVariance().getValue1()) ? sc.getVariance().getValue0() : sc.getVariance().getValue1();
         BTS best = availableBTSs.get(0);
-        double bestFitness = integrator.integrate(1000, new SignalVsRequired(sc.getMaxRequiredSignal(), best.getMaxSignalLevel()), 0, radius);
+        double bestFitness = integrator.integrate(99, new SignalVsRequired(sc.getMaxRequiredSignal(), best.getMaxSignalLevel()), 0, radius);
         for(BTS bts: availableBTSs)
         {
-            double currentFitness = integrator.integrate(1000, new SignalVsRequired(sc.getMaxRequiredSignal(), bts.getMaxSignalLevel()), 0, radius);
+            double currentFitness = integrator.integrate(99, new SignalVsRequired(sc.getMaxRequiredSignal(), bts.getMaxSignalLevel()), 0, radius);
             if(currentFitness < bestFitness)
             {
                 bestFitness = currentFitness;
@@ -104,6 +120,7 @@ public class SingleBestFitLocationOptimizer implements optimizers.IBTSLocationOp
     public void relocate(Terrain t) {
         loadBTSs(t.getBtss());
         loadSCs(t.getSubscriberCenters());
+        System.out.println(String.format("Placing %d BTSs using SingleBestFit algorithm", availableBTSs.size()));
 
         while(!availableSCs.isEmpty() && !availableBTSs.isEmpty())
         {
@@ -112,6 +129,7 @@ public class SingleBestFitLocationOptimizer implements optimizers.IBTSLocationOp
             bestFitting.setLocation(biggestImpact.getLocation());
             availableBTSs.remove(bestFitting);
             availableSCs.remove(biggestImpact);
+            System.out.println(String.format("Remaining BTSs: %d", availableBTSs.size()));
         }
 
         if(!availableBTSs.isEmpty())

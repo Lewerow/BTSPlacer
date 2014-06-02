@@ -30,6 +30,8 @@ public class MainWindowForm extends JFrame {
     private JRadioButton alg1;
     private JRadioButton alg2;
     private JRadioButton alg3;
+    private JRadioButton greedyRadioButton;
+    private JRadioButton mixedSubscriberCenterRadioButton;
     private MapApplet mapApplet;
 
     public MainWindowForm() {
@@ -63,7 +65,9 @@ public class MainWindowForm extends JFrame {
         buttonGroup.add(alg1);
         buttonGroup.add(alg2);
         buttonGroup.add(alg3);
-        AlgorithmSelectionHelper.getInstance().initialize(alg1, alg2, alg3);
+        buttonGroup.add(greedyRadioButton);
+        buttonGroup.add(mixedSubscriberCenterRadioButton);
+        AlgorithmSelectionHelper.getInstance().initialize(alg1, alg2, greedyRadioButton, mixedSubscriberCenterRadioButton, alg3);
         mainTabPanel.addTab("Map", mapApplet);
         showUsersCheckBox.setText(ResourceBundle.getBundle("language").getString("Show_users"));
     }

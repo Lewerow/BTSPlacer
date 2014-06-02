@@ -56,11 +56,11 @@ public class TerrainGenerator implements Algorithm {
     public BTS getRandomizedBTS() {
         UniformRandomGenerator generator = new UniformRandomGenerator();
         BTS bts = new BTS(PlacerLocation.getInstance(0, 0), BtsType.CIRCULAR);
-        bts.addBBResource(new BasebandResource(generator.getDouble(500, 2000)));
+        bts.addBBResource(new BasebandResource(generator.getDouble(300, 1000)));
 
         int radioCount = generator.getInt(1, 3);
         for (int i = 0; i < radioCount; ++i) {
-            bts.addRadioResource(new RadioResource(generator.getInt(30, 120)));
+            bts.addRadioResource(new RadioResource(generator.getDouble(0.1, 0.4)));
         }
 
         return bts;
@@ -70,8 +70,8 @@ public class TerrainGenerator implements Algorithm {
         UniformRandomGenerator generator = new UniformRandomGenerator();
         SubscriberCenter sc = new SubscriberCenter(generator.getDouble(200, 4000),
                 PlacerLocation.getInstance(0, 0),
-                generator.getDouble(0.2, 0.9),
-                generator.getDouble(0.2, 0.9));
+                generator.getDouble(0.05, 0.3),
+                generator.getDouble(0.05, 0.3));
 
         return sc;
     }

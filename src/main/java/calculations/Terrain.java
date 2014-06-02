@@ -44,23 +44,16 @@ public class Terrain {
     }
 
     public double signalReduction(PlacerLocation l1, PlacerLocation l2) {
-        // TODO implementation
         return 0;
     }
 
-    public double distance(BTS bts, PlacerLocation l) {
-        return distance(bts.getLocation(), l);
-    }
-
     public double signalLevel(BTS bts, PlacerLocation l) {
-        double distance = distance(bts, l);
+        double distance = bts.getLocation().cartesianDistance(l);
         if (distance > bts.getRange())
             return 0;
-        else if (distance == 0d)
-            return bts.getMaxSignalLevel();
         else
             return bts.getMaxSignalLevel() * (1 - signalReduction(bts.getLocation(), l))
-                    / Math.pow(distance, 2);
+                    / (Math.pow(distance, 2) + 1);
     }
 
     public double getRequiredSignalLevel(PlacerLocation l) {
@@ -122,44 +115,50 @@ public class Terrain {
     }
     public double[][] getSignalLevelArray(Location topLeft, Location bottomRight)
     {
-        return getSignalLevelArray(topLeft, bottomRight, 0.0001);
+        return getSignalLevelArray(topLeft, bottomRight, 0.001);
     }
 
     public double[][] getSignalLevelArray(Location topLeft, Location bottomRight, double step)
     {
-        return getLevelArray(topLeft, bottomRight, new SignalLevelGetter(this), 0.0001);
+        return getLevelArray(topLeft, bottomRight, new SignalLevelGetter(this), step);
     }
 
     public double[][] getRequiredSignalLevelArray(Location topLeft, Location bottomRight)
     {
-        return getRequiredSignalLevelArray(topLeft, bottomRight, 0.0001);
+        return getRequiredSignalLevelArray(topLeft, bottomRight, 0.001);
     }
 
     public double[][] getRequiredSignalLevelArray(Location topLeft, Location bottomRight, double step)
     {
-        return getLevelArray(topLeft, bottomRight, new RequiredLevelGetter(this), 0.0001);
+        return getLevelArray(topLeft, bottomRight, new RequiredLevelGetter(this), step);
     }
 
     public double[][] getLevelArray(Location topLeft, Location bottomRight, ILevelGetter getter, double step)
     {
         assert step > 0;
 
-        double width = topLeft.getLat() - bottomRight.getLat();
-        assert width > 0;
+        double width = bottomRight.getLat() - topLeft.getLat();
+        assert width > 0 : "Grid width < 0";
 
         double height = topLeft.getLon() - bottomRight.getLon();
-        assert height > 0;
+        assert height > 0 : "Grid height < 0";
 
-        double[][] signalLevelArray = new double[(int)Math.ceil(width/step)][(int)Math.ceil(height/step)];
+        int rows = (int)Math.ceil(width/step);
+        int cols = (int)Math.ceil(height/step);
+        double[][] levelArray = new double[rows][cols];
 
-        for(int i = 0; topLeft.getLat() - i * step > bottomRight.getLat(); ++i)
+        for(int i = 0; i < rows; ++i)
         {
-            for(int j = 0; topLeft.getLon() - j * step > bottomRight.getLon(); ++j)
+            for(int j = 0; j < cols; ++j)
             {
-                signalLevelArray[i][j] = getter.getLevel(PlacerLocation.getInstance(topLeft.getLon() - j * step, topLeft.getLat() - i * step));
+/*                assert x == 0 || x <= wroclawLocation.getX() + TerrainGenerator.maxXfromWroclaw;
+                assert x == 0 || x >= wroclawLocation.getX();
+                assert y == 0 || y <= wroclawLocation.getY() + TerrainGenerator.maxYfromWroclaw;
+                assert y == 0 || y >= wroclawLocation.getY();*/
+                levelArray[i][j] = getter.getLevel(PlacerLocation.getInstance(topLeft.getLat() + i * step, topLeft.getLon() - j * step));
             }
         }
 
-        return signalLevelArray;
+        return levelArray;
     }
 }

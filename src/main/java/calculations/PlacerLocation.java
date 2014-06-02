@@ -2,6 +2,7 @@ package calculations;
 
 import java.util.Map;
 
+import algorithms.random.TerrainGenerator;
 import com.google.common.collect.Maps;
 
 import de.fhpotsdam.unfolding.geo.Location;
@@ -16,6 +17,14 @@ public class PlacerLocation extends Location {
 
 	public static PlacerLocation getInstance(double x, double y) {
 		String key = String.format("%f,%f", x, y);
+
+        double delta = 0.001;
+
+        assert x == 0 || (x-delta) <= wroclawLocation.getX() + TerrainGenerator.maxXfromWroclaw : String.format("X: %.8f, expected < %.8f", x+delta, wroclawLocation.getX() + TerrainGenerator.maxXfromWroclaw);
+        assert x == 0 || (x+delta) >= wroclawLocation.getX() : String.format("X: %.8f, expected > %.8f", x-delta, wroclawLocation.getX());
+        assert y == 0 || (y-delta) <= wroclawLocation.getY() + TerrainGenerator.maxYfromWroclaw : String.format("Y: %.8f, expected < %.8f", y-delta, wroclawLocation.getY() + TerrainGenerator.maxYfromWroclaw);
+        assert y == 0 || (y+delta) >= wroclawLocation.getY() : String.format("Y: %.8f, expected < %.8f", y+delta, wroclawLocation.getY());
+
 		if (objects.containsKey(key))
 			return objects.get(key);
 
@@ -29,7 +38,7 @@ public class PlacerLocation extends Location {
 	}
 
 	private PlacerLocation(double x, double y) {
-		super(x, y);
+        super(x, y);
 	}
 
 	public double getX() {
@@ -41,7 +50,7 @@ public class PlacerLocation extends Location {
 	}
 
 	public double cartesianDistance(PlacerLocation l2) {
-		return Math.sqrt(Math.pow(this.x - l2.x, 2) + Math.pow(this.y - l2.y, 2));
+		return Math.sqrt(Math.pow(this.x - l2.x, 2) + Math.pow(this.y - l2.y, 2))*5; // magic factor
 	}
 
 	@Override

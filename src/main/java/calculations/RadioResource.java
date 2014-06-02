@@ -5,14 +5,14 @@ package calculations;
  */
 public class RadioResource {
 
-    private int range;
+    private double range;
 
-    public int getRange()
+    public double getRange()
     {
         return range;
     }
 
-    public RadioResource(int newRange)
+    public RadioResource(double newRange)
     {
         range = newRange;
     }

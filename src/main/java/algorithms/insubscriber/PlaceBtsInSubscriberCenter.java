@@ -45,7 +45,7 @@ public class PlaceBtsInSubscriberCenter implements Algorithm {
         bts.addBBResource(new BasebandResource(DEFAULT_BB_CAPACITY));
         bts.addBBResource(new BasebandResource(DEFAULT_BB_CAPACITY));
         //FIXME radioResource should be proper to subscriber center
-        bts.addRadioResource(new RadioResource(100));
+        bts.addRadioResource(new RadioResource(0.5));
 
         return bts;
     }

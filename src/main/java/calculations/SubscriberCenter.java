@@ -11,6 +11,7 @@ import de.fhpotsdam.unfolding.geo.Location;
 import de.fhpotsdam.unfolding.marker.AbstractMarker;
 import de.fhpotsdam.unfolding.utils.GeoUtils;
 import de.fhpotsdam.unfolding.utils.ScreenPosition;
+import sun.awt.windows.awtLocalization;
 
 /**
  * Created by Ja on 11.05.14. Assumption: SubscriberCenter represents center of
@@ -22,7 +23,7 @@ public class SubscriberCenter extends AbstractMarker {
 
     private static final Color activeColor = Color.green;
     private static final int maxSignalRequested = 3000;
-    private final float diameterUnit = 0.5f;
+    private final float diameterUnit = 0.1f;
 
     public SubscriberCenter(Double requiredSignal, Location center, Double sigmaX, Double sigmaY) {
         this.requiredSignal = requiredSignal;
@@ -44,11 +45,17 @@ public class SubscriberCenter extends AbstractMarker {
     }
 
     public double getRequiredSignalAt(PlacerLocation l) {
-        if (getDistanceTo(l) < variance.getValue0() + variance.getValue1()) {
+        double distance = l.cartesianDistance((PlacerLocation)location);
+        double effectDistance = getEffectDistance();
+        if (distance < effectDistance) {
             return requiredSignal;
         }
 
         return 0;
+    }
+
+    private double getEffectDistance() {
+        return (variance.getValue0() + variance.getValue1());
     }
 
     @Override
@@ -85,7 +92,7 @@ public class SubscriberCenter extends AbstractMarker {
     public void draw(PGraphics p, float v, float v2, UnfoldingMap map) {
         p.noStroke();
         float distance = getDistance(getLocation(),
-                (float) (variance.getValue0() + variance.getValue1()) / diameterUnit, map);
+                (float) getEffectDistance() / diameterUnit, map);
         drawCircularSubscribers(p, v, v2, distance);
     }
 
