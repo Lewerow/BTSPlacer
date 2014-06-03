@@ -1,20 +1,19 @@
 package views;
 
-import java.awt.Dimension;
-import java.awt.Insets;
-import java.awt.event.InputEvent;
-import java.awt.event.KeyEvent;
-import java.util.ResourceBundle;
+import com.intellij.uiDesigner.core.GridConstraints;
+import com.intellij.uiDesigner.core.GridLayoutManager;
+import views.listeners.GuiElemListener;
+import views.listeners.MenuOpenListener;
+import views.listeners.MenuSaveListener;
+import views.map.MapApplet;
+import views.utils.AlgorithmSelectionHelper;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
-
-import views.listeners.*;
-import views.map.MapApplet;
-
-import com.intellij.uiDesigner.core.GridConstraints;
-import com.intellij.uiDesigner.core.GridLayoutManager;
-import views.utils.AlgorithmSelectionHelper;
+import java.awt.*;
+import java.awt.event.InputEvent;
+import java.awt.event.KeyEvent;
+import java.util.ResourceBundle;
 
 public class MainWindowForm extends JFrame {
 
@@ -25,11 +24,9 @@ public class MainWindowForm extends JFrame {
     private JButton generateDistributionButton = new JButton();
     private final JSpinner btsNumberSpinner = new JSpinner();
     private JTabbedPane mainTabPanel;
-    private JCheckBox showUsersCheckBox;
     private JSpinner numberOfSubscriberCenters = new JSpinner();
     private JRadioButton alg1;
     private JRadioButton alg2;
-    private JRadioButton alg3;
     private JRadioButton greedyRadioButton;
     private JRadioButton mixedSubscriberCenterRadioButton;
     private MapApplet mapApplet;
@@ -64,12 +61,10 @@ public class MainWindowForm extends JFrame {
         alg1.setSelected(true);
         buttonGroup.add(alg1);
         buttonGroup.add(alg2);
-        buttonGroup.add(alg3);
         buttonGroup.add(greedyRadioButton);
         buttonGroup.add(mixedSubscriberCenterRadioButton);
-        AlgorithmSelectionHelper.getInstance().initialize(alg1, alg2, greedyRadioButton, mixedSubscriberCenterRadioButton, alg3);
+        AlgorithmSelectionHelper.getInstance().initialize(alg1, alg2, greedyRadioButton, mixedSubscriberCenterRadioButton);
         mainTabPanel.addTab("Map", mapApplet);
-        showUsersCheckBox.setText(ResourceBundle.getBundle("language").getString("Show_users"));
     }
 
     private JMenuBar createJMenuBar() {
@@ -168,12 +163,6 @@ public class MainWindowForm extends JFrame {
         panel1.add(label1, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST,
                 GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED,
                 GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        showUsersCheckBox = new JCheckBox();
-        showUsersCheckBox.setText("Show users");
-        panel1.add(showUsersCheckBox, new GridConstraints(2, 1, 1, 1, GridConstraints.ANCHOR_WEST,
-                GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK
-                | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED,
-                null, null, null, 0, false));
         numberOfSubscriberCenters = new JSpinner();
         panel1.add(numberOfSubscriberCenters, new GridConstraints(1, 1, 1, 1,
                 GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL,

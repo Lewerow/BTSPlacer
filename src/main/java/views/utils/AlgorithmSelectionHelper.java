@@ -2,7 +2,6 @@ package views.utils;
 
 import algorithms.Algorithm;
 import algorithms.insubscriber.PlaceBtsInSubscriberCenter;
-import algorithms.algorithm3.Algorithm3;
 import algorithms.random.TerrainGenerator;
 import optimizers.GreedyLocationOptimizer;
 import optimizers.SingleBestFitLocationOptimizer;
@@ -35,16 +34,12 @@ public class AlgorithmSelectionHelper {
         if (radioButtons[0].isSelected()) {
             return new TerrainGenerator();
         }
-        else if (radioButtons[1].isSelected()) {
+        if (radioButtons[1].isSelected()) {
             return new PlaceBtsInSubscriberCenter();
         }
-        else if(radioButtons[2].isSelected()){
+        if (radioButtons[2].isSelected()) {
             return new GreedyLocationOptimizer();
         }
-        else if(radioButtons[3].isSelected()){
-            return new SingleBestFitLocationOptimizer();
-        }
-        return new Algorithm3();
+        return new SingleBestFitLocationOptimizer();
     }
-
 }
