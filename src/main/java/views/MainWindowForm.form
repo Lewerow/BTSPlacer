@@ -97,7 +97,7 @@
             <properties>
               <actionCommand resource-bundle="language" key="Generate_random_BTS_distribution"/>
               <label resource-bundle="language" key="Generate_random_BTS_distribution"/>
-              <text value="Generate random BTS distribution"/>
+              <text value="Generate BTS distribution"/>
             </properties>
           </component>
         </children>
