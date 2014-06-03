@@ -30,11 +30,35 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link JaxbSubscriberList }
+     * Create an instance of {@link JaxbBasebandResourceType }
      * 
      */
-    public JaxbSubscriberList createSubscriberList() {
-        return new JaxbSubscriberList();
+    public JaxbBasebandResourceType createBasebandResourceType() {
+        return new JaxbBasebandResourceType();
+    }
+
+    /**
+     * Create an instance of {@link JaxbBtsPlacerElements }
+     * 
+     */
+    public JaxbBtsPlacerElements createBtsPlacerElements() {
+        return new JaxbBtsPlacerElements();
+    }
+
+    /**
+     * Create an instance of {@link JaxbBtsType }
+     * 
+     */
+    public JaxbBtsType createBtsType() {
+        return new JaxbBtsType();
+    }
+
+    /**
+     * Create an instance of {@link JaxbRadioResourceType }
+     * 
+     */
+    public JaxbRadioResourceType createRadioResourceType() {
+        return new JaxbRadioResourceType();
     }
 
     /**

@@ -7,18 +7,23 @@ import java.util.List;
 import javax.swing.*;
 import javax.xml.bind.JAXBException;
 
-import serialization.LoaderSaver;
+import serialization.DataContainer;
+import serialization.Loader;
+import serialization.Saver;
 import views.TerrainDisplayer;
 import calculations.SubscriberCenter;
 import calculations.Terrain;
+import views.map.BTS;
 
 public class MenuOpenListener implements ActionListener {
 
     private JSpinner subscriberSpinner;
+    private JSpinner btsSpinner;
     private TerrainDisplayer terrainDisplayer;
 
-    public MenuOpenListener(JSpinner subscriberSpinner, TerrainDisplayer terrainDisplayer) {
+    public MenuOpenListener(JSpinner subscriberSpinner, JSpinner btsSpinner, TerrainDisplayer terrainDisplayer) {
         this.subscriberSpinner = subscriberSpinner;
+        this.btsSpinner = btsSpinner;
         this.terrainDisplayer = terrainDisplayer;
     }
 
@@ -30,18 +35,29 @@ public class MenuOpenListener implements ActionListener {
         int dialogResponse = fc.showOpenDialog(subscriberSpinner);
         if (dialogResponse == JFileChooser.APPROVE_OPTION) {
             try {
-                List<SubscriberCenter> subscribers = LoaderSaver.load(fc.getSelectedFile());
+                DataContainer loadedData = Loader.load(fc.getSelectedFile());
 
                 Terrain terrain = new Terrain();
-                for (SubscriberCenter subscriberCenter : subscribers) {
-                    terrain.addSubscriberCenter(subscriberCenter);
 
-                }
-                subscriberSpinner.setValue(subscribers.size());
+                setUpSubscriberCenters(loadedData, terrain);
+                setUpBtss(loadedData, terrain);
+
                 terrainDisplayer.resetTerrain(terrain);
             } catch (JAXBException e1) {
                 e1.printStackTrace();
             }
         }
+    }
+
+    public void setUpBtss(DataContainer loadedData, Terrain terrain) {
+        List<BTS> btss = loadedData.getBtss();
+        terrain.setBtss(btss);
+        btsSpinner.setValue(btss.size());
+    }
+
+    public void setUpSubscriberCenters(DataContainer loadedData, Terrain terrain) {
+        List<SubscriberCenter> subscriberCenters = loadedData.getSubscriberCenters();
+        terrain.setSubscriberCenters(subscriberCenters);
+        subscriberSpinner.setValue(subscriberCenters.size());
     }
 }

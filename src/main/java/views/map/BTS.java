@@ -161,4 +161,8 @@ public class BTS extends AbstractMarker {
 	protected boolean isInside(float v, float v2, float v3, float v4) {
 		return false;
 	}
+
+    public BtsType getBtsCellType(){
+        return cellType;
+    }
 }

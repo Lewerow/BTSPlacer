@@ -1,9 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
-    <xs:complexType name="subscriberList">
+    <xs:complexType name="btsPlacerElements">
         <xs:sequence>
             <xs:element name="subscriber" type="subscriberCenter" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="bts" type="btsType" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="btsType">
+        <xs:sequence>
+            <xs:element name="cellType" type="xs:string" minOccurs="1" maxOccurs="1"/>
+            <xs:element name="locationX" type="xs:double" minOccurs="1" maxOccurs="1"/>
+            <xs:element name="locationY" type="xs:double" minOccurs="1" maxOccurs="1"/>
+            <xs:sequence>
+                <xs:element name="radioResource" type="radioResourceType" minOccurs="0" maxOccurs="unbounded"/>
+            </xs:sequence>
+            <xs:sequence>
+                <xs:element name="basebandResource" type="basebandResourceType" minOccurs="0" maxOccurs="unbounded"/>
+            </xs:sequence>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="radioResourceType">
+        <xs:sequence>
+            <xs:element name="range" type="xs:double" minOccurs="1" maxOccurs="1"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="basebandResourceType">
+        <xs:sequence>
+            <xs:element name="capacity" type="xs:double" minOccurs="1" maxOccurs="1"/>
         </xs:sequence>
     </xs:complexType>
 

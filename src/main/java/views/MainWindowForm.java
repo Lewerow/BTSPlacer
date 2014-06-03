@@ -92,7 +92,7 @@ public class MainWindowForm extends JFrame {
         JMenuItem openFile = new JMenuItem(ResourceBundle.getBundle("language").getString(
                 "MenuBar_file_openFile"));
 
-        openFile.addActionListener(new MenuOpenListener(numberOfSubscriberCenters, mapApplet));
+        openFile.addActionListener(new MenuOpenListener(numberOfSubscriberCenters, btsNumberSpinner, mapApplet));
         openFile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, InputEvent.CTRL_MASK));
         return openFile;
     }
