@@ -4,10 +4,10 @@ import algorithms.Algorithm;
 import calculations.*;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.Lists;
-import de.fhpotsdam.unfolding.geo.Location;
 import views.map.BTS;
 
 import java.util.List;
+import java.util.Stack;
 
 /**
  * Created by Vortim on 2014-06-01.
@@ -25,29 +25,41 @@ public class PlaceBtsInSubscriberCenter implements Algorithm {
 
         List<SubscriberCenter> sortedSubscribers = sortSubscriberCenter(subscriberCenters);
 
+        Stack<BTS> stack = sortBtss(currentTerrain.getBtss());
+
         for (SubscriberCenter sortedSubscriber : sortedSubscribers) {
-            if (btsCount == 0)
+            if (stack.isEmpty())
                 break;
 
-            terrain.addBTS(createProperBts(sortedSubscriber));
-            if (terrain.getBtss().size() >= btsCount)
-                break;
+            BTS bts = stack.pop();
+            relocateBts(sortedSubscriber, bts);
+            terrain.addBTS(bts);
         }
 
         return terrain;
     }
 
-    private BTS createProperBts(SubscriberCenter sortedSubscriber) {
+    private Stack<BTS> sortBtss(List<BTS> btss) {
+        List<BTS> sorted = Lists.newArrayList();
+        for (BTS bts : btss) {
+            int i = 0;
+            for (BTS sortedBts : sorted) {
+                if (sortedBts.getMaxSignalLevel() > bts.getMaxSignalLevel()) {
+                    break;
+                }
+                i++;
+            }
+            sorted.add(i, bts);
+        }
+        Stack<BTS> stackedBtss = new Stack<BTS>();
+        stackedBtss.addAll(sorted);
+        return stackedBtss;
+    }
+
+    private void relocateBts(SubscriberCenter sortedSubscriber, BTS bts) {
         PlacerLocation subscriberLocation = sortedSubscriber.getLocation();
         PlacerLocation btsLocation = PlacerLocation.getInstance(subscriberLocation.getX(), subscriberLocation.getY());
-        BTS bts = new BTS(btsLocation, BtsType.CIRCULAR);
-        bts.addBBResource(new BasebandResource(DEFAULT_BB_CAPACITY));
-        bts.addBBResource(new BasebandResource(DEFAULT_BB_CAPACITY));
-        bts.addBBResource(new BasebandResource(DEFAULT_BB_CAPACITY));
-        //FIXME radioResource should be proper to subscriber center
-        bts.addRadioResource(new RadioResource(0.5));
-
-        return bts;
+        bts.setLocation(btsLocation);
     }
 
     @VisibleForTesting
