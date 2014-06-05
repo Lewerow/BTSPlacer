@@ -36,7 +36,12 @@ public class BTS extends AbstractMarker {
 		this.cellType = cellType;
 	}
 
-	public void addBBResource(BasebandResource basebandResource) {
+    public BTS(PlacerLocation placerLocation) {
+        super(placerLocation);
+        this.cellType = BtsType.CIRCULAR;
+    }
+
+    public void addBBResource(BasebandResource basebandResource) {
 		basebandResources.add(basebandResource);
 	}
 

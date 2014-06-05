@@ -29,6 +29,7 @@ public class MainWindowForm extends JFrame {
     private JRadioButton alg2;
     private JRadioButton greedyRadioButton;
     private JRadioButton mixedSubscriberCenterRadioButton;
+    private JRadioButton evolutionaryRadioButton;
     private MapApplet mapApplet;
 
     public MainWindowForm() {
@@ -63,7 +64,8 @@ public class MainWindowForm extends JFrame {
         buttonGroup.add(alg2);
         buttonGroup.add(greedyRadioButton);
         buttonGroup.add(mixedSubscriberCenterRadioButton);
-        AlgorithmSelectionHelper.getInstance().initialize(alg1, alg2, greedyRadioButton, mixedSubscriberCenterRadioButton);
+        buttonGroup.add(evolutionaryRadioButton);
+        AlgorithmSelectionHelper.getInstance().initialize(alg1, alg2, greedyRadioButton, mixedSubscriberCenterRadioButton, evolutionaryRadioButton);
         mainTabPanel.addTab("Map", mapApplet);
     }
 
