@@ -78,7 +78,7 @@ public class EvolutionaryOptimizer implements IBTSLocationOptimizer, Algorithm{
 
         for(int i = 0; i < maxIterations; ++i)
         {
-            System.out.println(String.format("Performing iteration %d of evolutionary algorithm", i));
+            System.out.println(String.format("Performing iteration %d of evolutionary algorithm", i+1));
             Vector<ItSucksToCreateClassesJustToCompare> grades = new Vector<ItSucksToCreateClassesJustToCompare>();
             for(int j = 0; j < populationSize; ++j)
             {
@@ -111,10 +111,20 @@ public class EvolutionaryOptimizer implements IBTSLocationOptimizer, Algorithm{
     private void mutate() {
         for(int j = 0; j < populations.size(); ++j)
         {
-            if(new Random().nextInt() % 100 < 12)
+            if(new Random().nextInt() % 100 < 10)
             {
-                populations.get(j).remove(populations.get(j).getLast());
-                populations.get(j).add(defaultBTS(randomizer.randomLocation(TerrainGenerator.maxXfromWroclaw, TerrainGenerator.maxYfromWroclaw)));
+                if(new Random().nextBoolean())
+                {
+                    List<BasebandResource> bb = populations.get(j).get((new Random().nextInt(populations.get(j).size()))).getBasebandResources();
+                    bb.remove((new Random().nextInt(bb.size())));
+                    bb.add(new BasebandResource(new UniformRandomGenerator().getDouble(300.0, 900.0)));
+                }
+                else
+                {
+                    List<RadioResource> rr = populations.get(j).get((new Random().nextInt(populations.get(j).size()))).getRadioResources();
+                    rr.remove((new Random().nextInt(rr.size())));
+                    rr.add(new RadioResource(new UniformRandomGenerator().getDouble(0.13, 0.27)));
+                }
             }
         }
     }
@@ -134,10 +144,8 @@ public class EvolutionaryOptimizer implements IBTSLocationOptimizer, Algorithm{
 
         for(int i = 0; i < btses.size(); ++i)
         {
-            if(new Random().nextBoolean())
-                sum.add(btses.get(i));
-            else
-                sum.add(btses1.get(i));
+            BTS newBTS = defaultBTS(btses.get(i).getLocation().middle(btses1.get(i).getLocation()));
+            sum.add(newBTS);
         }
 
         return sum;

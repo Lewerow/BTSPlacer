@@ -41,6 +41,11 @@ public class PlacerLocation extends Location {
         super(x, y);
 	}
 
+    public PlacerLocation middle(PlacerLocation loc2)
+    {
+        return PlacerLocation.getInstance((x + loc2.x)/2, (y + loc2.y)/2);
+    }
+
 	public double getX() {
 		return x;
 	}
