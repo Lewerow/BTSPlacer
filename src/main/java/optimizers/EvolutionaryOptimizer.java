@@ -65,12 +65,12 @@ public class EvolutionaryOptimizer implements IBTSLocationOptimizer, Algorithm{
     @Override
     public void relocate(Terrain t) {
         terrain = t;
-        t.setBtss(new LinkedList<BTS>());
+        LinkedList<BTS> first = (LinkedList<BTS>) t.getBtss();
 
         double[][] requiredSignalLevel = t.getRequiredSignalLevelArray(topLeft, bottomRight, step);
 
         int populationSize = 15;
-        initializePopulations(populationSize);
+        initializePopulations(populationSize, first);
 
         int maxIterations = 10;
         LinkedList<BTS> currentBest = new LinkedList<BTS>();
@@ -111,20 +111,9 @@ public class EvolutionaryOptimizer implements IBTSLocationOptimizer, Algorithm{
     private void mutate() {
         for(int j = 0; j < populations.size(); ++j)
         {
-            if(new Random().nextInt() % 100 < 10)
+            if(new Random().nextInt() % 1000 < 15)
             {
-                if(new Random().nextBoolean())
-                {
-                    List<BasebandResource> bb = populations.get(j).get((new Random().nextInt(populations.get(j).size()))).getBasebandResources();
-                    bb.remove((new Random().nextInt(bb.size())));
-                    bb.add(new BasebandResource(new UniformRandomGenerator().getDouble(300.0, 900.0)));
-                }
-                else
-                {
-                    List<RadioResource> rr = populations.get(j).get((new Random().nextInt(populations.get(j).size()))).getRadioResources();
-                    rr.remove((new Random().nextInt(rr.size())));
-                    rr.add(new RadioResource(new UniformRandomGenerator().getDouble(0.13, 0.27)));
-                }
+                populations.get(j).get((new Random().nextInt(populations.get(j).size()))).setLocation(randomizer.randomLocation(TerrainGenerator.maxXfromWroclaw, TerrainGenerator.maxYfromWroclaw));
             }
         }
     }
@@ -144,7 +133,8 @@ public class EvolutionaryOptimizer implements IBTSLocationOptimizer, Algorithm{
 
         for(int i = 0; i < btses.size(); ++i)
         {
-            BTS newBTS = defaultBTS(btses.get(i).getLocation().middle(btses1.get(i).getLocation()));
+            BTS newBTS = copy(btses.get(i));
+            newBTS.setLocation(btses.get(i).getLocation().middle(btses1.get(i).getLocation()));
             sum.add(newBTS);
         }
 
@@ -193,18 +183,35 @@ public class EvolutionaryOptimizer implements IBTSLocationOptimizer, Algorithm{
         return grade_;
     }
 
-    private void initializePopulations(int populationSize)
+    private void initializePopulations(int populationSize, LinkedList<BTS> first)
     {
         for(int i = 0; i < populationSize; ++i)
         {
             LinkedList<BTS> btses = new LinkedList<BTS>();
             for(int j = 0; j < btsCount; ++j)
             {
-                btses.add(defaultBTS(randomizer.randomLocation(TerrainGenerator.maxXfromWroclaw, TerrainGenerator.maxYfromWroclaw)));
+                BTS oneNew = copy(first.get(j));
+                oneNew.setLocation(randomizer.randomLocation(TerrainGenerator.maxXfromWroclaw, TerrainGenerator.maxYfromWroclaw));
+                btses.add(oneNew);
             }
 
             populations.add(btses);
         }
+    }
+
+    private BTS copy(BTS bts) {
+        BTS newOne = new BTS(bts.getLocation());
+
+        for(RadioResource r: bts.getRadioResources())
+        {
+            newOne.addRadioResource(new RadioResource(r.getRange()));
+        }
+        for(BasebandResource r: bts.getBasebandResources())
+        {
+            newOne.addBBResource(new BasebandResource(r.getCapacity()));
+        }
+
+        return newOne;
     }
 
     private BTS defaultBTS(PlacerLocation placerLocation) {
