@@ -44,9 +44,10 @@ public class GuiElemListener implements ActionListener, ChangeListener {
         Terrain currentTerrain = terrainDisplayer.getCurrentTerrain();
         algorithm.setSubscriberCenterCount((Integer) subscriberCenterCounter.getValue());
         algorithm.setBtsCount((Integer) btsCounter.getValue());
-        terrainDisplayer.resetTerrain(algorithm.regenerateTerrain(currentTerrain));
+        Terrain newTerrain = algorithm.regenerateTerrain(currentTerrain);
+        terrainDisplayer.resetTerrain(newTerrain);
 
-        SignalDiffCalculator diff = new SignalDiffCalculator(currentTerrain, PlacerLocation.getInstance(PlacerLocation.getWroclawLocation().getX(),
+        SignalDiffCalculator diff = new SignalDiffCalculator(newTerrain, PlacerLocation.getInstance(PlacerLocation.getWroclawLocation().getX(),
                 PlacerLocation.getWroclawLocation().getY() + TerrainGenerator.maxYfromWroclaw), TerrainGenerator.maxXfromWroclaw / 250);
 
         double[][] invoked = diff.invoke();
@@ -55,15 +56,13 @@ public class GuiElemListener implements ActionListener, ChangeListener {
         double totalPlus = 0;
         double totalMinus = 0;
 
-        for(double[]x  : invoked)
-        {
-            for(double y : x)
-            {
-                if(max < y)
+        for (double[] x : invoked) {
+            for (double y : x) {
+                if (max < y)
                     max = y;
-                if(min > y)
+                if (min > y)
                     min = y;
-                if(y > 0)
+                if (y > 0)
                     totalPlus += y;
                 else
                     totalMinus += y;
@@ -75,11 +74,11 @@ public class GuiElemListener implements ActionListener, ChangeListener {
         System.out.println("");
         System.out.println("======= Next Algorithm ========");
         System.out.println(String.format("Data for class: %s", algorithm.getClass().getName()));
-        System.out.println(String.format("BTS count: %d, Subscriber Center count: %d",(Integer) btsCounter.getValue(),(Integer) subscriberCenterCounter.getValue()));
-        System.out.println(String.format("Max lacking signal level: %f", max));
-        System.out.println(String.format("Lacking signal: %f", totalPlus));
-        System.out.println(String.format("Max too high signal: %f", -min));
-        System.out.println(String.format("Total too high signal: %f", -totalMinus));
+        System.out.println(String.format("BTS count: %d, Subscriber Center count: %d", (Integer) btsCounter.getValue(), (Integer) subscriberCenterCounter.getValue()));
+        System.out.println(String.format("Max lacking signal level: %.5f", max));
+        System.out.println(String.format("Lacking signal: %.5f", totalPlus));
+        System.out.println(String.format("Max too high signal: %.5f", -min));
+        System.out.println(String.format("Total too high signal: %.5f", -totalMinus));
 
     }
 }
